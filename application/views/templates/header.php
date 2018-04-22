@@ -22,6 +22,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   <!-- Custom styles for this template-->
   <link href="<?php echo(base_url());?>css/sb-admin.css" rel="stylesheet">
 
+  <!-- Custom fonts for this template-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 
   <!-- Bootstrap core JavaScript-->
   <script src="<?php echo(base_url());?>vendor/jquery/jquery.min.js"></script>
