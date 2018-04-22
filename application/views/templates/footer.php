@@ -5,7 +5,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <footer class="sticky-footer">
       <div class="container">
         <div class="text-center">
-          <small>Copyright fucking © STP Admin 2018</small>
+          <small>Copyright © STP Admin 2018</small>
         </div>
       </div>
     </footer>
