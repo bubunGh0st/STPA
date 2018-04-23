@@ -10,7 +10,14 @@ class SignIn extends CI_Controller {
 			//if 1 then successful
 			if($isSignIn == 1){
         		$this->session->set_userdata('Email', $_POST["Email"]);
-				redirect('Blank');
+				$checkRoleID = $this->SignInModel->checkRoleID($_POST["Email"]);
+				if($checkRoleID=="SYS-ADMIN"){
+					redirect('approval');
+				}else if($checkRoleID=="SITE-ADMIN"){
+					redirect('courses');
+				}else if($checkRoleID=="STAFF"){
+					redirect('dashboard_staff');
+				}
 			}
 			//if 2 then the email is invalid
 			else if($isSignIn == 2){
