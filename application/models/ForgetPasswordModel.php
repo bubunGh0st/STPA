@@ -37,6 +37,12 @@ class ForgetPasswordModel extends CI_Model {
             $this->db->where('Email', $Email);
             $this->db->update('ms_user'); 
 
+            $this->db->set('RefID', $Email);
+            $this->db->set('Action', "RESET PASSWORD");
+            $this->db->set('EntryTime', date("Y-m-d H:i:s"));
+            $this->db->set('EntryEmail', $Email);
+            $this->db->insert('log_activity'); 
+
             $this->db->trans_complete();
         }
 

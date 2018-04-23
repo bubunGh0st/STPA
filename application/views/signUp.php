@@ -37,10 +37,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           <div class="form-group">
             <label>Site <i data-toggle="modal" data-target="#modal-site-info" class="fa fa-question-circle text-danger" title="Please contact administrator if you do not find your site. Phone: 0123456789"></i></label>
             <div class="form-check checklist" >
-              <label class="form-check-label"><input class="form-check-input" name="SiteID[]" value="1"  type="checkbox"> WelTec Petone</label><br>
+              <?php foreach($getSites as $items){?>
+                <label class="form-check-label"><input class="form-check-input" name="SiteID[]" value="<?php echo($items->SiteID);?>"  type="checkbox"><?php echo($items->SiteName);?></label><br>
+              <?php }?>
             </div>
           </div>
-          <buton class="btn btn-primary btn-block" name="btnSubmit" href="<?php echo(site_url());?>/signIn"><i class="fa fa-fw fa-user-plus"></i> Register</button>
+          <button class="btn btn-primary btn-block" name="btnSubmit" href="<?php echo(site_url());?>/signIn"><i class="fa fa-fw fa-user-plus"></i> Register</button>
         </form>
         <div class="text-center">
           <a class="d-block small mt-3" href="<?php echo(site_url());?>/signIn">Back To Sign In Page</a>
