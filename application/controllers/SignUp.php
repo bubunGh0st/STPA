@@ -12,10 +12,10 @@ class SignUp extends CI_Controller {
 	public function index()
 	{
 		if(isset($_POST["btnSubmit"])){
-			$isSignUp = $this->SignInModel->isSignUp($_POST);
+			$isSignUp = $this->SignUpModel->isSignUp($_POST);
 			if($isSignUp){
-				$newPassword = $this->ForgetPasswordModel->generateRandomString();
-				$this->SignInModel->insertUser($_POST,$newPassword);
+				$newPassword = "";
+				$this->SignUpModel->insertUser($_POST,$newPassword);
 				redirect('SignIn/index/?warning=4');
 			}else{
 				redirect('SignUp/index/?warning=1');

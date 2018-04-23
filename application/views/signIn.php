@@ -9,6 +9,8 @@ if($_GET["warning"]!=NULL){
     ?>alert("Invalid E-mail");<?php
   }else if($_GET["warning"]==3){
     ?>alert("Invalid Password");<?php
+  }else if($_GET["warning"]==4){
+    ?>alert("Sign Up successful. Please wait an approval E-mail from the system.");<?php
   }
 }
 ?>

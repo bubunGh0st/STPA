@@ -2,13 +2,22 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 
+<script>
+<?php 
+if($_GET["warning"]!=NULL){
+  if($_GET["warning"]==1){
+    ?>alert("Invalid E-mail or no Site selected");<?php
+  }
+}
+?>
+</script>
 
 <body class="bg-dark">
   <div class="container">
     <div class="card card-register mx-auto mt-5">
       <div class="card-header">Register as Site Admin</div>
       <div class="card-body">
-        <form>
+        <?php echo form_open_multipart();?>
           <div class="form-group">
             As a site admin, you are responsible to maintain the course and staff data on your institution
           </div>
@@ -43,7 +52,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </div>
           </div>
           <button class="btn btn-primary btn-block" name="btnSubmit" href="<?php echo(site_url());?>/signIn"><i class="fa fa-fw fa-user-plus"></i> Register</button>
-        </form>
+        <?php echo form_close()?>
         <div class="text-center">
           <a class="d-block small mt-3" href="<?php echo(site_url());?>/signIn">Back To Sign In Page</a>
         </div>
