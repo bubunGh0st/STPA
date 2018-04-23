@@ -50,17 +50,16 @@ class SignInModel extends CI_Model {
                 return $result;
         }
 
-         //To check if session is active in every page
-        public function checkRoleID($Email){
-                $result="";
-                $this->db->where_in('Status', array('ACTIVE','ACTIVE-RESET'));
+        //To get all ms_user data by using email
+        public function getProfile($Email){
+                $result=NULL;
                 $this->db->where("Email",$Email);
-                $this->db->select("RoleID");
+                $this->db->select("*");
                 $this->db->from("ms_user");
                 $query = $this->db->get();
                 $row = $query->row();
                 if($row!=NULL){
-                        $result=$row->RoleID; 
+                        $result=$row;
                 }     
 
                 return $result;
