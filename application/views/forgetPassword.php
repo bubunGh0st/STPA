@@ -2,6 +2,17 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 
+<script>
+<?php 
+if($_GET["warning"]!=NULL){
+  if($_GET["warning"]==1){
+    ?>alert("Invalid E-mail");<?php
+  }
+}
+?>
+
+</script>
+
 <body class="bg-dark">
   <div class="container">
     <div class="card card-login mx-auto mt-5">

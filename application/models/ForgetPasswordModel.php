@@ -2,7 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class ForgetPasswordModel extends CI_Model {
-
+	
         //To check if session is active in every page
         public function checkEmail($post){
                 $result=false;
