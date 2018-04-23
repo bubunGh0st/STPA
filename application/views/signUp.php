@@ -16,21 +16,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <div class="form-row">
               <div class="col-md-6">
                 <label>First name</label>
-                <input class="form-control" name="FName" type="text" aria-describedby="nameHelp" placeholder="Enter first name">
+                <input class="form-control" name="FName" type="text" aria-describedby="nameHelp" placeholder="Enter first name" required="">
               </div>
               <div class="col-md-6">
                 <label>Last name</label>
-                <input class="form-control" name="LName" type="text" aria-describedby="nameHelp" placeholder="Enter last name">
+                <input class="form-control" name="LName" type="text" aria-describedby="nameHelp" placeholder="Enter last name" required="">
               </div>
             </div>
             <div class="form-row">
               <div class="col-md-6">
                 <label>Title</label>
-                <input class="form-control" name="Title" type="text" aria-describedby="nameHelp" placeholder="Enter title">
+                <input class="form-control" name="Title" type="text" aria-describedby="nameHelp" placeholder="Enter title" required="">
               </div>
               <div class="col-md-6">
                 <label>Email address</label>
-                <input class="form-control" name="Email" type="email" aria-describedby="emailHelp" placeholder="Enter email">
+                <input class="form-control" name="Email" type="email" aria-describedby="emailHelp" placeholder="Enter email" required="">
               </div>
             </div>
           </div>
