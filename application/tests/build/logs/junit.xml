@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites>
+<<<<<<< HEAD
   <testsuite name="SignInModelTest" file="C:\xampp\htdocs\STPA\application\tests\SignInModelTest.php" tests="1" assertions="1" failures="0" errors="0" time="0.004394">
     <testcase name="testIsSession" class="SignInModelTest" file="C:\xampp\htdocs\STPA\application\tests\SignInModelTest.php" line="16" assertions="1" time="0.004394"/>
+=======
+  <testsuite name="SignInModelTest" file="C:\xampp\htdocs\STPA\application\tests\SignInModelTest.php" tests="4" assertions="4" failures="0" errors="0" time="0.026592">
+    <testcase name="testIsSession" class="SignInModelTest" file="C:\xampp\htdocs\STPA\application\tests\SignInModelTest.php" line="16" assertions="1" time="0.007134"/>
+    <testcase name="testIsSignIn_successful" class="SignInModelTest" file="C:\xampp\htdocs\STPA\application\tests\SignInModelTest.php" line="21" assertions="1" time="0.013350"/>
+    <testcase name="testIsSignIn_InvalidEmail" class="SignInModelTest" file="C:\xampp\htdocs\STPA\application\tests\SignInModelTest.php" line="28" assertions="1" time="0.003015"/>
+    <testcase name="testIsSignIn_InvalidPass" class="SignInModelTest" file="C:\xampp\htdocs\STPA\application\tests\SignInModelTest.php" line="35" assertions="1" time="0.003094"/>
+>>>>>>> 5f14e43fceffc3b5c0546499f21d59c2cae39ba3
   </testsuite>
 </testsuites>
