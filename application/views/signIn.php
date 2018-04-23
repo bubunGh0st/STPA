@@ -2,12 +2,25 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 
+<script>
+<?php 
+if($_GET["warning"]!=NULL){
+  if($_GET["warning"]==2){
+    ?>alert("Invalid E-mail");<?php
+  }else if($_GET["warning"]==3){
+    ?>alert("Invalid Password");<?php
+  }
+}
+?>
+
+</script>
+
 <body class="bg-dark">
   <div class="container">
     <div class="card card-login mx-auto mt-5">
       <div class="card-header"><i class="fa fa-fw fa-gears"></i> STP Admin</div>
       <div class="card-body">
-        <form>
+        <?php echo form_open_multipart();?>
           <div class="form-group">
             <label>E-mail</label>
             <input class="form-control" type="email" aria-describedby="emailHelp" name="Email" placeholder="Enter E-mail">
@@ -18,7 +31,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           </div>
           <button type="submit" class="btn btn-primary btn-block" name="btnSubmit"><i class="fa fa-fw fa-sign-in"></i>Sign In</button>
           <!-- <a class="btn btn-primary btn-block" href="<?php// echo(site_url());?>/blank"><i class="fa fa-fw fa-sign-in"></i> Sign In</a> -->
-        </form>
+        <?php echo form_close()?>
         <div class="text-center">
           <a class="d-block small mt-3" href="<?php echo(site_url());?>/signUp">Sign Up as Site Admin</a>
           <a class="d-block small" href="<?php echo(site_url());?>/forgetPassword">Forget Password?</a>
