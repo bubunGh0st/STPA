@@ -12,7 +12,6 @@ if($_GET["warning"]!=NULL){
   }
 }
 ?>
-
 </script>
 
 <body class="bg-dark">
