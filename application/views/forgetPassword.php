@@ -2,6 +2,17 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 
+<script>
+<?php 
+if($_GET["warning"]!=NULL){
+  if($_GET["warning"]==1){
+    ?>alert("Invalid E-mail");<?php
+  }
+}
+?>
+
+</script>
+
 <body class="bg-dark">
   <div class="container">
     <div class="card card-login mx-auto mt-5">
@@ -15,7 +26,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           <div class="form-group">
             <input class="form-control" name="Email" type="email" aria-describedby="emailHelp" placeholder="Enter E-mail">
           </div>
-          <button class="btn btn-primary btn-block"><i class="fa fa-fw fa-refresh"></i> Reset Password</button>
+          <button name="btnSubmit" class="btn btn-primary btn-block"><i class="fa fa-fw fa-refresh"></i> Reset Password</button>
         <?php echo form_close()?>
         <div class="text-center">
           <a class="d-block small mt-3" href="<?php echo(site_url());?>/signIn">Back To Sign In Page</a>
