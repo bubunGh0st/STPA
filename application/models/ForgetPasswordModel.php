@@ -5,18 +5,18 @@ class ForgetPasswordModel extends CI_Model {
 	
         //To check if session is active in every page
         public function checkEmail($post){
-                $result=false;
+            $result=false;
 
-                $this->db->where("Status","ACTIVE");
-                $this->db->where("Email",$post['Email']);
-                $this->db->select("1");
-                $this->db->from("ms_user");
-                $query = $this->db->get();
-                $row = $query->row();
-                if($row!=NULL){
-                        $result=true; 
-                }       
-                return $result;
+            $this->db->where("Status","ACTIVE");
+            $this->db->where("Email",$post['Email']);
+            $this->db->select("1");
+            $this->db->from("ms_user");
+            $query = $this->db->get();
+            $row = $query->row();
+            if($row!=NULL){
+                    $result=true; 
+            }       
+            return $result;
         }
       	function generateRandomString($length = 8) {
 		    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -27,5 +27,15 @@ class ForgetPasswordModel extends CI_Model {
 		    }
 		    return $randomString;
 		}
+
+        public function updatePassword($Email,$newPassword){
+            $this->db->trans_start();
+
+            $this->db->set('Password', md5($newPassword));
+            $this->db->where('Email', $Email);
+            $this->db->update('ms_user'); 
+            
+            $this->db->trans_complete();
+        }
 
 }

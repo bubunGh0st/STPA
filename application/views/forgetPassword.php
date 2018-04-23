@@ -7,6 +7,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 if($_GET["warning"]!=NULL){
   if($_GET["warning"]==1){
     ?>alert("Invalid E-mail");<?php
+  }else if($_GET["warning"]==1){
+    ?>alert("Password is sent to E-mail");<?php
   }
 }
 ?>

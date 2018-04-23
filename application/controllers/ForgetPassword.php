@@ -15,6 +15,9 @@ class ForgetPassword extends CI_Controller {
 			}
 			else{
 				$newPassword = $this->ForgetPasswordModel->generateRandomString();
+
+				$this->ForgetPasswordModel->updatePassword($_POST["Email"],$newPassword);
+
 				require_once 'vendor/autoload.php';
 				// Create the Transport
 				$transport = (new Swift_SmtpTransport('smtp.gmail.com', 465,'ssl'))
@@ -30,6 +33,7 @@ class ForgetPassword extends CI_Controller {
 				  ->setBody("Your new password is ".$newPassword.". Once you signed in, you will be redirected to change your password.");
 				// Send the message
 				$result = $mailer->send($message);
+				redirect('ForgetPassword/index/?warning=2');
 			}
 		}
 		$this->load->view('templates/headerBlank');
