@@ -1,6 +1,6 @@
 <?php 
 
-class SignInModelTest extends TestCase{
+class SignInModelTest extends CIPHPUnitTestCase{
 
 	protected function setUp(){
 		/*$CI =& get_instance();

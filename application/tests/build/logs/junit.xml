@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites>
-  <testsuite name="SignInModelTest" file="C:\xampp\htdocs\STPA\application\tests\SignInModelTest.php" tests="1" assertions="1" failures="0" errors="0" time="0.003797">
-    <testcase name="testIsSession" class="SignInModelTest" file="C:\xampp\htdocs\STPA\application\tests\SignInModelTest.php" line="16" assertions="1" time="0.003797"/>
+  <testsuite name="SignInModelTest" file="C:\xampp\htdocs\STPA\application\tests\SignInModelTest.php" tests="1" assertions="1" failures="0" errors="0" time="0.004394">
+    <testcase name="testIsSession" class="SignInModelTest" file="C:\xampp\htdocs\STPA\application\tests\SignInModelTest.php" line="16" assertions="1" time="0.004394"/>
   </testsuite>
 </testsuites>
