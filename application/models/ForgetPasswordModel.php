@@ -7,7 +7,7 @@ class ForgetPasswordModel extends CI_Model {
         public function checkEmail($post){
             $result=false;
 
-            $this->db->where("Status","ACTIVE");
+            $this->db->where_in('Status', array('ACTIVE','ACTIVE-RESET'));
             $this->db->where("Email",$post['Email']);
             $this->db->select("1");
             $this->db->from("ms_user");
@@ -18,7 +18,8 @@ class ForgetPasswordModel extends CI_Model {
             }       
             return $result;
         }
-      	function generateRandomString($length = 8) {
+
+      	public function generateRandomString($length = 8) {
 		    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 		    $charactersLength = strlen($characters);
 		    $randomString = '';
@@ -32,9 +33,10 @@ class ForgetPasswordModel extends CI_Model {
             $this->db->trans_start();
 
             $this->db->set('Password', md5($newPassword));
+            $this->db->set('Status', "ACTIVE-RESET");
             $this->db->where('Email', $Email);
             $this->db->update('ms_user'); 
-            
+
             $this->db->trans_complete();
         }
 
