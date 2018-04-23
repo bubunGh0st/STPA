@@ -16,7 +16,7 @@ class ForgetPassword extends CI_Controller {
 			else{
 				require_once 'vendor/autoload.php';
 				// Create the Transport
-				$transport = (new Swift_SmtpTransport('smtp.gmail.com', 465))
+				$transport = (new Swift_SmtpTransport('smtp.gmail.com', 465,'ssl'))
 				  ->setUsername('stp.weltec@gmail.com')
 				  ->setPassword('chinki1990')
 				;
@@ -26,8 +26,7 @@ class ForgetPassword extends CI_Controller {
 				$message = (new Swift_Message('STPA Password Reset'))
 				  ->setFrom(['stp.weltec@noreply.com' => 'STPA'])
 				  ->setTo([$_POST["Email"]])
-				  ->setBody('Password')
-				  ;
+				  ->setBody('Password');
 				// Send the message
 				$result = $mailer->send($message);
 			}
