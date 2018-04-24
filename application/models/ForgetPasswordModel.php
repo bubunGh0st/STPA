@@ -29,6 +29,7 @@ class ForgetPasswordModel extends CI_Model {
 		    return $randomString;
 		}
 
+        //To reset the password
         public function updatePassword($Email,$newPassword){
             $this->db->trans_start();
 
