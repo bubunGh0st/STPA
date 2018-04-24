@@ -4,39 +4,47 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
 <script>
-<?php 
-if($_GET["warning"]!=NULL){
-  if($_GET["warning"]==2){
-    ?>alert("Invalid ID");<?php
-  }else if($_GET["warning"]==4){
-    ?>alert("Module Updated");<?php
-  }
-}
-?>
+  $(document).ready(function(){
 
-$('#modal-edit-Module').on('show.bs.modal', function (e) {
+    <?php 
+    if(isset($_GET["warning"])){
+      if($_GET["warning"]==1){
+        ?>alert("Cannot delete this module, module is granted to roles");<?php
+      }else if($_GET["warning"]==2){
+        ?>alert("Successfully updated Module");<?php
+      }
+    }
+    ?>
 
-    //get data-id attribute of the clicked element
-    var ModuleID = $(e.relatedTarget).data('id');
-    var ModuleName = $(e.relatedTarget).data('id');
+    $('#modal-edit-Module').on('show.bs.modal', function (e) {
 
-    //populate the textbox
-    $(e.currentTarget).find('input[name="ModuleID"]').val(ModuleID);
-    //var x = document.getElementById("proid").value; alert("pid"+x);
+        var ModuleID = $(e.relatedTarget).data('id');
+        $(e.currentTarget).find('input[name="ModuleID"]').val(ModuleID);
+         $.post("<?php echo(site_url('Modules/getModule'));?>",
+          {
+              ModuleID: ModuleID
+          },
+          function(data, status){
+            $(e.currentTarget).find('input[name="ModuleName"]').val(data);
+          });
+        
 
+    });
+
+     $('#modal-delete-Module').on('show.bs.modal', function (e) {
+
+        var ModuleID = $(e.relatedTarget).data('id');
+        $(e.currentTarget).find('input[name="ModuleID"]').val(ModuleID);
+        
+        
+
+    });
 });
-
 </script>
 
 <script type="text/javascript" src="<?php echo(base_url());?>js/bootstrap-datetimepicker.js" charset="UTF-8"></script>
 <script type="text/javascript" src="<?php echo(base_url());?>js/locales/bootstrap-datetimepicker.fr.js" charset="UTF-8"></script>
 
-<script>
-$(document).ready(function() {
-
-   $(".form_datetime").datetimepicker({format: 'yyyy-mm-dd hh:ii'});
-} );
-</script>
 
 <style>
   .clear{
@@ -98,9 +106,9 @@ $(document).ready(function() {
                     <td><?php echo($items->ModuleID);?></td>
                     <td><?php echo($items->ModuleName);?></td>
                     <td>
-                      <button id="<?php echo($items->ModuleID);?>" data-toggle="modal" data-target="#modal-edit-Module" class="btn btn btn-primary"><i class="fa fa-pencil"></i></button>
-                      <input type="hidden" name="">
-                      <button id="<?php echo($items->ModuleID);?>" data-toggle="modal" data-target="#modal-delete-Module" class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                      <button data-id="<?php echo($items->ModuleID);?>" data-toggle="modal" data-target="#modal-edit-Module" class="btn btn btn-primary"><i class="fa fa-pencil"></i></button>
+                      <button data-id="<?php echo($items->ModuleID);?>" data-toggle="modal" data-target="#modal-delete-Module" class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                      <input type="hidden" name="ModuleID" value="<?php echo($items->ModuleID);?>">
                     </td>
                   </tr>
                 <?php }?>
@@ -157,11 +165,11 @@ $(document).ready(function() {
             <?php echo form_open_multipart();?>
               <div class="form-group">
                 <label>Module ID</label>
-                <input type="text" class="form-control" name="ModuleID" id="name" placeholder="Task Name" value="M0001" readonly>
+                <input type="text" class="form-control" name="ModuleID" id="name"  readonly>
               </div>
               <div class="form-group">
                 <label>Name</label>
-                <input type="text" class="form-control" name="ModuleName" id="name" placeholder="Task Name" value="Modules">
+                <input type="text" class="form-control" name="ModuleName" id="name" placeholder="Module Name" value="">
               </div>
               <button type="submit" name="btnSubmitEdit" class="btn btn-primary btn-block"><i class="fa fa-save"></i> Save</button>
             <?php echo form_close()?>
@@ -176,8 +184,6 @@ $(document).ready(function() {
       </div>
     </div>
 
-    
-
     <!-- Modal -->
     <div class="modal fade" id="modal-delete-Module" role="dialog">
       <div class="modal-dialog">
@@ -189,8 +195,11 @@ $(document).ready(function() {
             </button>
           </div>
           <div class="modal-footer">
-            <button class="btn btn-secondary" type="button" data-dismiss="modal"><i class="fa fa-remove"></i> Cancel</button>
-            <button class="btn btn-danger" type="button" data-dismiss="modal"><i class="fa fa-trash"></i> Delete</button>
+            <?php echo form_open_multipart();?>
+              <button class="btn btn-secondary" type="button" data-dismiss="modal"><i class="fa fa-remove"></i> Cancel</button>
+              <button name="btnSubmitDelete" class="btn btn-danger" type="submit"><i class="fa fa-trash"></i> Delete</button>
+              <input type="hidden" name="ModuleID" value="">
+            <?php echo form_close()?>
           </div>
         </div>
       </div>

@@ -3,7 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class ModulesModel extends CI_Model {
 
-        //To return all sites
+        //To return all modules
         public function getModules(){
                
             $this->db->select("*");
@@ -12,6 +12,21 @@ class ModulesModel extends CI_Model {
             $result = $query->result();
                     
             return $result;
+        }
+
+        //to return one row all columns from selected ms_module
+         public function getModule($ModuleID){
+               
+            $this->db->where('ModuleID',$ModuleID);
+            $this->db->select("*");
+            $this->db->from("ms_module");
+            $query = $this->db->get();
+            $row = $query->row();
+            if($row!=NULL){
+                return $row;
+            }else{
+                return NULL;
+            }
         }
 
         public function autogenerateID(){
@@ -67,17 +82,17 @@ class ModulesModel extends CI_Model {
             $this->db->trans_complete();
         }
         //delete module
-        public function deleteModule($post){
+        public function deleteModule($ModuleID){
 
             $this->db->trans_start();
 
-            $this->db->where('ModuleID', $post['ModuleID']);
+            $this->db->where('ModuleID', $ModuleID);
             $this->db->delete('ms_module');
 
 
             //insert into log_activity
-            $this->db->set('RefID', $post["ModuleID"]);
-            $this->db->set('Action', "DLETED MODULE");
+            $this->db->set('RefID', $ModuleID);
+            $this->db->set('Action', "DELETED MODULE");
             $this->db->set('EntryTime', date("Y-m-d H:i:s"));
             $this->db->set('EntryEmail', $this->session->userdata['Email']);
             $this->db->insert('log_activity'); 
@@ -85,11 +100,11 @@ class ModulesModel extends CI_Model {
             $this->db->trans_complete();
         }
         //To check if module is in ms_role_module table
-        public function isDeleteModule($post){
+        public function isDeleteModule($ModuleID){
 
             $this->db->select("ModuleID");
             $this->db->from("ms_role_module");
-            $this->db->where('ModuleID', $post['ModuleID']);
+            $this->db->where('ModuleID', $ModuleID);
             $query = $this->db->get();
             $result = $query->row();
             if($result != NULL){

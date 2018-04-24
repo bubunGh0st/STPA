@@ -21,9 +21,36 @@ class Modules extends CI_Controller {
 			}
 		}
 
+		if(isset($_POST["btnSubmitEdit"])){
+			$transaction = true;
+
+			if($transaction){
+				$this->ModulesModel->updateModule($_POST);
+				redirect('Modules/index/?warning=2');
+			}
+		}
+
+		if(isset($_POST["btnSubmitDelete"])){
+			$transaction = true;
+			if(!$this->ModulesModel->isDeleteModule($_POST["ModuleID"])){
+				$transaction=false;
+				redirect('Modules/index/?warning=1');
+			}
+			if($transaction){
+				$this->ModulesModel->deleteModule($_POST["ModuleID"]);
+				redirect('Modules');
+			}
+		}
+
 		$data["getModules"]=$this->ModulesModel->getModules();
 		$this->load->view('templates/header');
 		$this->load->view('modules',$data);
 		$this->load->view('templates/footer');
+	}
+
+	public function getModule()
+	{
+        $data["getModule"]=$this->ModulesModel->getModule($_POST["ModuleID"]);
+        echo($data["getModule"]->ModuleName);
 	}
 }
