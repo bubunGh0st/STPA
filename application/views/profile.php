@@ -9,6 +9,10 @@ if($_GET["warning"]!=NULL){
     ?>alert("First Name Cannot be emty");<?php
   }else if($_GET["warning"]==2){
     ?>alert("Succesfully change profile");<?php
+  }else if($_GET["warning"]==3){
+    ?>alert("Current Password does not match database");<?php
+  }else if($_GET["warning"]==4){
+    ?>alert("Confirm Password does not match New Password");<?php
   }
 }
 ?>

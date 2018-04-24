@@ -30,11 +30,11 @@ class ForgetPasswordModel extends CI_Model {
 		}
 
         //To reset the password
-        public function updatePassword($Email,$newPassword){
+        public function updatePassword($Email,$newPassword,$status='ACTIVE-RESET'){
             $this->db->trans_start();
 
             $this->db->set('Password', md5($newPassword));
-            $this->db->set('Status', "ACTIVE-RESET");
+            $this->db->set('Status', $status);
             $this->db->where('Email', $Email);
             $this->db->update('ms_user'); 
 
