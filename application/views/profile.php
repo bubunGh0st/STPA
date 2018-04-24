@@ -16,21 +16,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           <?php echo form_open_multipart();?>
             <div class="form-group">
               <label>E-mail</label>
-              <input type="email" name="Email" class="form-control" id="email" placeholder="E-mail" value="steve@stpa.com" readonly="">
+              <input type="email" name="Email" class="form-control" placeholder="E-mail" value="<?php echo($this->session->userdata['Email']);?>"readonly="">
             </div>
             <div class="form-group">
               <div class="form-row">
                <div class="col-md-6">
                   <label>First name</label>
-                  <input class="form-control" name="FName" type="text" aria-describedby="nameHelp" placeholder="Enter first name" value="Steve" required="">
+                  <input class="form-control" name="FName" type="text" aria-describedby="nameHelp" placeholder="Enter first name" value="<?php echo($this->session->userdata['FName']);?>" required="">
                 </div>
                 <div class="col-md-6">
                   <label>Last name</label>
-                  <input class="form-control" name="LName" type="text" aria-describedby="nameHelp" placeholder="Enter last name" value="McKinlay">
+                  <input class="form-control" name="LName" type="text" aria-describedby="nameHelp" placeholder="Enter last name" value="<?php echo($this->session->userdata['LName']);?>">
                 </div>
                 <div class="col-md-6">
                   <label>Title</label>
-                  <input class="form-control" name="Title" type="text" aria-describedby="nameHelp" placeholder="Enter title" value="Dr.">
+                  <input class="form-control" name="Title" type="text" aria-describedby="nameHelp" placeholder="Enter title" value="<?php echo($this->session->userdata['Title']);?>">
                 </div>
               </div>
             </div>
@@ -64,7 +64,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <label>Confirm New Password</label>
                 <input type="Password" name="confirmPassword" class="form-control" id="cnpass" placeholder="Confirm New Password">
               </div>
-              <button type="submit" name="btnSubmit" class="btn btn-primary btn-block"><i class="fa fa-refresh"></i> Change Password</button>
+              <button type="submit" name="btnSubmitPass" class="btn btn-primary btn-block"><i class="fa fa-refresh"></i> Change Password</button>
             <?php echo form_close()?>
           </div>
           <div class="modal-footer">
