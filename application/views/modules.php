@@ -2,6 +2,19 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 
+
+<script>
+<?php 
+if($_GET["warning"]!=NULL){
+  if($_GET["warning"]==2){
+    ?>alert("Invalid ID");<?php
+  }else if($_GET["warning"]==4){
+    ?>alert("Module Updated");<?php
+  }
+}
+?>
+</script>
+
 <script type="text/javascript" src="<?php echo(base_url());?>js/bootstrap-datetimepicker.js" charset="UTF-8"></script>
 <script type="text/javascript" src="<?php echo(base_url());?>js/locales/bootstrap-datetimepicker.fr.js" charset="UTF-8"></script>
 
@@ -122,7 +135,7 @@ $(document).ready(function() {
                 <label>Name</label>
                 <input type="text" name="ModuleName" class="form-control" id="name" placeholder="Task Name">
               </div>
-              <button type="submit" name="btnSubmit" class="btn btn-primary btn-block"><i class="fa fa-save"></i> Save</button>
+              <button type="submit" name="btnSubmitAdd" class="btn btn-primary btn-block"><i class="fa fa-save"></i> Save</button>
             <?php echo form_close()?>
           </div>
           <div class="modal-footer">
@@ -144,17 +157,17 @@ $(document).ready(function() {
             <h4>M0001 - Modules</h4>
           </div>
           <div class="modal-body">
-            <form role="form">
+            <?php echo form_open_multipart();?>
               <div class="form-group">
                 <label>Module ID</label>
-                <input type="text" class="form-control" id="name" placeholder="Task Name" value="M0001">
+                <input type="text" class="form-control" name="ModuleID" id="name" placeholder="Task Name" value="M0001">
               </div>
               <div class="form-group">
                 <label>Name</label>
-                <input type="text" class="form-control" id="name" placeholder="Task Name" value="Modules">
+                <input type="text" class="form-control" name="ModuleName" id="name" placeholder="Task Name" value="Modules">
               </div>
-              <button type="submit" class="btn btn-primary btn-block"><i class="fa fa-save"></i> Save</button>
-            </form>
+              <button type="submit" name="btnSubmitEdit" class="btn btn-primary btn-block"><i class="fa fa-save"></i> Save</button>
+            <?php echo form_close()?>
           </div>
           <div class="modal-footer">
             <button type="submit" class="btn btn-danger btn-default pull-left" data-dismiss="modal">
