@@ -11,19 +11,12 @@ class SignIn extends CI_Controller {
 			if($isSignIn == 1){
         		$this->session->set_userdata('Email', $_POST["Email"]);
 				$getProfile = $this->SignInModel->getProfile($this->session->userdata['Email']);
-				if($getProfile!=NULL){
-	        		$this->session->set_userdata('Email', $getProfile->Email);
-	        		$this->session->set_userdata('FName', $getProfile->FName);
-	        		$this->session->set_userdata('LName', $getProfile->LName);
-	        		$this->session->set_userdata('Title', $getProfile->Title);
-	        		$this->session->set_userdata('RoleID', $getProfile->RoleID);
-	        		$this->session->set_userdata('Status', $getProfile->Status);
-		        }
-				if($this->session->userdata['RoleID']=="SYS-ADMIN"){
+				
+				if($getProfile->RoleID=="SYS-ADMIN"){
 					redirect('approval');
-				}else if($this->session->userdata['RoleID']=="SITE-ADMIN"){
+				}else if($getProfile->RoleID=="SITE-ADMIN"){
 					redirect('courses');
-				}else if($this->session->userdata['RoleID']=="STAFF"){
+				}else if($getProfile->RoleID=="STAFF"){
 					redirect('dashboard_staff');
 				}
 			}

@@ -84,6 +84,15 @@ class CI_Controller {
         $this->load->model('SignInModel');
         $this->load->helper('form');
         
+		if (isset($this->session->userdata['Email'])){
+        	$getProfile = $this->SignInModel->getProfile($this->session->userdata['Email']);
+    		$this->session->set_userdata('Email', $getProfile->Email);
+    		$this->session->set_userdata('FName', $getProfile->FName);
+    		$this->session->set_userdata('LName', $getProfile->LName);
+    		$this->session->set_userdata('Title', $getProfile->Title);
+    		$this->session->set_userdata('RoleID', $getProfile->RoleID);
+    		$this->session->set_userdata('Status', $getProfile->Status);
+        }
 	}
 
 	// --------------------------------------------------------------------

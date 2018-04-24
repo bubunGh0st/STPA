@@ -5,7 +5,7 @@ class SignOut extends CI_Controller {
 
 	public function index()
 	{
-		$this->session->unset_userdata('email');
+		$this->session->unset_userdata('Email');
 		redirect('SignIn');
 	}
 }
