@@ -3,7 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class ForgetPasswordModel extends CI_Model {
 	
-        //To check if session is active in every page
+        //To check if the email is valid
         public function checkEmail($post){
             $result=false;
 
@@ -29,11 +29,12 @@ class ForgetPasswordModel extends CI_Model {
 		    return $randomString;
 		}
 
-        public function updatePassword($Email,$newPassword){
+        //To reset the password
+        public function updatePassword($Email,$newPassword,$status='ACTIVE-RESET'){
             $this->db->trans_start();
 
             $this->db->set('Password', md5($newPassword));
-            $this->db->set('Status', "ACTIVE-RESET");
+            $this->db->set('Status', $status);
             $this->db->where('Email', $Email);
             $this->db->update('ms_user'); 
 

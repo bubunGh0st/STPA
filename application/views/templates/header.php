@@ -56,7 +56,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Profile">
           <a class="nav-link" href="<?php echo(site_url());?>/profile">
             <i class="fa fa-fw fa-user-circle-o"></i>
-            <span class="nav-link-text">Steve McKinlay</span>
+            <span class="nav-link-text"><?php echo($this->session->userdata['Title']." ".$this->session->userdata['FName']." ".$this->session->userdata['LName']);?></span>
           </a>
         </li>
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="System Administration">

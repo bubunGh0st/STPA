@@ -11,6 +11,8 @@ if($_GET["warning"]!=NULL){
     ?>alert("Invalid Password");<?php
   }else if($_GET["warning"]==4){
     ?>alert("Sign Up successful. Please wait an approval E-mail from the system.");<?php
+  }else if($_GET["warning"]==5){
+    ?>alert("Password has been reset. Please sign in again.");<?php
   }
 }
 ?>

@@ -1,6 +1,6 @@
 <?php 
 
-class SignInModelTest extends TestCase{
+class SignInModelTest extends CIPHPUnitTestCase{
 
 	protected function setUp(){
 		/*$CI =& get_instance();
@@ -14,7 +14,6 @@ class SignInModelTest extends TestCase{
     }
 
 	public function testIsSession(){
-		$post[]
 		$output = $this->SignInModel->isSession();
 		$this->assertFalse($output);
 	}
