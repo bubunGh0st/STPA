@@ -2,6 +2,18 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 
+<script>
+<?php 
+if($_GET["warning"]!=NULL){
+  if($_GET["warning"]==1){
+    ?>alert("First Name Cannot be emty");<?php
+  }else if($_GET["warning"]==2){
+    ?>alert("Succesfully change profile");<?php
+  }
+}
+?>
+</script>
+
 
   <div class="content-wrapper">
     <div class="container-fluid">

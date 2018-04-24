@@ -6,6 +6,7 @@ class Profile extends CI_Controller {
 	public function __construct()
     {
         parent::__construct();
+        $this->load->model('ProfileModel');
     }
 
 	public function index()
@@ -20,8 +21,8 @@ class Profile extends CI_Controller {
 			}
 
 			if($transaction){
-				$this->SignInModel->updateProfile($_POST);
-				redirect('Profile');
+				$this->ProfileModel->updateProfile($_POST);
+				redirect('Profile/index/?warning=2');
 			}
 		}
 
