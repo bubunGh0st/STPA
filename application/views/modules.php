@@ -13,6 +13,19 @@ if($_GET["warning"]!=NULL){
   }
 }
 ?>
+
+$('#modal-edit-Module').on('show.bs.modal', function (e) {
+
+    //get data-id attribute of the clicked element
+    var ModuleID = $(e.relatedTarget).data('id');
+    var ModuleName = $(e.relatedTarget).data('id');
+
+    //populate the textbox
+    $(e.currentTarget).find('input[name="ModuleID"]').val(ModuleID);
+    //var x = document.getElementById("proid").value; alert("pid"+x);
+
+});
+
 </script>
 
 <script type="text/javascript" src="<?php echo(base_url());?>js/bootstrap-datetimepicker.js" charset="UTF-8"></script>
@@ -80,30 +93,18 @@ $(document).ready(function() {
                 </tr>
               </tfoot>
               <tbody>
-                <tr>
-                  <td>M0001</td>
-                  <td>Modules</td>
-                  <td>
-                    <button data-toggle="modal" data-target="#modal-edit-Module" class="btn btn btn-primary"><i class="fa fa-pencil"></i></button>
-                    <button data-toggle="modal" data-target="#modal-delete-Module" class="btn btn-danger"><i class="fa fa-trash"></i></button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>M0002</td>
-                  <td>Roles</td>
-                  <td>
-                    <button data-toggle="modal" data-target="#modal-edit-Module" class="btn btn btn-primary"><i class="fa fa-pencil"></i></button>
-                    <button data-toggle="modal" data-target="#modal-delete-Module" class="btn btn-danger"><i class="fa fa-trash"></i></button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>M0003</td>
-                  <td>Courses</td>
-                  <td>
-                    <button data-toggle="modal" data-target="#modal-edit-Module" class="btn btn btn-primary"><i class="fa fa-pencil"></i></button>
-                    <button data-toggle="modal" data-target="#modal-delete-Module" class="btn btn-danger"><i class="fa fa-trash"></i></button>
-                  </td>
-                </tr>
+                <?php foreach($getModules as $items){?>
+                  <tr>
+                    <td><?php echo($items->ModuleID);?></td>
+                    <td><?php echo($items->ModuleName);?></td>
+                    <td>
+                      <button id="<?php echo($items->ModuleID);?>" data-toggle="modal" data-target="#modal-edit-Module" class="btn btn btn-primary"><i class="fa fa-pencil"></i></button>
+                      <input type="hidden" name="">
+                      <button id="<?php echo($items->ModuleID);?>" data-toggle="modal" data-target="#modal-delete-Module" class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                    </td>
+                  </tr>
+                <?php }?>
+                
               </tbody>
             </table>
           </div>
@@ -128,12 +129,8 @@ $(document).ready(function() {
           <div class="modal-body">
             <?php echo form_open_multipart();?>
               <div class="form-group">
-                <label>Module ID</label>
-                <input type="text" name="ModuleID" class="form-control" id="name" placeholder="Task Name">
-              </div>
-              <div class="form-group">
-                <label>Name</label>
-                <input type="text" name="ModuleName" class="form-control" id="name" placeholder="Task Name">
+                <label>Module Name</label>
+                <input type="text" name="ModuleName" class="form-control" id="name" placeholder="Enter Module Name">
               </div>
               <button type="submit" name="btnSubmitAdd" class="btn btn-primary btn-block"><i class="fa fa-save"></i> Save</button>
             <?php echo form_close()?>
@@ -154,13 +151,13 @@ $(document).ready(function() {
         <!-- Modal content-->
         <div class="modal-content">
           <div class="modal-header text-center">
-            <h4>M0001 - Modules</h4>
+            <h4>Edit Modules</h4>
           </div>
           <div class="modal-body">
             <?php echo form_open_multipart();?>
               <div class="form-group">
                 <label>Module ID</label>
-                <input type="text" class="form-control" name="ModuleID" id="name" placeholder="Task Name" value="M0001">
+                <input type="text" class="form-control" name="ModuleID" id="name" placeholder="Task Name" value="M0001" readonly>
               </div>
               <div class="form-group">
                 <label>Name</label>

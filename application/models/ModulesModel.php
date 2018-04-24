@@ -14,7 +14,7 @@ class ModulesModel extends CI_Model {
                 return $result;
         }
 
-         public function autogenerateID(){
+        public function autogenerateID(){
 
                 $this->db->limit(1,0);
                 $this->db->order_by("ModuleID","DESC");
@@ -31,7 +31,7 @@ class ModulesModel extends CI_Model {
                 return $result;
         }
         //To insert into module database.
-        public function insertModule(){
+        public function insertModule($post){
 
                 $this->db->trans_start();
 
@@ -50,7 +50,7 @@ class ModulesModel extends CI_Model {
                 $this->db->trans_complete();
         }
         //Edit Module
-        public function updateModule(){
+        public function updateModule($post){
 
                 $this->db->trans_start();
 
