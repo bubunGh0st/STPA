@@ -13,29 +13,29 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           <button data-toggle="modal" data-target="#modal-change-password" class="btn btn btn-primary float-right"><i class="fa fa-refresh"></i> Change Password</button>
         </div>
         <div class="card-body">
-          <form role="form">
-              <div class="form-group">
-                <label>E-mail</label>
-                <input type="email" class="form-control" id="email" placeholder="E-mail" value="steve@stpa.com" readonly="">
-              </div>
-              <div class="form-group">
-                <div class="form-row">
-                 <div class="col-md-6">
-                    <label>First name</label>
-                    <input class="form-control" type="text" aria-describedby="nameHelp" placeholder="Enter first name" value="Steve">
-                  </div>
-                  <div class="col-md-6">
-                    <label>Last name</label>
-                    <input class="form-control" type="text" aria-describedby="nameHelp" placeholder="Enter last name" value="McKinlay">
-                  </div>
-                  <div class="col-md-6">
-                    <label>Title</label>
-                    <input class="form-control" type="text" aria-describedby="nameHelp" placeholder="Enter title" value="Dr.">
-                  </div>
+          <?php echo form_open_multipart();?>
+            <div class="form-group">
+              <label>E-mail</label>
+              <input type="email" name="Email" class="form-control" id="email" placeholder="E-mail" value="steve@stpa.com" readonly="">
+            </div>
+            <div class="form-group">
+              <div class="form-row">
+               <div class="col-md-6">
+                  <label>First name</label>
+                  <input class="form-control" name="FName" type="text" aria-describedby="nameHelp" placeholder="Enter first name" value="Steve" required="">
+                </div>
+                <div class="col-md-6">
+                  <label>Last name</label>
+                  <input class="form-control" name="LName" type="text" aria-describedby="nameHelp" placeholder="Enter last name" value="McKinlay">
+                </div>
+                <div class="col-md-6">
+                  <label>Title</label>
+                  <input class="form-control" name="Title" type="text" aria-describedby="nameHelp" placeholder="Enter title" value="Dr.">
                 </div>
               </div>
-              <button type="submit" class="btn btn-primary btn-block"><i class="fa fa-pencil"></i> Change Profile</button>
-            </form>
+            </div>
+            <button type="submit" name="btnSubmit" class="btn btn-primary btn-block"><i class="fa fa-pencil"></i> Change Profile</button>
+          <?php echo form_close()?>
         </div>
         <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
       </div>
@@ -51,21 +51,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <h4>Change Password</h4>
           </div>
           <div class="modal-body">
-            <form role="form">
+            <?php echo form_open_multipart();?>
               <div class="form-group">
                 <label>Current Password</label>
-                <input type="Password" class="form-control" id="cpass" placeholder="Current Password">
+                <input type="Password" name="currentPassword" class="form-control" id="cpass" placeholder="Current Password">
               </div>
               <div class="form-group">
                 <label>New Password</label>
-                <input type="Password" class="form-control" id="npass" placeholder="New Password">
+                <input type="Password" name="newPassword" class="form-control" id="npass" placeholder="New Password">
               </div>
               <div class="form-group">
                 <label>Confirm New Password</label>
-                <input type="Password" class="form-control" id="cnpass" placeholder="Confirm New Password">
+                <input type="Password" name="confirmPassword" class="form-control" id="cnpass" placeholder="Confirm New Password">
               </div>
-              <button type="submit" class="btn btn-primary btn-block"><i class="fa fa-refresh"></i> Change Password</button>
-            </form>
+              <button type="submit" name="btnSubmit" class="btn btn-primary btn-block"><i class="fa fa-refresh"></i> Change Password</button>
+            <?php echo form_close()?>
           </div>
           <div class="modal-footer">
             <button type="submit" class="btn btn-danger btn-default pull-left" data-dismiss="modal">
