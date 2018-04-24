@@ -30,5 +30,42 @@ class ModulesModel extends CI_Model {
                 } 
                 return $result;
         }
+        //To insert into module database.
+        public function insertModule(){
+
+                $this->db->trans_start();
+
+                //insert into ms_module
+                $this->db->set('ModuleID', $post["ModuleID"]);
+                $this->db->set('ModuleName', $post["ModuleName"]);
+                $this->db->insert('ms_module');
+
+                //insert into log_activity
+                $this->db->set('RefID', $post["ModuleID"]);
+                $this->db->set('Action', "INSERTED MODULE");
+                $this->db->set('EntryTime', date("Y-m-d H:i:s"));
+                $this->db->set('EntryEmail', $this->session->userdata['Email']);
+                $this->db->insert('log_activity'); 
+
+                $this->db->trans_complete();
+        }
+        //Edit Module
+        public function updateModule(){
+
+                $this->db->trans_start();
+
+                $this->db->set('ModuleName', $post["ModuleName"]);
+                $this->db->where('ModuleID', $post['ModuleID']);
+                $this->db->update('ms_module'); 
+
+                //insert into log_activity
+                $this->db->set('RefID', $post["ModuleID"]);
+                $this->db->set('Action', "UPDATED MODULE");
+                $this->db->set('EntryTime', date("Y-m-d H:i:s"));
+                $this->db->set('EntryEmail', $this->session->userdata['Email']);
+                $this->db->insert('log_activity'); 
+
+                $this->db->trans_complete();
+        }
 
 }
