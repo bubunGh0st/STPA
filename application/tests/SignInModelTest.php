@@ -14,6 +14,7 @@ class SignInModelTest extends TestCase{
     }
 
 	public function testIsSession(){
+		$post[]
 		$output = $this->SignInModel->isSession();
 		$this->assertFalse($output);
 	}
