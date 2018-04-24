@@ -113,17 +113,17 @@ $(document).ready(function() {
             <h4>Add New Module</h4>
           </div>
           <div class="modal-body">
-            <form role="form">
+            <?php echo form_open_multipart();?>
               <div class="form-group">
                 <label>Module ID</label>
-                <input type="text" class="form-control" id="name" placeholder="Task Name">
+                <input type="text" name="ModuleID" class="form-control" id="name" placeholder="Task Name">
               </div>
               <div class="form-group">
                 <label>Name</label>
-                <input type="text" class="form-control" id="name" placeholder="Task Name">
+                <input type="text" name="ModuleName" class="form-control" id="name" placeholder="Task Name">
               </div>
-              <button type="submit" class="btn btn-primary btn-block"><i class="fa fa-save"></i> Save</button>
-            </form>
+              <button type="submit" name="btnSubmit" class="btn btn-primary btn-block"><i class="fa fa-save"></i> Save</button>
+            <?php echo form_close()?>
           </div>
           <div class="modal-footer">
             <button type="submit" class="btn btn-danger btn-default pull-left" data-dismiss="modal">
