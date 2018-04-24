@@ -2,6 +2,19 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 
+
+<script>
+<?php 
+if($_GET["warning"]!=NULL){
+  if($_GET["warning"]==2){
+    ?>alert("Invalid ID");<?php
+  }else if($_GET["warning"]==4){
+    ?>alert("Module Updated");<?php
+  }
+}
+?>
+</script>
+
 <script type="text/javascript" src="<?php echo(base_url());?>js/bootstrap-datetimepicker.js" charset="UTF-8"></script>
 <script type="text/javascript" src="<?php echo(base_url());?>js/locales/bootstrap-datetimepicker.fr.js" charset="UTF-8"></script>
 
