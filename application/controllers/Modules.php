@@ -6,6 +6,8 @@ class Modules extends CI_Controller {
 	public function __construct()
     {
         parent::__construct();
+        if ($this->SignInModel->isSession() == FALSE) redirect('SignOut');
+        
         $this->load->model('ModulesModel');
     }
 

@@ -8,7 +8,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script>
 $(document).ready(function() {
 
-   $(".form_datetime").datetimepicker({format: 'yyyy-mm-dd hh:ii'});
+    <?php 
+    if(isset($_GET["warning"])){
+      if($_GET["warning"]==1){
+        ?>alert("Successfully updated Role header");<?php
+      }else if($_GET["warning"]==2){
+        ?>alert("Successfully granted Module to Role");<?php
+      }else if($_GET["warning"]==3){
+        ?>alert("Successfully revoked Module from Role");<?php
+      }
+    }
+    ?>
+
+   $('#modal-delete-module').on('show.bs.modal', function (e) {
+        var ModuleID = $(e.relatedTarget).data('id');
+        $(e.currentTarget).find('input[name="ModuleID"]').val(ModuleID);
+    });
 } );
 </script>
 
@@ -34,45 +49,27 @@ $(document).ready(function() {
   <div class="content-wrapper">
     <div class="container-fluid">
       <!-- Breadcrumbs-->
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item">
-          <a href="<?php echo(site_url());?>/blank">Dashboard</a>
-        </li>
-        <li class="breadcrumb-item">
-          <a href="<?php echo(site_url());?>/Roles">Roles</a>
-        </li>
-        <li class="breadcrumb-item">
-          <a href="<?php echo(site_url());?>/Roles/detail/<?php echo($id);?>">R0001 - System Administrator</a>
-        </li>
-      </ol>
+      
       <!-- Example DataTables Card-->
 
       <div class="card mb-3">
+        <?php echo form_open_multipart();?>
         <div class="card-header">
-          <i class="fa fa-group"></i> R0001 - System Administrator
-          <button class="btn btn btn-secondary float-right"><i class="fa fa-pencil"></i></button>
-          <button class="btn btn btn-primary float-right"><i class="fa fa-save"></i></button>
+          <i class="fa fa-group"></i> <?php echo($getRole->RoleID);?> - <?php echo($getRole->RoleName);?>
+          <button type="submit" class="btn btn btn-primary float-right" name="btnSubmit"><i class="fa fa-save"></i></button>
         </div>
         <div class="card-body">
-          <form role="form">
               <div class="form-group">
                 <label>Role ID</label>
-                <input type="text" class="form-control" id="name" placeholder="Task Name" value="R0001">
+                <input type="text" class="form-control" name="RoleID" placeholder="Role ID" value="<?php echo($getRole->RoleID);?>" readonly>
               </div>
               <div class="form-group">
                 <label>Name</label>
-                <input type="text" class="form-control" id="name" placeholder="Task Name" value="System Administrator">
+                <input type="text" class="form-control" name="RoleName" placeholder="Role Name" value="<?php echo($getRole->RoleName);?>">
               </div>
-             
-              <div class="form-group">
-                <label>Description</label>
-                <textarea class="form-control" id="description" placeholder="Description">some role</textarea>
-              </div>
-            </form>
         </div>
-        <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
       </div>
-
+      <?php echo form_close()?>
 
       <div class="card mb-3">
         <div class="card-header">
@@ -97,32 +94,20 @@ $(document).ready(function() {
                 </tr>
               </tfoot>
               <tbody>
+                <?php foreach($getRoleModules as $items){?>
                 <tr>
-                  <td>M0001</td>
-                  <td>Modules</td>
+                  <td><?php echo($items->ModuleID);?></td>
+                  <td><?php echo($items->ModuleName);?></td>
                   <td>
-                    <button data-toggle="modal" data-target="#modal-delete-module" class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                    <button data-id="<?php echo($items->ModuleID);?>" data-toggle="modal" data-target="#modal-delete-module" class="btn btn-danger"><i class="fa fa-trash"></i></button>
                   </td>
                 </tr>
-                <tr>
-                  <td>M0002</td>
-                  <td>Roles</td>
-                  <td>
-                    <button data-toggle="modal" data-target="#modal-delete-module" class="btn btn-danger"><i class="fa fa-trash"></i></button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>M3001</td>
-                  <td>Profile</td>
-                  <td>
-                    <button data-toggle="modal" data-target="#modal-delete-module" class="btn btn-danger"><i class="fa fa-trash"></i></button>
-                  </td>
-                </tr>
+                <?php }?>
+               
               </tbody>
             </table>
           </div>
         </div>
-        <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
       </div>
       <!-- Example DataTables Card-->
 
@@ -137,20 +122,20 @@ $(document).ready(function() {
         <!-- Modal content-->
         <div class="modal-content">
           <div class="modal-header text-center">
-            <h4>Assign Staff</h4>
+            <h4>Add Module</h4>
           </div>
           <div class="modal-body">
-            <form role="form">
+            <?php echo form_open_multipart();?>
               <div class="form-group">
-                <label>Staff</label>
-                <select class="form-control" id="sel1">
-                  <option>M0001 - Modules</option>
-                  <option>M0002 - Roles</option>
-                  <option>M1003 - Courses</option>
+                <label>Module</label>
+                <select class="form-control" name="ModuleID">
+                  <?php foreach($getNotRoleModules as $items){?>
+                    <option value="<?php echo($items->ModuleID);?>"><?php echo($items->ModuleID);?> - <?php echo($items->ModuleName);?></option>
+                  <?php }?>
                 </select>
               </div>
-              <button type="submit" class="btn btn-primary btn-block"><i class="fa fa-save"></i> Save</button>
-            </form>
+              <button type="submit" name="btnSubmitModule" class="btn btn-primary btn-block"><i class="fa fa-save"></i> Save</button>
+            <?php echo form_close()?>
           </div>
           <div class="modal-footer">
             <button type="submit" class="btn btn-danger btn-default pull-left" data-dismiss="modal">
@@ -175,8 +160,11 @@ $(document).ready(function() {
             </button>
           </div>
           <div class="modal-footer">
-            <button class="btn btn-secondary" type="button" data-dismiss="modal"><i class="fa fa-remove"></i> Cancel</button>
-            <button class="btn btn-danger" type="button" data-dismiss="modal"><i class="fa fa-trash"></i> Delete</button>
+            <?php echo form_open_multipart();?>
+              <button class="btn btn-secondary" type="button" data-dismiss="modal"><i class="fa fa-remove"></i> Cancel</button>
+              <button class="btn btn-danger" type="submit" name="btnSubmitModuleDel"><i class="fa fa-trash"></i> Delete</button>
+              <input type="hidden" name="ModuleID" value="">
+            <?php echo form_close()?>
           </div>
         </div>
       </div>

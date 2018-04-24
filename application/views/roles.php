@@ -8,7 +8,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script>
 $(document).ready(function() {
 
-   $(".form_datetime").datetimepicker({format: 'yyyy-mm-dd hh:ii'});
+    <?php 
+    if(isset($_GET["warning"])){
+      if($_GET["warning"]==1){
+        ?>alert("Role ID already exists. Please use another Role ID");<?php
+      }else if($_GET["warning"]==2){
+        ?>alert("Role ID is being granted to a user. Please check if there are users with this Role in User Menu");<?php
+      }
+    }
+    ?>
+
+   $('#modal-delete-role').on('show.bs.modal', function (e) {
+        var RoleID = $(e.relatedTarget).data('id');
+        $(e.currentTarget).find('input[name="RoleID"]').val(RoleID);
+    });
+
 } );
 </script>
 
@@ -33,15 +47,6 @@ $(document).ready(function() {
 
   <div class="content-wrapper">
     <div class="container-fluid">
-      <!-- Breadcrumbs-->
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item">
-          <a href="<?php echo(site_url());?>/blank">Dashboard</a>
-        </li>
-        <li class="breadcrumb-item">
-          <a href="<?php echo(site_url());?>/Roles">Roles</a>
-        </li>
-      </ol>
       <!-- Example DataTables Card-->
 
       <div class="card mb-3">
@@ -67,30 +72,17 @@ $(document).ready(function() {
                 </tr>
               </tfoot>
               <tbody>
+                <?php foreach($getRoles as $items){?>
                 <tr>
-                  <td>R0001</td>
-                  <td>System Administrator</td>
+                  <td><?php echo($items->RoleID);?></td>
+                  <td><?php echo($items->RoleName);?></td>
                   <td>
-                    <a class="btn btn-primary" href="<?php echo(site_url());?>/Roles/detail/R0001"><i class="fa fa-fw fa-th-list"></i></a>
-                    <button data-toggle="modal" data-target="#modal-delete-role" class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                    <a class="btn btn-primary" href="<?php echo(site_url());?>/Roles/detail/<?php echo($items->RoleID);?>"><i class="fa fa-fw fa-th-list"></i></a>
+                    <button data-id="<?php echo($items->RoleID);?>" data-toggle="modal" data-target="#modal-delete-role" class="btn btn-danger"><i class="fa fa-trash"></i></button>
                   </td>
                 </tr>
-                <tr>
-                  <td>R0002</td>
-                  <td>Site Administrator</td>
-                  <td>
-                    <a class="btn btn-primary" href="<?php echo(site_url());?>/Roles/detail/R0002"><i class="fa fa-fw fa-th-list"></i></a>
-                    <button data-toggle="modal" data-target="#modal-delete-role" class="btn btn-danger"><i class="fa fa-trash"></i></button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>R0003</td>
-                  <td>Site Staff</td>
-                  <td>
-                    <a class="btn btn-primary" href="<?php echo(site_url());?>/Roles/detail/R0003"><i class="fa fa-fw fa-th-list"></i></a>
-                    <button data-toggle="modal" data-target="#modal-delete-role" class="btn btn-danger"><i class="fa fa-trash"></i></button>
-                  </td>
-                </tr>
+                <?php }?>
+                
               </tbody>
             </table>
           </div>
@@ -113,21 +105,17 @@ $(document).ready(function() {
             <h4>Add New Role</h4>
           </div>
           <div class="modal-body">
-            <form role="form">
+            <?php echo form_open_multipart();?>
              <div class="form-group">
                 <label>Role ID</label>
-                <input type="text" class="form-control" id="name" placeholder="Task Name">
+                <input type="text" class="form-control" name="RoleID" placeholder="Role ID">
               </div>
               <div class="form-group">
                 <label>Name</label>
-                <input type="text" class="form-control" id="name" placeholder="Task Name">
+                <input type="text" class="form-control" name="RoleName" placeholder="Role Name">
               </div>
-              <div class="form-group">
-                <label>Description</label>
-                <textarea class="form-control" id="description" placeholder="Description"></textarea>
-              </div>
-              <button type="submit" class="btn btn-primary btn-block"><i class="fa fa-save"></i> Save</button>
-            </form>
+              <button type="submit" name="btnSubmit" class="btn btn-primary btn-block"><i class="fa fa-save"></i> Save</button>
+            <?php echo form_close()?>
           </div>
           <div class="modal-footer">
             <button type="submit" class="btn btn-danger btn-default pull-left" data-dismiss="modal">
@@ -152,8 +140,12 @@ $(document).ready(function() {
             </button>
           </div>
           <div class="modal-footer">
-            <button class="btn btn-secondary" type="button" data-dismiss="modal"><i class="fa fa-remove"></i> Cancel</button>
-            <button class="btn btn-danger" type="button" data-dismiss="modal"><i class="fa fa-trash"></i> Delete</button>
+
+            <?php echo form_open_multipart();?>
+              <button class="btn btn-secondary" type="button" data-dismiss="modal"><i class="fa fa-remove"></i> Cancel</button>
+              <button class="btn btn-danger" type="submit" name="btnSubmitDel"><i class="fa fa-trash"></i> Delete</button>
+              <input type="hidden" name="RoleID" value="">
+            <?php echo form_close()?>
           </div>
         </div>
       </div>

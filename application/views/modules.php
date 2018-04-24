@@ -17,7 +17,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     ?>
 
     $('#modal-edit-Module').on('show.bs.modal', function (e) {
-
         var ModuleID = $(e.relatedTarget).data('id');
         $(e.currentTarget).find('input[name="ModuleID"]').val(ModuleID);
          $.post("<?php echo(site_url('Modules/getModule'));?>",
@@ -27,17 +26,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           function(data, status){
             $(e.currentTarget).find('input[name="ModuleName"]').val(data);
           });
-        
-
     });
 
-     $('#modal-delete-Module').on('show.bs.modal', function (e) {
-
+    $('#modal-delete-Module').on('show.bs.modal', function (e) {
         var ModuleID = $(e.relatedTarget).data('id');
         $(e.currentTarget).find('input[name="ModuleID"]').val(ModuleID);
-        
-        
-
     });
 });
 </script>
@@ -67,15 +60,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
   <div class="content-wrapper">
     <div class="container-fluid">
-      <!-- Breadcrumbs-->
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item">
-          <a href="<?php echo(site_url());?>/blank">Dashboard</a>
-        </li>
-        <li class="breadcrumb-item">
-          <a href="<?php echo(site_url());?>/Modules">Modules</a>
-        </li>
-      </ol>
       <!-- Example DataTables Card-->
 
       <div class="card mb-3">

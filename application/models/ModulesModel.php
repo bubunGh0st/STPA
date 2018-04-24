@@ -89,7 +89,6 @@ class ModulesModel extends CI_Model {
             $this->db->where('ModuleID', $ModuleID);
             $this->db->delete('ms_module');
 
-
             //insert into log_activity
             $this->db->set('RefID', $ModuleID);
             $this->db->set('Action', "DELETED MODULE");
