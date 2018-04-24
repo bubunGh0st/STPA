@@ -11,13 +11,16 @@ class SignIn extends CI_Controller {
 			if($isSignIn == 1){
         		$this->session->set_userdata('Email', $_POST["Email"]);
 				$getProfile = $this->SignInModel->getProfile($this->session->userdata['Email']);
-				
-				if($getProfile->RoleID=="SYS-ADMIN"){
-					redirect('approval');
-				}else if($getProfile->RoleID=="SITE-ADMIN"){
-					redirect('courses');
-				}else if($getProfile->RoleID=="STAFF"){
-					redirect('dashboard_staff');
+				if($getProfile->Status=="ACTIVE-RESET"){
+				redirect('profile/index/?warning=5');
+				}else{
+					if($getProfile->RoleID=="SYS-ADMIN"){
+						redirect('approval');
+					}else if($getProfile->RoleID=="SITE-ADMIN"){
+						redirect('courses');
+					}else if($getProfile->RoleID=="STAFF"){
+						redirect('dashboard_staff');
+					}
 				}
 			}
 			//if 2 then the email is invalid

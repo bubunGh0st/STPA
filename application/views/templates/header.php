@@ -1,5 +1,9 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
+
+$CI =& get_instance();
+$CI->load->model('ModulesModel');
+
 ?>
 
 <!DOCTYPE html>
@@ -53,44 +57,65 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     </button>
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Profile">
-          <a class="nav-link" href="<?php echo(site_url());?>/profile">
-            <i class="fa fa-fw fa-user-circle-o"></i>
-            <span class="nav-link-text"><?php echo($this->session->userdata['Title']." ".$this->session->userdata['FName']." ".$this->session->userdata['LName']);?></span>
-          </a>
-        </li>
+
+        <?php if($CI->ModulesModel->isGranted(array("M0001"))){ ?>
+          <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Profile">
+            <a class="nav-link" href="<?php echo(site_url());?>/profile">
+              <i class="fa fa-fw fa-user-circle-o"></i>
+              <span class="nav-link-text"><?php echo($this->session->userdata['Title']." ".$this->session->userdata['FName']." ".$this->session->userdata['LName']);?></span>
+            </a>
+          </li>
+        <?php }?>
+
+        <?php if($CI->ModulesModel->isGranted(array("M0002","M0003","M0004","M0005"))){?>
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="System Administration">
           <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#system-administration" data-parent="#exampleAccordion">
             <i class="fa fa-fw fa-gears"></i>
             <span class="nav-link-text">System Administration</span>
           </a>
           <ul class="sidenav-second-level collapse" id="system-administration">
-            <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Modules">
-              <a href="<?php echo(site_url());?>/modules">
-                <i class="fa fa-fw fa-sitemap"></i>
-                <span class="nav-link-text">Modules</span>
-              </a>
-            </li>
-            <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Roles">
-              <a href="<?php echo(site_url());?>/roles">
-                <i class="fa fa-fw fa-group"></i>
-                <span class="nav-link-text">Roles</span>
-              </a>
-            </li>
-            <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Users">
-              <a href="<?php echo(site_url());?>/users">
-                <i class="fa fa-fw fa-user"></i>
-                <span class="nav-link-text">Users</span>
-              </a>
-            </li>
-            <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Users">
-              <a href="<?php echo(site_url());?>/approval">
-                <i class="fa fa-fw fa-check"></i>
-                <span class="nav-link-text">Approval</span>
-              </a>
-            </li>
+
+            <?php if($CI->ModulesModel->isGranted(array("M0002"))){ ?>
+              <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Modules">
+                <a href="<?php echo(site_url());?>/modules">
+                  <i class="fa fa-fw fa-sitemap"></i>
+                  <span class="nav-link-text">Modules</span>
+                </a>
+              </li>
+            <?php }?>
+
+
+            <?php if($CI->ModulesModel->isGranted(array("M0003"))){ ?>
+              <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Roles">
+                <a href="<?php echo(site_url());?>/roles">
+                  <i class="fa fa-fw fa-group"></i>
+                  <span class="nav-link-text">Roles</span>
+                </a>
+              </li>
+            <?php }?>
+
+            <?php if($CI->ModulesModel->isGranted(array("M0004"))){ ?>
+              <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Users">
+                <a href="<?php echo(site_url());?>/users">
+                  <i class="fa fa-fw fa-user"></i>
+                  <span class="nav-link-text">Users</span>
+                </a>
+              </li>
+            <?php }?>
+
+            <?php if($CI->ModulesModel->isGranted(array("M0005"))){ ?>
+              <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Users">
+                <a href="<?php echo(site_url());?>/approval">
+                  <i class="fa fa-fw fa-check"></i>
+                  <span class="nav-link-text">Approval</span>
+                </a>
+              </li>
+            <?php }?>
           </ul>
         </li>
+        <?php }?>
+
+        <?php if($CI->ModulesModel->isGranted(array("M0006","M0007"))){?>
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Site Administration">
           <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#site-administration" data-parent="#exampleAccordion">
             <i class="fa fa-fw fa-gear"></i>
@@ -103,26 +128,36 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <span class="nav-link-text">Programmes</span>
               </a>
             </li>-->
-            <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Courses">
-              <a href="<?php echo(site_url());?>/courses">
-                <i class="fa fa-fw fa-flask"></i>
-                <span class="nav-link-text">Courses</span>
-              </a>
-            </li>
+            <?php if($CI->ModulesModel->isGranted(array("M0006"))){ ?>
+              <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Courses">
+                <a href="<?php echo(site_url());?>/courses">
+                  <i class="fa fa-fw fa-flask"></i>
+                  <span class="nav-link-text">Courses</span>
+                </a>
+              </li>
+            <?php }?>
+
+            <?php if($CI->ModulesModel->isGranted(array("M0007"))){ ?>
             <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Staffs">
               <a href="<?php echo(site_url());?>/staffs">
                 <i class="fa fa-fw fa-group"></i>
                 <span class="nav-link-text">Staffs</span>
               </a>
             </li>
+            <?php }?>
+
           </ul>
         </li>
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Staff Menu">
-          <a class="nav-link" href="<?php echo(site_url());?>/dashboard_staff">
-            <i class="fa fa-fw fa-th-large"></i>
-            <span class="nav-link-text">Staff Menu</span>
-          </a>
-        </li>
+        <?php }?>
+
+        <?php if($CI->ModulesModel->isGranted(array("M0008"))){ ?>
+          <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Staff Menu">
+            <a class="nav-link" href="<?php echo(site_url());?>/dashboard_staff">
+              <i class="fa fa-fw fa-th-large"></i>
+              <span class="nav-link-text">Staff Menu</span>
+            </a>
+          </li>
+        <?php }?>
       </ul>
       <ul class="navbar-nav sidenav-toggler">
         <li class="nav-item">

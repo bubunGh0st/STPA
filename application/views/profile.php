@@ -3,19 +3,25 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 
 <script>
-<?php 
-if($_GET["warning"]!=NULL){
-  if($_GET["warning"]==1){
-    ?>alert("First Name Cannot be emty");<?php
-  }else if($_GET["warning"]==2){
-    ?>alert("Succesfully change profile");<?php
-  }else if($_GET["warning"]==3){
-    ?>alert("Current Password does not match database");<?php
-  }else if($_GET["warning"]==4){
-    ?>alert("Confirm Password does not match New Password");<?php
+$(document).ready(function() {
+  
+  <?php 
+  if($_GET["warning"]!=NULL){
+    if($_GET["warning"]==1){
+      ?>alert("First Name Cannot be emty");<?php
+    }else if($_GET["warning"]==2){
+      ?>alert("Succesfully change profile");<?php
+    }else if($_GET["warning"]==3){
+      ?>alert("Current Password does not match database");<?php
+    }else if($_GET["warning"]==4){
+      ?>alert("Confirm Password does not match New Password");<?php
+    }else if($_GET["warning"]==5){
+      ?>$("#popChangePassword").click();<?php
+    }
   }
-}
-?>
+  ?>
+
+} );
 </script>
 
 
@@ -26,7 +32,7 @@ if($_GET["warning"]!=NULL){
       <div class="card mb-3">
         <div class="card-header">
           <i class="fa fa-user-o"></i> Profile
-          <button data-toggle="modal" data-target="#modal-change-password" class="btn btn btn-primary float-right"><i class="fa fa-refresh"></i> Change Password</button>
+          <button data-toggle="modal" id="popChangePassword" data-target="#modal-change-password" class="btn btn btn-primary float-right"><i class="fa fa-refresh"></i> Change Password</button>
         </div>
         <div class="card-body">
           <?php echo form_open_multipart();?>

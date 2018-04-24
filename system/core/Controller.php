@@ -82,6 +82,7 @@ class CI_Controller {
         $this->load->helper('url');
         $this->load->library('session');
         $this->load->model('SignInModel');
+        $this->load->model('ModulesModel');
         $this->load->helper('form');
         
 		if (isset($this->session->userdata['Email'])){

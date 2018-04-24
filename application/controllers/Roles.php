@@ -7,6 +7,7 @@ class Roles extends CI_Controller {
     {
         parent::__construct();
         if ($this->SignInModel->isSession() == FALSE) redirect('SignOut');
+        if (!$this->ModulesModel->isGranted(array("M0003"))) redirect('Blank');
 
         $this->load->model('RolesModel');
     }

@@ -115,4 +115,24 @@ class ModulesModel extends CI_Model {
             return $result;
         }
 
+        public function isGranted($ModuleID=array()){
+
+            $this->db->select("1");
+            $this->db->from("ms_role_module a");
+            $this->db->join("ms_user b","b.RoleID = a.RoleID");
+            $this->db->where_in('a.ModuleID', $ModuleID);
+            $this->db->where('b.Email', $this->session->userdata['Email']);
+            $query = $this->db->get();
+           // var_dump($this->db->last_query());
+
+            $result = $query->row();
+            if($result != NULL){
+                $result = True;
+            }
+            else{
+                $result = False;
+            }        
+            return $result;
+        }
+
 }

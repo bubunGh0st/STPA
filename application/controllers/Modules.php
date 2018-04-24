@@ -7,6 +7,7 @@ class Modules extends CI_Controller {
     {
         parent::__construct();
         if ($this->SignInModel->isSession() == FALSE) redirect('SignOut');
+        if (!$this->ModulesModel->isGranted(array("M0002"))) redirect('Blank');
         
         $this->load->model('ModulesModel');
     }

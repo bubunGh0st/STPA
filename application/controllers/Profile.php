@@ -7,7 +7,8 @@ class Profile extends CI_Controller {
     {
         parent::__construct();
         if ($this->SignInModel->isSession() == FALSE) redirect('SignOut');
-        
+        if (!$this->ModulesModel->isGranted(array("M0001"))) redirect('Blank');
+
         $this->load->model('ProfileModel');
         $this->load->model('ForgetPasswordModel');
     }
