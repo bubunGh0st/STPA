@@ -21,7 +21,6 @@ class ModulesModel extends CI_Model {
             $this->db->select("right(ModuleID,4) as LastNumber");
             $this->db->from("ms_module");
             $query = $this->db->get();
-            var_dump($this->db->last_query());
             $row = $query->row();
             if($row!=NULL){
                     $result="M".sprintf('%04d', ((int)$row->LastNumber+1));
@@ -90,9 +89,15 @@ class ModulesModel extends CI_Model {
 
             $this->db->select("ModuleID");
             $this->db->from("ms_role_module");
+            $this->db->where('ModuleID', $post['ModuleID']);
             $query = $this->db->get();
-            $result = $query->result();
-                    
+            $result = $query->row();
+            if($result != NULL){
+                $result = False;
+            }
+            else{
+                $result = True;
+            }        
             return $result;
         }
 
