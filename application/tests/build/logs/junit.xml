@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites>
-  <testsuite name="SignUpModelTest" file="C:\xampp\htdocs\STPA\application\tests\SignUpModelTest.php" tests="2" assertions="2" failures="0" errors="0" time="0.009102">
-    <testcase name="testisSignUp" class="SignUpModelTest" file="C:\xampp\htdocs\STPA\application\tests\SignUpModelTest.php" line="16" assertions="1" time="0.007100"/>
-    <testcase name="testisSignUpBlank" class="SignUpModelTest" file="C:\xampp\htdocs\STPA\application\tests\SignUpModelTest.php" line="26" assertions="1" time="0.002002"/>
-  <testsuite name="SignInModelTest" file="C:\xampp\htdocs\STPA\application\tests\SignInModelTest.php" tests="4" assertions="4" failures="0" errors="0" time="0.026592">
-    <testcase name="testIsSession" class="SignInModelTest" file="C:\xampp\htdocs\STPA\application\tests\SignInModelTest.php" line="16" assertions="1" time="0.007134"/>
-    <testcase name="testIsSignIn_successful" class="SignInModelTest" file="C:\xampp\htdocs\STPA\application\tests\SignInModelTest.php" line="21" assertions="1" time="0.013350"/>
-    <testcase name="testIsSignIn_InvalidEmail" class="SignInModelTest" file="C:\xampp\htdocs\STPA\application\tests\SignInModelTest.php" line="28" assertions="1" time="0.003015"/>
-    <testcase name="testIsSignIn_InvalidPass" class="SignInModelTest" file="C:\xampp\htdocs\STPA\application\tests\SignInModelTest.php" line="35" assertions="1" time="0.003094"/>
+  <testsuite name="SignInModelTest" file="C:\xampp\htdocs\STPA\application\tests\SignInModelTest.php" tests="5" assertions="5" failures="0" errors="0" time="0.021274">
+    <testcase name="testIsSession" class="SignInModelTest" file="C:\xampp\htdocs\STPA\application\tests\SignInModelTest.php" line="18" assertions="1" time="0.002889"/>
+    <testcase name="testIsSignIn_successful" class="SignInModelTest" file="C:\xampp\htdocs\STPA\application\tests\SignInModelTest.php" line="23" assertions="1" time="0.012151"/>
+    <testcase name="testIsSignIn_InvalidEmail" class="SignInModelTest" file="C:\xampp\htdocs\STPA\application\tests\SignInModelTest.php" line="30" assertions="1" time="0.002093"/>
+    <testcase name="testIsSignIn_InvalidPass" class="SignInModelTest" file="C:\xampp\htdocs\STPA\application\tests\SignInModelTest.php" line="37" assertions="1" time="0.002265"/>
+    <testcase name="testIsGranted" class="SignInModelTest" file="C:\xampp\htdocs\STPA\application\tests\SignInModelTest.php" line="44" assertions="1" time="0.001876"/>
   </testsuite>
 </testsuites>

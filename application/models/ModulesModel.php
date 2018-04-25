@@ -116,7 +116,6 @@ class ModulesModel extends CI_Model {
         }
 
         public function isGranted($ModuleID=array(),$Email=""){
-
             if(empty($Email)){
                 $Email=$this->session->userdata['Email'];
             }
@@ -124,7 +123,7 @@ class ModulesModel extends CI_Model {
             $this->db->from("ms_role_module a");
             $this->db->join("ms_user b","b.RoleID = a.RoleID");
             $this->db->where_in('a.ModuleID', $ModuleID);
-            $this->db->where('b.Email', $this->session->userdata['Email']);
+            $this->db->where('b.Email', $Email);
             $query = $this->db->get();
            // var_dump($this->db->last_query());
 

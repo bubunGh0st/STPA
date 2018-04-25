@@ -7,10 +7,12 @@ class SignInModelTest extends CIPHPUnitTestCase{
 		$CI->load->model('SignInModel');*/
 		// SignInModel is already loaded on Controller
 		$this->SignInModel = new SignInModel();
+		$this->ModulesModel = new ModulesModel();
     }
  
     protected function tearDown(){
         $this->SignInModel = NULL;
+        $this->ModulesModel = NULL;
     }
 
 	public function testIsSession(){
@@ -37,5 +39,12 @@ class SignInModelTest extends CIPHPUnitTestCase{
 		$post["Password"]="qRzZ6S";
 		$output = $this->SignInModel->isSignIn($post);
 		$this->assertEquals('3',$output);
+	}
+
+	public function testIsGranted(){
+		$moduleid = array("M0001");
+		$email = "scaventum@gmail.com";
+		$output = $this->ModulesModel->isGranted($moduleid,$email);
+		$this->assertTrue($output);
 	}
 }
