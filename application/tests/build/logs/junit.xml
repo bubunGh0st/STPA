@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites>
-  <testsuite name="RolesModelTest" file="C:\xampp\htdocs\STPA\application\tests\RolesModelTest.php" tests="1" assertions="1" failures="1" errors="0" time="0.009614">
-    <testcase name="testgetRole" class="RolesModelTest" file="C:\xampp\htdocs\STPA\application\tests\RolesModelTest.php" line="16" assertions="1" time="0.009614">
-      <failure type="PHPUnit_Framework_ExpectationFailedException">RolesModelTest::testgetRole
-Failed asserting that stdClass Object (
-    'RoleID' =&gt; 'STAFF'
-    'RoleName' =&gt; 'Staff'
-) is true.
+  <testsuite name="SignUpModelTest" file="C:\xampp\htdocs\STPA\application\tests\SignUpModelTest.php" tests="2" assertions="2" failures="1" errors="0" time="0.017110">
+    <testcase name="testisSignUp" class="SignUpModelTest" file="C:\xampp\htdocs\STPA\application\tests\SignUpModelTest.php" line="16" assertions="1" time="0.012564"/>
+    <testcase name="testisSignUpBlank" class="SignUpModelTest" file="C:\xampp\htdocs\STPA\application\tests\SignUpModelTest.php" line="24" assertions="1" time="0.004546">
+      <failure type="PHPUnit_Framework_ExpectationFailedException">SignUpModelTest::testisSignUpBlank
+Failed asserting that true is false.
 
-C:\xampp\htdocs\STPA\application\tests\RolesModelTest.php:19
+C:\xampp\htdocs\STPA\application\tests\SignUpModelTest.php:27
 </failure>
     </testcase>
   </testsuite>
