@@ -115,8 +115,11 @@ class ModulesModel extends CI_Model {
             return $result;
         }
 
-        public function isGranted($ModuleID=array()){
+        public function isGranted($ModuleID=array(),$Email=""){
 
+            if(empty($Email)){
+                $Email=$this->session->userdata['Email'];
+            }
             $this->db->select("1");
             $this->db->from("ms_role_module a");
             $this->db->join("ms_user b","b.RoleID = a.RoleID");

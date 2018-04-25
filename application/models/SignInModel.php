@@ -4,11 +4,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class SignInModel extends CI_Model {
 
         //To check if session is active in every page
-        public function isSession(){
+        public function isSession($Email=""){
+            if(empty($Email)){
+                $Email=$this->session->userdata['Email'];
+            }
+            
             $result=false;
             if ($this->session->userdata['Email'] == true){
                 $this->db->where_in('Status', array('ACTIVE','ACTIVE-RESET'));
-                $this->db->where("Email",$this->session->userdata['Email']);
+                $this->db->where("Email",$Email);
                 $this->db->select("1");
                 $this->db->from("ms_user");
                 $query = $this->db->get();
