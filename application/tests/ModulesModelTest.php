@@ -30,16 +30,15 @@ class ModulesModelTest extends TestCase{
      public function testisGranted(){
 
             $moduleid= "M0001";
-            $data['Email']= "scaventum@gmail.com";
             $output = $this->ModulesModel->isGranted($moduleid);
-			$this->assertNotNull($output);
+			$this->assertFalse($output);
 	}
 	
 	public function testisGrantedAccess(){
 
             $moduleid= array("M0001");
             $email= "scaventum@gmail.com";
-            $output = $this->ModulesModel->isGranted($moduleid);
+            $output = $this->ModulesModel->isGranted($moduleid,$email);
 			$this->assertTrue($output);
 	}
 	

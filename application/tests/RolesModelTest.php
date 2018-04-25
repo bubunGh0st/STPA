@@ -29,8 +29,34 @@ class RolesModelTest extends TestCase{
         }
 
 
-	
+     //Testing to check "To return all modules dont belong to role"
+    public function testgetNotRoleModules()
+    {
+    		$RoleID = "SITE-ADMIN";
+			$ModuleID= "N0001";
+			$output = $this->RolesModel->getRoleModules($RoleID);
+			$this->assertNotEmpty($output);
 
+    }
+    
+    //check if role id already exists
+    public function testisInsertRole()
+    {
+    	$RoleID = "SYS-ADMIN";
+    	$output = $this->RolesModel->isInsertRole($RoleID);
+    	$this->assertFalse($output);
+    }
+
+	//check if role id used by a user
+	public function testisDeleteRole()
+	{
+		$RoleID = "STAFF";
+		$output = $this->RolesModel->isDeleteRole($RoleID);
+		$this->assertFalse($output);
+
+
+	}
+	
 	
 
 }

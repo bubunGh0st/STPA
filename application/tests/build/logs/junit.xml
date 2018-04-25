@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites>
-  <testsuite name="RolesModelTest" file="C:\xampp\htdocs\STPA\application\tests\RolesModelTest.php" tests="2" assertions="2" failures="0" errors="0" time="0.114878">
-    <testcase name="testgetRole" class="RolesModelTest" file="C:\xampp\htdocs\STPA\application\tests\RolesModelTest.php" line="16" assertions="1" time="0.112732"/>
-    <testcase name="testgetRoleModules" class="RolesModelTest" file="C:\xampp\htdocs\STPA\application\tests\RolesModelTest.php" line="23" assertions="1" time="0.002146"/>
+  <testsuite name="ModulesModelTest" file="C:\xampp\htdocs\STPA\application\tests\ModulesModelTest.php" tests="4" assertions="4" failures="0" errors="0" time="0.028608">
+    <testcase name="testautogenerateID" class="ModulesModelTest" file="C:\xampp\htdocs\STPA\application\tests\ModulesModelTest.php" line="15" assertions="1" time="0.021175"/>
+    <testcase name="testisDeleteModule" class="ModulesModelTest" file="C:\xampp\htdocs\STPA\application\tests\ModulesModelTest.php" line="22" assertions="1" time="0.002591"/>
+    <testcase name="testisGranted" class="ModulesModelTest" file="C:\xampp\htdocs\STPA\application\tests\ModulesModelTest.php" line="30" assertions="1" time="0.002253"/>
+    <testcase name="testisGrantedAccess" class="ModulesModelTest" file="C:\xampp\htdocs\STPA\application\tests\ModulesModelTest.php" line="37" assertions="1" time="0.002589"/>
   </testsuite>
 </testsuites>
