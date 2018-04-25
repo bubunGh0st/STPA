@@ -40,11 +40,4 @@ class SignInModelTest extends CIPHPUnitTestCase{
 		$output = $this->SignInModel->isSignIn($post);
 		$this->assertEquals('3',$output);
 	}
-
-	public function testIsGranted(){
-		$moduleid = array("M0001");
-		$email = "scaventum@gmail.com";
-		$output = $this->ModulesModel->isGranted($moduleid,$email);
-		$this->assertTrue($output);
-	}
 }
