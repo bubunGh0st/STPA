@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites>
+<<<<<<< HEAD
   <testsuite name="SignUpModelTest" file="C:\xampp\htdocs\STPA\application\tests\SignUpModelTest.php" tests="2" assertions="2" failures="0" errors="0" time="0.008280">
     <testcase name="testisSignUp" class="SignUpModelTest" file="C:\xampp\htdocs\STPA\application\tests\SignUpModelTest.php" line="16" assertions="1" time="0.007463"/>
     <testcase name="testisSignUpBlank" class="SignUpModelTest" file="C:\xampp\htdocs\STPA\application\tests\SignUpModelTest.php" line="24" assertions="1" time="0.000817"/>
+=======
+  <testsuite name="SignUpModelTest" file="C:\xampp\htdocs\STPA\application\tests\SignUpModelTest.php" tests="2" assertions="2" failures="0" errors="0" time="0.006021">
+    <testcase name="testisSignUp" class="SignUpModelTest" file="C:\xampp\htdocs\STPA\application\tests\SignUpModelTest.php" line="16" assertions="1" time="0.005523"/>
+    <testcase name="testisSignUpBlank" class="SignUpModelTest" file="C:\xampp\htdocs\STPA\application\tests\SignUpModelTest.php" line="24" assertions="1" time="0.000498"/>
+>>>>>>> 1d76af580be0e4b59d0310f062e5e4f398551638
   </testsuite>
 </testsuites>
