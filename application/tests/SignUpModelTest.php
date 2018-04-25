@@ -22,7 +22,7 @@ class SignUpModelTest extends TestCase{
 	}
 
 	public function testisSignUpBlank(){
-		$post["Email"]=" ";
+		$post["Email"]="";
 		$output = $this->SignUpModel->isSignUp($post);
 		$this->assertFalse($output);
 

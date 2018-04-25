@@ -7,12 +7,10 @@ class SignInModelTest extends CIPHPUnitTestCase{
 		$CI->load->model('SignInModel');*/
 		// SignInModel is already loaded on Controller
 		$this->SignInModel = new SignInModel();
-		$this->ModulesModel = new ModulesModel();
     }
  
     protected function tearDown(){
         $this->SignInModel = NULL;
-        $this->ModulesModel = NULL;
     }
 
 	public function testIsSession(){
