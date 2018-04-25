@@ -1,5 +1,8 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
+
+$CI =& get_instance();
+$CI->load->model('ApprovalModel');
 ?>
 
 <script type="text/javascript" src="<?php echo(base_url());?>js/bootstrap-datetimepicker.js" charset="UTF-8"></script>
@@ -8,7 +11,28 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script>
 $(document).ready(function() {
 
-   $(".form_datetime").datetimepicker({format: 'yyyy-mm-dd hh:ii'});
+    <?php 
+    if(isset($_GET["warning"])){
+      if($_GET["warning"]==1){
+        ?>alert("Successfully approve Site Admin registration, Invitation E-mail is sent.");<?php
+      }else if($_GET["warning"]==2){
+        ?>alert("Rejected Site Admin registration.");<?php
+      }
+    }
+    ?>
+     $('#dataTable').DataTable( {
+        "order": [[ 3, "desc" ]]
+    } );
+     
+
+    $('#modal-reject-user').on('show.bs.modal', function (e) {
+        var Email = $(e.relatedTarget).data('id');
+        $(e.currentTarget).find('input[name="Email"]').val(Email);
+    });
+    $('#modal-approve-user').on('show.bs.modal', function (e) {
+        var Email = $(e.relatedTarget).data('id');
+        $(e.currentTarget).find('input[name="Email"]').val(Email);
+    });
 } );
 </script>
 
@@ -33,15 +57,7 @@ $(document).ready(function() {
 
   <div class="content-wrapper">
     <div class="container-fluid">
-      <!-- Breadcrumbs-->
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item">
-          <a href="<?php echo(site_url());?>/blank">Dashboard</a>
-        </li>
-        <li class="breadcrumb-item">
-          <a href="<?php echo(site_url());?>/approval">Site AdminApproval</a>
-        </li>
-      </ol>
+      
       <!-- Example DataTables Card-->
 
       <div class="card mb-3">
@@ -70,17 +86,31 @@ $(document).ready(function() {
                 </tr>
               </tfoot>
               <tbody>
-                <tr>
-                  <td>Mr. Bubun Mallick</td>
-                  <td>bubububun@weltec.ac.nz</td>
-                  <td>WelTec Petone<br>Weltec Wellington<br></td>
-                  <td>Waiting</td>
-                  <td>
-                    <button data-toggle="modal" data-target="#modal-approve-user" class="btn btn btn-primary"><i class="fa fa-check"></i></button>
-                    <button data-toggle="modal" data-target="#modal-reject-user" class="btn btn-danger"><i class="fa fa-ban"></i></button>
-                  </td>
-                </tr>
-                
+                <?php 
+                foreach($getApprovalList as $items){?>
+                  <tr 
+                  <?php if($items->Status=="ACTIVE-RESET")echo("style='background:lightgreen';");?>
+                  <?php if($items->Status=="REJECTED")echo("style='background:pink';");?>
+                  >
+                    <td><?php echo($items->Title);?> <?php echo($items->FName);?> <?php echo($items->LName);?></td>
+                    <td><?php echo($items->Email);?></td>
+                    <td>
+                      <?php 
+                      $getuserSite=$CI->ApprovalModel->getUserSite($items->Email);
+                      foreach ($getuserSite as $itemsSite) {
+                        echo($itemsSite->SiteName."<br>");
+                      }
+                      ?>
+                    </td>
+                    <td><?php echo($items->Status);?></td>
+                    <td>
+                      <?php if($items->Status=="WAIT-APPROVAL"){?>
+                        <button data-id="<?php echo($items->Email);?>" data-toggle="modal" data-target="#modal-approve-user" class="btn btn btn-primary"><i class="fa fa-check"></i></button>
+                        <button data-id="<?php echo($items->Email);?>" data-toggle="modal" data-target="#modal-reject-user" class="btn btn-danger"><i class="fa fa-ban"></i></button>
+                      <?php }?>
+                    </td>
+                  </tr>
+                <?php }?>
               </tbody>
             </table>
           </div>
@@ -104,8 +134,11 @@ $(document).ready(function() {
             </button>
           </div>
           <div class="modal-footer">
+            <?php echo form_open_multipart();?>
             <button class="btn btn-secondary" type="button" data-dismiss="modal"><i class="fa fa-remove"></i> Cancel</button>
-            <button class="btn btn-primary" type="button" data-dismiss="modal"><i class="fa fa-check"></i> Approve</button>
+            <button class="btn btn-primary" type="submit" name="btnSubmitApprove"><i class="fa fa-check"></i> Approve</button>
+            <input type="hidden" name="Email" value="">
+            <?php echo form_close()?>
           </div>
         </div>
       </div>
@@ -122,8 +155,11 @@ $(document).ready(function() {
             </button>
           </div>
           <div class="modal-footer">
+            <?php echo form_open_multipart();?>
             <button class="btn btn-secondary" type="button" data-dismiss="modal"><i class="fa fa-remove"></i> Cancel</button>
-            <button class="btn btn-danger" type="button" data-dismiss="modal"><i class="fa fa-ban"></i> Reject</button>
+            <button class="btn btn-danger" type="submit" name="btnSubmitReject"><i class="fa fa-ban"></i> Reject</button>
+            <input type="hidden" name="Email" value="">
+            <?php echo form_close()?>
           </div>
         </div>
       </div>
