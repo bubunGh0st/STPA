@@ -14,7 +14,7 @@ class SignUpModel extends CI_Model {
                 return $result;
         }
 
-        //To check if the email is valid and at least 1 site is checked
+        //To check if the email is valid
         public function isSignUp($post){
                 $result=true;
                 if (!empty($post["Email"])){
@@ -29,9 +29,10 @@ class SignUpModel extends CI_Model {
                 }else{
                         $result=false;
                 }
-                if(!isset($post["SiteID"])){
+                //if at least one site is needed
+                /*if(!isset($post["SiteID"])){
                         $result=false;    
-                }
+                }*/
                 return $result;
         }
 
@@ -50,10 +51,12 @@ class SignUpModel extends CI_Model {
                 $this->db->insert('ms_user');
 
                 //insert into ms_user_site
-                for($i=0;$i<=count($post["SiteID"])-1;$i++){
-                        $this->db->set('Email', $post["Email"]);
-                        $this->db->set('SiteID', $post["SiteID"][$i]);
-                        $this->db->insert('ms_user_site'); 
+                if(isset($post["SiteID"])){
+                        for($i=0;$i<=count($post["SiteID"])-1;$i++){
+                                $this->db->set('Email', $post["Email"]);
+                                $this->db->set('SiteID', $post["SiteID"][$i]);
+                                $this->db->insert('ms_user_site'); 
+                        }
                 }
 
                 //insert into log_activity

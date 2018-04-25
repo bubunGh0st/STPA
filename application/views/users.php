@@ -8,7 +8,48 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script>
 $(document).ready(function() {
 
-   $(".form_datetime").datetimepicker({format: 'yyyy-mm-dd hh:ii'});
+    <?php 
+    if(isset($_GET["warning"])){
+      if($_GET["warning"]==1){
+        ?>alert("Email has been used. Please use different email.");<?php
+      }else if($_GET["warning"]==2){
+        ?>alert("Invitation email has been sent.");<?php
+      }else if($_GET["warning"]==3){
+        ?>alert("Successfully updated user.");<?php
+      }else if($_GET["warning"]==4){
+        ?>alert("Cannot delete user, this user already has record.");<?php
+      }
+    }
+    ?>
+
+    $('#modal-edit-user').on('show.bs.modal', function (e) {
+        var Email = $(e.relatedTarget).data('id');
+        $(e.currentTarget).find('input[name="Email"]').val(Email);
+         $.post("<?php echo(site_url('Users/getUser'));?>",
+          {
+              Email: Email,
+              dataType: 'json'
+          },
+          function(data){
+            $(e.currentTarget).find('input[name="SiteID[]"]').prop("checked",false);
+            $(e.currentTarget).find('#headerEmail').val(data.Email);
+            $(e.currentTarget).find('input[name="Email"]').val(data.Email);
+            $(e.currentTarget).find('input[name="FName"]').val(data.FName);
+            $(e.currentTarget).find('input[name="LName"]').val(data.LName);
+            $(e.currentTarget).find('input[name="Title"]').val(data.Title);
+            $(e.currentTarget).find('select[name="RoleID"]').val(data.RoleID);
+            //console.log(data.SiteID.length);
+            var i;
+            for (i = 0; i < data.SiteID.length; i++) { 
+                $(e.currentTarget).find('input[name="SiteID[]"][value='+data.SiteID[i]+']').prop("checked",true);
+            }
+          });
+    });
+
+    $('#modal-delete-user').on('show.bs.modal', function (e) {
+        var Email = $(e.relatedTarget).data('id');
+        $(e.currentTarget).find('input[name="Email"]').val(Email);
+    });
 } );
 </script>
 
@@ -33,15 +74,6 @@ $(document).ready(function() {
 
   <div class="content-wrapper">
     <div class="container-fluid">
-      <!-- Breadcrumbs-->
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item">
-          <a href="<?php echo(site_url());?>/blank">Dashboard</a>
-        </li>
-        <li class="breadcrumb-item">
-          <a href="<?php echo(site_url());?>/Users">Users</a>
-        </li>
-      </ol>
       <!-- Example DataTables Card-->
 
       <div class="card mb-3">
@@ -54,7 +86,7 @@ $(document).ready(function() {
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
               <thead>
                 <tr>
-                  <th>ID</th>
+                  <th>E-mail</th>
                   <th>Name</th>
                   <th>Role</th>
                   <th>Actions</th>
@@ -62,40 +94,25 @@ $(document).ready(function() {
               </thead>
               <tfoot>
                 <tr>
-                  <th>ID</th>
+                  <th>E-mail</th>
                   <th>Name</th>
                   <th>Role</th>
                   <th>Actions</th>
                 </tr>
               </tfoot>
               <tbody>
-                <tr>
-                  <td>U00001</td>
-                  <td>The Sys Admin</td>
-                  <td>System Administrator</td>
-                  <td>
-                    <button data-toggle="modal" data-target="#modal-edit-user" class="btn btn btn-primary"><i class="fa fa-pencil"></i></button>
-                    <button data-toggle="modal" data-target="#modal-delete-User" class="btn btn-danger"><i class="fa fa-trash"></i></button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>U00002</td>
-                  <td>Dr. Terry Jeon</td>
-                  <td>Staff</td>
-                  <td>
-                    <button data-toggle="modal" data-target="#modal-edit-user" class="btn btn btn-primary"><i class="fa fa-pencil"></i></button>
-                    <button data-toggle="modal" data-target="#modal-delete-User" class="btn btn-danger"><i class="fa fa-trash"></i></button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>U00003</td>
-                  <td>Dr. Steve Mckinlay</td>
-                  <td>Staff</td>
-                  <td>
-                    <button data-toggle="modal" data-target="#modal-edit-user" class="btn btn btn-primary"><i class="fa fa-pencil"></i></button>
-                    <button data-toggle="modal" data-target="#modal-delete-User" class="btn btn-danger"><i class="fa fa-trash"></i></button>
-                  </td>
-                </tr>
+                <?php foreach($getUsers as $items){?>
+                  <tr>
+                    <td><?php echo($items->Email);?></td>
+                    <td><?php echo($items->Title." ".$items->FName." ".$items->LName);?></td>
+                    <td><?php echo($items->RoleID);?></td>
+                    <td>
+                      <button data-id="<?php echo($items->Email);?>" data-toggle="modal" data-target="#modal-edit-user" class="btn btn btn-primary"><i class="fa fa-pencil"></i></button>
+                      <button data-id="<?php echo($items->Email);?>" data-toggle="modal" data-target="#modal-delete-user" class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                    </td>
+                  </tr>
+                <?php }?>
+              
               </tbody>
             </table>
           </div>
@@ -118,44 +135,43 @@ $(document).ready(function() {
             <h4>Add New User</h4>
           </div>
           <div class="modal-body">
-            <form User="form">
+            <?php echo form_open_multipart();?>
               <div class="form-group">
                 <label>E-mail</label>
-                <input type="email" class="form-control" id="name" placeholder="E-mail">
+                <input type="email" class="form-control" name="Email" placeholder="E-mail" required="">
               </div>
               <div class="form-group">
                 <label>First Name</label>
-                <input type="text" class="form-control" id="name" placeholder="First Name">
+                <input type="text" class="form-control" name="FName" placeholder="First Name" required="">
               </div>
               <div class="form-group">
                 <label>Last Name</label>
-                <input type="text" class="form-control" id="name" placeholder="Last Name">
+                <input type="text" class="form-control" name="LName" placeholder="Last Name" required="">
               </div>
               <div class="form-group">
                 <label>Title</label>
-                <input type="text" class="form-control" id="name" placeholder="Title">
+                <input type="text" class="form-control" name="Title" placeholder="Title" required="">
               </div>
               <div class="form-group">
                 <label>Role</label>
-                <select class="form-control" id="sel1">
-                  <option>R0001 - System Administrator</option>
-                  <option>R0002 - Site Administrator</option>
-                  <option>R1003 - Staff</option>
+                <select class="form-control" name="RoleID">
+                  <?php foreach($getRoles as $items){?>
+                    <option value="<?php echo($items->RoleID);?>"><?php echo($items->RoleID);?></option>
+                  <?php }?>
                 </select>
               </div>
               <div class="form-group">
                 <label>Site</label>
                 <div class="form-check checklist" >
-                  <label class="form-check-label"><input class="form-check-input" type="checkbox"> WelTec Petone</label><br>
-                  <label class="form-check-label"><input class="form-check-input" type="checkbox"> WelTec Wellington</label><br>
-                  <label class="form-check-label"><input class="form-check-input" type="checkbox"> Whitirea Porirua</label><br>
-                  <label class="form-check-label"><input class="form-check-input" type="checkbox"> Whitirea Paraparaumu</label><br>
-                  <label class="form-check-label"><input class="form-check-input" type="checkbox"> Victoria University Kelburn</label><br>
-                  <label class="form-check-label"><input class="form-check-input" type="checkbox"> Victoria University Vivian St</label>
+                <?php foreach($getSites as $items){?>
+                  <label class="form-check-label"><input name="SiteID[]" class="form-check-input" type="checkbox" value="<?php echo($items->SiteID);?>">
+                    <?php echo($items->SiteName);?>
+                  </label><br>
+                <?php }?>
                 </div>
               </div>
-              <button type="submit" class="btn btn-primary btn-block"><i class="fa fa-save"></i> Save</button>
-            </form>
+              <button type="submit" name="btnSubmitAdd" class="btn btn-primary btn-block"><i class="fa fa-save"></i> Save</button>
+            <?php echo form_close()?>
           </div>
           <div class="modal-footer">
             <button type="submit" class="btn btn-danger btn-default pull-left" data-dismiss="modal">
@@ -174,47 +190,46 @@ $(document).ready(function() {
         <!-- Modal content-->
         <div class="modal-content">
           <div class="modal-header text-center">
-            <h4>Edit User U00003 - Dr. Steve McKinlay</h4>
+            <h4>Edit <div id="headerEmail"></div></h4>
           </div>
           <div class="modal-body">
-            <form User="form">
-              <div class="form-group">
+            <?php echo form_open_multipart();?>
+             <div class="form-group">
                 <label>E-mail</label>
-                <input type="email" class="form-control" id="name" placeholder="E-mail" readonly="" value="steve@stpa.com">
+                <input type="email" class="form-control" name="Email" placeholder="E-mail" required="" readonly="">
               </div>
               <div class="form-group">
                 <label>First Name</label>
-                <input type="text" class="form-control" id="name" placeholder="First Name" value="Steve">
+                <input type="text" class="form-control" name="FName" placeholder="First Name" required="">
               </div>
               <div class="form-group">
                 <label>Last Name</label>
-                <input type="text" class="form-control" id="name" placeholder="Last Name" value="McKinlay">
+                <input type="text" class="form-control" name="LName" placeholder="Last Name" required="">
               </div>
               <div class="form-group">
                 <label>Title</label>
-                <input type="text" class="form-control" id="name" placeholder="Title" value="Dr.">
+                <input type="text" class="form-control" name="Title" placeholder="Title" required="">
               </div>
               <div class="form-group">
                 <label>Role</label>
-                <select class="form-control" id="sel1">
-                  <option>R0001 - System Administrator</option>
-                  <option>R0002 - Site Administrator</option>
-                  <option selected="">R1003 - Staff</option>
+                <select class="form-control" name="RoleID">
+                  <?php foreach($getRoles as $items){?>
+                    <option value="<?php echo($items->RoleID);?>"><?php echo($items->RoleID);?></option>
+                  <?php }?>
                 </select>
               </div>
               <div class="form-group">
                 <label>Site</label>
                 <div class="form-check checklist" >
-                  <label class="form-check-label"><input class="form-check-input" type="checkbox" checked=""> WelTec Petone</label><br>
-                  <label class="form-check-label"><input class="form-check-input" type="checkbox"> WelTec Wellington</label><br>
-                  <label class="form-check-label"><input class="form-check-input" type="checkbox"> Whitirea Porirua</label><br>
-                  <label class="form-check-label"><input class="form-check-input" type="checkbox"> Whitirea Paraparaumu</label><br>
-                  <label class="form-check-label"><input class="form-check-input" type="checkbox"> Victoria University Kelburn</label><br>
-                  <label class="form-check-label"><input class="form-check-input" type="checkbox"> Victoria University Vivian St</label>
+                <?php foreach($getSites as $items){?>
+                  <label class="form-check-label"><input name="SiteID[]" class="form-check-input" type="checkbox" value="<?php echo($items->SiteID);?>">
+                    <?php echo($items->SiteName);?>
+                  </label><br>
+                <?php }?>
                 </div>
               </div>
-              <button type="submit" class="btn btn-primary btn-block"><i class="fa fa-save"></i> Save</button>
-            </form>
+              <button type="submit" name="btnSubmitEdit" class="btn btn-primary btn-block"><i class="fa fa-save"></i> Save</button>
+            <?php echo form_close()?>
           </div>
           <div class="modal-footer">
             <button type="submit" class="btn btn-danger btn-default pull-left" data-dismiss="modal">
@@ -229,7 +244,7 @@ $(document).ready(function() {
     
 
     <!-- Modal -->
-    <div class="modal fade" id="modal-delete-User" User="dialog">
+    <div class="modal fade" id="modal-delete-user" User="dialog">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
@@ -239,8 +254,11 @@ $(document).ready(function() {
             </button>
           </div>
           <div class="modal-footer">
-            <button class="btn btn-secondary" type="button" data-dismiss="modal"><i class="fa fa-remove"></i> Cancel</button>
-            <button class="btn btn-danger" type="button" data-dismiss="modal"><i class="fa fa-trash"></i> Delete</button>
+            <?php echo form_open_multipart();?>
+              <button class="btn btn-secondary" type="button" data-dismiss="modal"><i class="fa fa-remove"></i> Cancel</button>
+              <button class="btn btn-danger" type="submit" name="btnSubmitDel"><i class="fa fa-trash"></i> Delete</button>
+              <input type="hidden" name="Email" value="">
+            <?php echo form_close()?>
           </div>
         </div>
       </div>

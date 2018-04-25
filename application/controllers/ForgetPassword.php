@@ -18,21 +18,11 @@ class ForgetPassword extends CI_Controller {
 
 				$this->ForgetPasswordModel->updatePassword($_POST["Email"],$newPassword);
 
-				require_once 'vendor/autoload.php';
-				// Create the Transport
-				$transport = (new Swift_SmtpTransport('smtp.gmail.com', 465,'ssl'))
-				  ->setUsername('stp.weltec@gmail.com')
-				  ->setPassword('chinki1990')
-				;
-				// Create the Mailer using your created Transport
-				$mailer = new Swift_Mailer($transport);
-				// Create a message
-				$message = (new Swift_Message('STPA Password Reset'))
-				  ->setFrom(['stp.weltec@noreply.com' => 'STPA'])
-				  ->setTo([$_POST["Email"]])
-				  ->setBody("Your new password is ".$newPassword.". Once you signed in, you will be redirected to change your password.");
-				// Send the message
-				$result = $mailer->send($message);
+				$subject = "STPA Reset Password";
+				$messagex = "Your new password is ".$newPassword.". Once you signed in, you will be redirected to change your password.";
+				$this->ForgetPasswordModel->sendEmail($_POST["Email"],$messagex,$subject);
+
+				
 				redirect('ForgetPassword/index/?warning=2');
 			}
 		}
