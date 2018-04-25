@@ -16,9 +16,18 @@ class RolesModelTest extends TestCase{
 	public function testgetRole(){
 			$RoleID = "STAFF";
 			$output = $this->RolesModel->getRole($RoleID);
-			$this->assertTrue($output);
+			$this->assertNotNull($output);
 
         }
+
+    public function testgetRoleModules(){
+			$RoleID = "SITE-ADMIN";
+			$ModuleID= "M0001";
+			$output = $this->RolesModel->getRoleModules($RoleID);
+			$this->assertNotNull($output);
+
+        }
+
 
 	
 
