@@ -18,15 +18,15 @@ class RolesModelTest extends TestCase{
 			$output = $this->RolesModel->getRole($RoleID);
 			$this->assertNotNull($output);
 
-        }
+    }
 
     public function testgetRoleModules(){
 			$RoleID = "SITE-ADMIN";
 			$ModuleID= "M0001";
 			$output = $this->RolesModel->getRoleModules($RoleID);
-			$this->assertNotNull($output);
+			$this->assertNotEmpty($output);
 
-        }
+    }
 
 
      //Testing to check "To return all modules dont belong to role"

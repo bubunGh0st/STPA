@@ -26,14 +26,14 @@ class ModulesModelTest extends TestCase{
 			$this->assertFalse($output);
 	}
 
-            
+      //not granted     
      public function testisGranted(){
 
             $moduleid= "M0001";
             $output = $this->ModulesModel->isGranted($moduleid);
 			$this->assertFalse($output);
 	}
-	
+	// granted
 	public function testisGrantedAccess(){
 
             $moduleid= array("M0001");
