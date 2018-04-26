@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites>
-  <testsuite name="ModulesModelTest" file="C:\xampp\htdocs\STPA\application\tests\ModulesModelTest.php" tests="4" assertions="4" failures="0" errors="0" time="0.028608">
-    <testcase name="testautogenerateID" class="ModulesModelTest" file="C:\xampp\htdocs\STPA\application\tests\ModulesModelTest.php" line="15" assertions="1" time="0.021175"/>
-    <testcase name="testisDeleteModule" class="ModulesModelTest" file="C:\xampp\htdocs\STPA\application\tests\ModulesModelTest.php" line="22" assertions="1" time="0.002591"/>
-    <testcase name="testisGranted" class="ModulesModelTest" file="C:\xampp\htdocs\STPA\application\tests\ModulesModelTest.php" line="30" assertions="1" time="0.002253"/>
-    <testcase name="testisGrantedAccess" class="ModulesModelTest" file="C:\xampp\htdocs\STPA\application\tests\ModulesModelTest.php" line="37" assertions="1" time="0.002589"/>
+  <testsuite name="UsersModelTest" file="C:\xampp\htdocs\STPA\application\tests\UsersModelTest.php" tests="4" assertions="4" failures="0" errors="0" time="0.037292">
+    <testcase name="testgetUsers" class="UsersModelTest" file="C:\xampp\htdocs\STPA\application\tests\UsersModelTest.php" line="19" assertions="1" time="0.006877"/>
+    <testcase name="testgetUser" class="UsersModelTest" file="C:\xampp\htdocs\STPA\application\tests\UsersModelTest.php" line="27" assertions="1" time="0.002545"/>
+    <testcase name="testgetUserSite" class="UsersModelTest" file="C:\xampp\htdocs\STPA\application\tests\UsersModelTest.php" line="36" assertions="1" time="0.001861"/>
+    <testcase name="testisDeleteUser" class="UsersModelTest" file="C:\xampp\htdocs\STPA\application\tests\UsersModelTest.php" line="46" assertions="1" time="0.026009"/>
   </testsuite>
 </testsuites>
