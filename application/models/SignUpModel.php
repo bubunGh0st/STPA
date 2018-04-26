@@ -23,6 +23,7 @@ class SignUpModel extends CI_Model {
                         $this->db->from("ms_user");
                         $query = $this->db->get();
                         $row = $query->row();
+                        //var_dump($this->db->last_query());die();
                         if($row!=NULL){
                                 $result=false; 
                         }     

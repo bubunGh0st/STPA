@@ -8,7 +8,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script>
 $(document).ready(function() {
 
-   $(".form_datetime").datetimepicker({format: 'yyyy-mm-dd hh:ii'});
+   <?php 
+    if(isset($_GET["warning"])){
+      if($_GET["warning"]==1){
+        ?>alert("Successfully updated course.");<?php
+      }
+    }
+    ?>
+
 } );
 </script>
 
@@ -38,7 +45,7 @@ $(document).ready(function() {
       <?php echo form_open_multipart();?>
         <div class="card mb-3">
           <div class="card-header">
-            <i class="fa fa-graduation-cap"></i> <?php echo($getCourse->CourseCode);?> - <?php echo($getCourse->CourseName);?>
+            <i class="fa fa-flask"></i> <?php echo($getCourse->CourseCode);?> - <?php echo($getCourse->CourseName);?>
             <button class="btn btn btn-primary float-right" name="btnSubmit" type="btnSubmit"><i class="fa fa-save"></i></button>
           </div>
           <div class="card-body">
@@ -61,7 +68,6 @@ $(document).ready(function() {
                     <?php }?>
                   </select>
                 </div>
-              </form>
           </div>
         </div>
       <?php echo form_close()?>

@@ -17,7 +17,6 @@ class Courses extends CI_Controller {
 	{
         if (!$this->ModulesModel->isGranted(array("M0006"))) redirect('Blank');
 
-
 		if(isset($_POST["btnSubmitAdd"])){
 			$transaction = true;
 
@@ -68,7 +67,7 @@ class Courses extends CI_Controller {
 			$this->load->view('courses_detail',$data);
 			$this->load->view('templates/footer');
 		}else{
-			redirect('Roles');
+			redirect('Courses');
 		}
 	}
 

@@ -8,7 +8,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script>
 $(document).ready(function() {
 
-   $(".form_datetime").datetimepicker({format: 'yyyy-mm-dd hh:ii'});
+   <?php 
+    if(isset($_GET["warning"])){
+      if($_GET["warning"]==1){
+        ?>alert("Cannot create new Staff. Email has been used or invalid.");<?php
+      }else if($_GET["warning"]==2){
+         ?>alert("Successfully added Staff, Invitation E-mail is sent.");<?php
+      }else if($_GET["warning"]==3){
+        ?>alert("Cannot delete Staff. This user already has record.");<?php
+      }
+    }
+    ?>
+
+    $('#modal-delete-staff').on('show.bs.modal', function (e) {
+        var Email = $(e.relatedTarget).data('id');
+        $(e.currentTarget).find('input[name="Email"]').val(Email);
+    });
 } );
 </script>
 
@@ -33,15 +48,6 @@ $(document).ready(function() {
 
   <div class="content-wrapper">
     <div class="container-fluid">
-      <!-- Breadcrumbs-->
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item">
-          <a href="<?php echo(site_url());?>/blank">Dashboard</a>
-        </li>
-        <li class="breadcrumb-item">
-          <a href="<?php echo(site_url());?>/Staffs">Staffs</a>
-        </li>
-      </ol>
       <!-- Example DataTables Card-->
 
       <div class="card mb-3">
@@ -69,33 +75,18 @@ $(document).ready(function() {
                 </tr>
               </tfoot>
               <tbody>
-                <tr>
-                  <td>2123123</td>
-                  <td>Dr. Terry Jeon</td>
-                  <td>Weltec Petone</td>
-                  <td>
-                    <a class="btn btn-primary" href="<?php echo(site_url());?>/Staffs/detail/2123123"><i class="fa fa-fw fa-th-list"></i></a>
-                    <button data-toggle="modal" data-target="#modal-delete-Staff" class="btn btn-danger"><i class="fa fa-trash"></i></button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>2123124</td>
-                  <td>Dr. Steve McKinlay</td>
-                  <td>Weltec Petone</td>
-                  <td>
-                    <a class="btn btn-primary" href="<?php echo(site_url());?>/Staffs/detail/2123124"><i class="fa fa-fw fa-th-list"></i></a>
-                    <button data-toggle="modal" data-target="#modal-delete-Staff" class="btn btn-danger"><i class="fa fa-trash"></i></button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>2123126</td>
-                  <td>Dr. Paul Bryant</td>
-                  <td>Weltec Petone</td>
-                  <td>
-                    <a class="btn btn-primary" href="<?php echo(site_url());?>/Staffs/detail/2123126"><i class="fa fa-fw fa-th-list"></i></a>
-                    <button data-toggle="modal" data-target="#modal-delete-Staff" class="btn btn-danger"><i class="fa fa-trash"></i></button>
-                  </td>
-                </tr>
+                <?php foreach($getStaffs as $items){?>
+                  <tr>
+                    <td><?php echo($items->Email);?></td>
+                    <td><?php echo($items->Title);?> <?php echo($items->FName);?> <?php echo($items->LName);?></td>
+                    <td><?php echo($items->SiteName);?></td>
+                    <td>
+                      <a class="btn btn-primary" href="<?php echo(site_url());?>/Staffs/detail/<?php echo md5($items->Email);?>"><i class="fa fa-fw fa-th-list"></i></a>
+                      <button data-id="<?php echo($items->Email);?>" data-toggle="modal" data-target="#modal-delete-staff" class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                    </td>
+                  </tr>
+                <?php }?>
+               
               </tbody>
             </table>
           </div>
@@ -117,33 +108,33 @@ $(document).ready(function() {
             <h4>Add New Staff</h4>
           </div>
           <div class="modal-body">
-            <form role="form">
+            <?php echo form_open_multipart();?>
               <div class="form-group">
                 <label>E-mail</label>
-                <input type="text" class="form-control" id="name" placeholder="E-mail">
+                <input type="Email" class="form-control" name="Email" placeholder="E-mail" required="">
               </div>
               <div class="form-group">
                 <label>First Name</label>
-                <input type="text" class="form-control" id="name" placeholder="First Name">
+                <input type="text" class="form-control" name="FName"  placeholder="First Name" required="">
               </div>
               <div class="form-group">
                 <label>Last Name</label>
-                <input type="text" class="form-control" id="name" placeholder="Last Name">
+                <input type="text" class="form-control" name="LName"  placeholder="Last Name" required="">
               </div>
                <div class="form-group">
                 <label>Title</label>
-                <input type="text" class="form-control" id="name" placeholder="Title">
+                <input type="text" class="form-control" name="Title" placeholder="Title" required="">
               </div>
               <div class="form-group">
                 <label>Site</label>
-                <select class="form-control" id="sel1">
-                  <option>Weltec Petone</option>
-                  <option>Weltec Wellington</option>
-                  <option>Whitirea Porirua</option>
+                <select class="form-control" name="SiteID">
+                  <?php foreach($getUserSite as $items){?>
+                    <option value="<?php echo($items->SiteID);?>"><?php echo($items->SiteName);?></option>
+                  <?php }?>
                 </select>
               </div>
-              <button type="submit" class="btn btn-primary btn-block"><i class="fa fa-save"></i> Save</button>
-            </form>
+              <button type="submit" class="btn btn-primary btn-block" name="btnSubmitAdd"><i class="fa fa-save"></i> Save</button>
+            <?php echo form_close()?>
           </div>
           <div class="modal-footer">
             <button type="submit" class="btn btn-danger btn-default pull-left" data-dismiss="modal">
@@ -158,7 +149,7 @@ $(document).ready(function() {
     
 
     <!-- Modal -->
-    <div class="modal fade" id="modal-delete-Staff" role="dialog">
+    <div class="modal fade" id="modal-delete-staff" role="dialog">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
@@ -168,8 +159,12 @@ $(document).ready(function() {
             </button>
           </div>
           <div class="modal-footer">
-            <button class="btn btn-secondary" type="button" data-dismiss="modal"><i class="fa fa-remove"></i> Cancel</button>
-            <button class="btn btn-danger" type="button" data-dismiss="modal"><i class="fa fa-trash"></i> Delete</button>
+            <?php echo form_open_multipart();?>
+              <button class="btn btn-secondary" type="button" data-dismiss="modal"><i class="fa fa-remove"></i> Cancel</button>
+              <button class="btn btn-danger" type="submit" name="btnSubmitDel"><i class="fa fa-trash"></i> Delete</button>
+              <input type="hidden" name="Email" value="">
+            <?php echo form_close()?>
+
           </div>
         </div>
       </div>

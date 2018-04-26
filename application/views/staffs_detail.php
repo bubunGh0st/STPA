@@ -8,7 +8,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script>
 $(document).ready(function() {
 
-   $(".form_datetime").datetimepicker({format: 'yyyy-mm-dd hh:ii'});
+   <?php 
+    if(isset($_GET["warning"])){
+      if($_GET["warning"]==1){
+        ?>alert("Successfully updated staff.");<?php
+      }
+    }
+    ?>
 } );
 </script>
 
@@ -34,53 +40,44 @@ $(document).ready(function() {
   <div class="content-wrapper">
     <div class="container-fluid">
       <!-- Breadcrumbs-->
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item">
-          <a href="<?php echo(site_url());?>/blank">Dashboard</a>
-        </li>
-        <li class="breadcrumb-item">
-          <a href="<?php echo(site_url());?>/Staffs">Staffs</a>
-        </li>
-        <li class="breadcrumb-item">
-          <a href="<?php echo(site_url());?>/Staffs/detail/<?php echo($id);?>">2123123 - Terry Jeon</a>
-        </li>
-      </ol>
+     
       <!-- Example DataTables Card-->
 
-      <div class="card mb-3">
-        <div class="card-header">
-          <i class="fa fa-graduation-cap"></i> 2123123 - Terry Jeon
-          <button class="btn btn btn-secondary float-right"><i class="fa fa-pencil"></i></button>
-          <button class="btn btn btn-primary float-right"><i class="fa fa-save"></i></button>
+      <?php echo form_open_multipart();?>
+        <div class="card mb-3">
+          <div class="card-header">
+            <i class="fa fa-group"></i> <?php echo($getStaff->Email);?> - <?php echo($getStaff->Title);?> <?php echo($getStaff->FName);?> <?php echo($getStaff->LName);?>
+            <button class="btn btn btn-primary float-right" name="btnSubmit" type="submit"><i class="fa fa-save"></i></button>
+          </div>
+          <div class="card-body">
+                <div class="form-group">
+                  <label>E-mail</label>
+                  <input type="text" class="form-control" name="Email" readonly="" value="<?php echo($getStaff->Email);?>">
+                </div>
+                <div class="form-group">
+                  <label>First Name</label>
+                  <input type="text" class="form-control" name="FName" value="<?php echo($getStaff->FName);?>" required="">
+                </div>
+                <div class="form-group">
+                  <label>Last Name</label>
+                  <input type="text" class="form-control" name="LName" value="<?php echo($getStaff->LName);?>" required>
+                </div>
+                <div class="form-group">
+                  <label>Title</label>
+                  <input type="text" class="form-control" name="Title" value="<?php echo($getStaff->Title);?>" required>
+                </div>
+                <div class="form-group">
+                  <label>Site</label>
+                  <select class="form-control" name="SiteID">
+                    <?php foreach($getUserSite as $items){?>
+                      <option value="<?php echo($items->SiteID);?>" <?php if($items->SiteID==$getStaff->SiteID)echo("selected");?> ><?php echo($items->SiteName);?></option>
+                    <?php }?>
+                  </select>
+                </div>
+          </div>
+          <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
         </div>
-        <div class="card-body">
-          <form role="form">
-              <div class="form-group">
-                <label>Staff ID</label>
-                <input type="text" class="form-control" id="name" placeholder="Task Name" value="2123123">
-              </div>
-              <div class="form-group">
-                <label>First Name</label>
-                <input type="text" class="form-control" id="name" value="Terry">
-              </div>
-              <div class="form-group">
-                <label>Last Name</label>
-                <input type="text" class="form-control" id="name" value="Jeon">
-              </div>
-              <div class="form-group">
-                <label>Title</label>
-                <input type="text" class="form-control" id="name" value="">
-              </div>
-              <div class="form-group">
-                <label>Gender</label>
-                <label class="radio-inline"><input type="radio" name="optradio">M</label>
-                <label class="radio-inline"><input type="radio" name="optradio">F</label>
-              </div>
-             
-            </form>
-        </div>
-        <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
-      </div>
+      <?php echo form_close()?>
 
 
      
