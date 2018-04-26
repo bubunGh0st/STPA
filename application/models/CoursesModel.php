@@ -6,14 +6,30 @@ class CoursesModel extends CI_Model {
         //To return all courses
         public function getCourses($Email){
                
-            $this->db->select("b.*");
+            $this->db->select("b.*,c.SiteName");
             $this->db->from("ms_user_site a");
             $this->db->join("ms_course b","b.SiteID = a.SiteID");
+            $this->db->join("ms_site c","c.SiteID = b.SiteID");
             $this->db->where('a.Email',$Email);
             $query = $this->db->get();
             $result = $query->result();
                     
             return $result;
+        }
+
+        //to return one row all columns from selected ms_course
+         public function getCourse($CourseID){
+               
+            $this->db->where('CourseID',$CourseID);
+            $this->db->select("*");
+            $this->db->from("ms_course");
+            $query = $this->db->get();
+            $row = $query->row();
+            if($row!=NULL){
+                return $row;
+            }else{
+                return NULL;
+            }
         }
 
          //To return all sites associate with the site id

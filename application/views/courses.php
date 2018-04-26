@@ -8,7 +8,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script>
 $(document).ready(function() {
 
-   $(".form_datetime").datetimepicker({format: 'yyyy-mm-dd hh:ii'});
+    <?php 
+    if(isset($_GET["warning"])){
+      if($_GET["warning"]==1){
+        ?>alert("Cannot delete this course, course already have trimester running.");<?php
+      }
+    }
+    ?>
+
+
+   $('#modal-delete-course').on('show.bs.modal', function (e) {
+        var CourseID = $(e.relatedTarget).data('id');
+        $(e.currentTarget).find('input[name="CourseID"]').val(CourseID);
+    });
 } );
 </script>
 
@@ -33,15 +45,6 @@ $(document).ready(function() {
 
   <div class="content-wrapper">
     <div class="container-fluid">
-      <!-- Breadcrumbs-->
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item">
-          <a href="<?php echo(site_url());?>/blank">Dashboard</a>
-        </li>
-        <li class="breadcrumb-item">
-          <a href="<?php echo(site_url());?>/Courses">Courses</a>
-        </li>
-      </ol>
       <!-- Example DataTables Card-->
 
       <div class="card mb-3">
@@ -69,38 +72,21 @@ $(document).ready(function() {
                 </tr>
               </tfoot>
               <tbody>
-                <tr>
-                  <td>IT6256</td>
-                  <td>Logical Database Design</td>
-                  <td>Weltec Petone</td>
-                  <td>
-                    <a class="btn btn-primary" href="<?php echo(site_url());?>/courses/detail/000001"><i class="fa fa-fw fa-th-list"></i></a>
-                    <button data-toggle="modal" data-target="#modal-delete-course" class="btn btn-danger"><i class="fa fa-trash"></i></button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>IT6268</td>
-                  <td>Project Management</td>
-                  <td>Weltec Petone</td>
-                  <td>
-                    <a class="btn btn-primary" href="<?php echo(site_url());?>/courses/detail/000002"><i class="fa fa-fw fa-th-list"></i></a>
-                    <button data-toggle="modal" data-target="#modal-delete-course" class="btn btn-danger"><i class="fa fa-trash"></i></button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>IT7320</td>
-                  <td>Software Development & Testing</td>
-                  <td>Weltec Petone</td>
-                  <td>
-                    <a class="btn btn-primary" href="<?php echo(site_url());?>/courses/detail/000003"><i class="fa fa-fw fa-th-list"></i></a>
-                    <button data-toggle="modal" data-target="#modal-delete-course" class="btn btn-danger"><i class="fa fa-trash"></i></button>
-                  </td>
-                </tr>
+                <?php foreach($getCourses as $items){?>
+                  <tr>
+                    <td><?php echo($items->CourseCode);?></td>
+                    <td><?php echo($items->CourseName);?></td>
+                    <td><?php echo($items->SiteName);?></td>
+                    <td>
+                      <a class="btn btn-primary" href="<?php echo(site_url());?>/courses/detail/<?php echo($items->CourseID);?>"><i class="fa fa-fw fa-th-list"></i></a>
+                      <button data-id = "<?php echo($items->CourseID);?>" data-toggle="modal" data-target="#modal-delete-course" class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                    </td>
+                  </tr>
+                 <?php }?>
               </tbody>
             </table>
           </div>
         </div>
-        <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
       </div>
       <!-- Example DataTables Card-->
 
@@ -118,25 +104,25 @@ $(document).ready(function() {
             <h4>Add New course</h4>
           </div>
           <div class="modal-body">
-            <form role="form">
+            <?php echo form_open_multipart();?>
              <div class="form-group">
-                <label>course ID</label>
-                <input type="text" class="form-control" id="name" placeholder="Task Name">
+                <label>Course Code</label>
+                <input type="text" class="form-control" name="CourseCode" placeholder="Course Code">
               </div>
               <div class="form-group">
                 <label>Name</label>
-                <input type="text" class="form-control" id="name" placeholder="Task Name">
+                <input type="text" class="form-control" name="CourseName" placeholder="Course Name">
               </div>
               <div class="form-group">
                 <label>Site</label>
-                <select class="form-control" id="sel1">
-                  <option>Weltec Petone</option>
-                  <option>Weltec Wellington</option>
-                  <option>Whitirea Porirua</option>
+                <select class="form-control" name="SiteID">
+                  <?php foreach($getUserSite as $items){?>
+                    <option value="<?php echo($items->SiteID);?>"><?php echo($items->SiteName);?></option>
+                  <?php }?>
                 </select>
               </div>
-              <button type="submit" class="btn btn-primary btn-block"><i class="fa fa-save"></i> Save</button>
-            </form>
+              <button type="submit" class="btn btn-primary btn-block" name="btnSubmitAdd"><i class="fa fa-save"></i> Save</button>
+            <?php echo form_close()?>
           </div>
           <div class="modal-footer">
             <button type="submit" class="btn btn-danger btn-default pull-left" data-dismiss="modal">
@@ -161,8 +147,13 @@ $(document).ready(function() {
             </button>
           </div>
           <div class="modal-footer">
-            <button class="btn btn-secondary" type="button" data-dismiss="modal"><i class="fa fa-remove"></i> Cancel</button>
-            <button class="btn btn-danger" type="button" data-dismiss="modal"><i class="fa fa-trash"></i> Delete</button>
+
+            <?php echo form_open_multipart();?>
+              <button class="btn btn-secondary" type="button" data-dismiss="modal"><i class="fa fa-remove"></i> Cancel</button>
+              <button class="btn btn-danger" type="submit" name="btnSubmitDel"><i class="fa fa-trash"></i> Delete</button>
+              <input type="hidden" name="CourseID" value="">
+            <?php echo form_close()?>
+
           </div>
         </div>
       </div>
