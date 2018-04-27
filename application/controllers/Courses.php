@@ -61,6 +61,7 @@ class Courses extends CI_Controller {
 			}
 
 			$data["getUserSite"]=$this->CoursesModel->getUserSite($this->session->userdata['Email']);
+			$data["getTrimester"]=$this->CoursesModel->getTrimester($data["getCourse"]->CourseID);
 			$this->load->view('templates/header');
 			$this->load->view('courses_detail',$data);
 			$this->load->view('templates/footer');

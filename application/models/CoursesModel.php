@@ -32,6 +32,18 @@ class CoursesModel extends CI_Model {
             }
         }
 
+         public function getTrimester($CourseID){
+               
+            $this->db->order_by('StartDate','DESC');
+            $this->db->where('CourseID',$CourseID);
+            $this->db->select("*");
+            $this->db->from("tr_course_trimester");
+            $query = $this->db->get();
+            $result = $query->result();
+                    
+            return $result;
+        }
+
          //To return all sites associate with the site id
         public function getUserSite($Email){
                

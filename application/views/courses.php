@@ -16,7 +16,6 @@ $(document).ready(function() {
     }
     ?>
 
-
    $('#modal-delete-course').on('show.bs.modal', function (e) {
         var CourseID = $(e.relatedTarget).data('id');
         $(e.currentTarget).find('input[name="CourseID"]').val(CourseID);
@@ -57,7 +56,7 @@ $(document).ready(function() {
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
               <thead>
                 <tr>
-                  <th>ID</th>
+                  <th>Code</th>
                   <th>Name</th>
                   <th>Site</th>
                   <th>Actions</th>
@@ -65,7 +64,7 @@ $(document).ready(function() {
               </thead>
               <tfoot>
                 <tr>
-                  <th>ID</th>
+                  <th>Code</th>
                   <th>Name</th>
                   <th>Site</th>
                   <th>Actions</th>
