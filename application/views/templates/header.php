@@ -103,8 +103,17 @@ $CI->load->model('ModulesModel');
               </li>
             <?php }?>
 
+            <?php if($CI->ModulesModel->isGranted(array("M0009"))){ ?>
+              <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Site">
+                <a href="<?php echo(site_url());?>/site">
+                  <i class="fa fa-fw fa-bank"></i>
+                  <span class="nav-link-text">Site</span>
+                </a>
+              </li>
+            <?php }?>
+
             <?php if($CI->ModulesModel->isGranted(array("M0005"))){ ?>
-              <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Users">
+              <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Approval">
                 <a href="<?php echo(site_url());?>/approval">
                   <i class="fa fa-fw fa-check"></i>
                   <span class="nav-link-text">Approval</span>
