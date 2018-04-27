@@ -8,37 +8,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script>
 $(document).ready(function() {
 
-   $(".form_datetime").datetimepicker({format: 'yyyy-mm-dd hh:ii'});
+   <?php 
+    if(isset($_GET["warning"])){
+      if($_GET["warning"]==1){
+        ?>alert("At least one course has to be checked.");<?php
+      }
+    }
+    ?>
 } );
 </script>
 
-<style>
-  .clear{
-    clear: both;
-  }.btn-50-left{
-    float:left !important;
-    width: 50% !important;
-    margin: 0 !important;
-    border-bottom-right-radius: 0; 
-    border-top-right-radius: 0; 
-  }.btn-50-right{
-    float:right!important;
-    width: 50% !important;
-    margin: 0 !important;
-    border-bottom-left-radius: 0; 
-    border-top-left-radius: 0; 
-  }
-</style>
-
-
   <div class="content-wrapper">
     <div class="container-fluid">
-      <!-- Breadcrumbs-->
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item">
-          <a href="<?php echo(site_url());?>/Dashboard_staff">Staff Dashboard</a>
-        </li>
-      </ol>
       <!-- Example DataTables Card-->
 
       <div class="card mb-3">
@@ -51,7 +32,7 @@ $(document).ready(function() {
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
               <thead>
                 <tr>
-                  <th>ID</th>
+                  <th>Course Code</th>
                   <th>Name</th>
                   <th>Trimester</th>
                   <th>Actions</th>
@@ -59,29 +40,23 @@ $(document).ready(function() {
               </thead>
               <tfoot>
                 <tr>
-                  <th>ID</th>
+                  <th>Course Code</th>
                   <th>Name</th>
                   <th>Trimester</th>
                   <th>Actions</th>
                 </tr>
               </tfoot>
               <tbody>
-                <tr>
-                  <td>IT6256</td>
-                  <td>Logical Database Design</td>
-                  <td>March 2018</td>
-                  <td>
-                    <a class="btn btn-primary" href="<?php echo(site_url());?>/courses/detail_staff/000001"><i class="fa fa-fw fa-wrench"></i></a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>IT6268</td>
-                  <td>Project Management</td>
-                  <td>March 2018</td>
-                  <td>
-                    <a class="btn btn-primary" href="<?php echo(site_url());?>/courses/detail_staff/000002"><i class="fa fa-fw fa-wrench"></i></a>
-                  </td>
-                </tr>
+                <?php foreach($getStaffCourses as $items){?>
+                  <tr>
+                    <td><?php echo($items->CourseCode);?></td>
+                    <td><?php echo($items->CourseName);?></td>
+                    <td><?php echo($items->TrimesterName);?></td>
+                    <td>
+                      <a class="btn btn-primary" href="<?php echo(site_url());?>/courses/detail_staff/<?php echo($items->TrimesterID);?>"><i class="fa fa-fw fa-wrench"></i></a>
+                    </td>
+                  </tr>
+                <?php }?>
               </tbody>
             </table>
           </div>
@@ -103,19 +78,16 @@ $(document).ready(function() {
           </div>
           <div class="modal-content">
             <div class="card-body">
-              <form>
-              
-                <div class="form-group">
-                  <div class="form-check checklist" >
-                    <label class="form-check-label"><input class="form-check-input" type="checkbox"> IT7320 - Software Dev & Testing</label><br>
-                    <label class="form-check-label"><input class="form-check-input" type="checkbox"> IT7421 - Incident Response & Com Sec</label><br>
-                    <label class="form-check-label"><input class="form-check-input" type="checkbox"> IT7251 - Project</label><br>
-                    <label class="form-check-label"><input class="form-check-input" type="checkbox"> IT7252 - Advance Database Design</label><br>
-                    <label class="form-check-label"><input class="form-check-input" type="checkbox"> IT6111 - Human Interface Tech</label><br>
+              <?php echo form_open_multipart();?>
+                  <div class="form-group">
+                    <div class="form-check checklist" >
+                      <?php foreach($getStaffNotCourses as $items){?>
+                          <label class="form-check-label"><input class="form-check-input" type="checkbox" name="TrimesterID[]" value="<?php echo($items->TrimesterID);?>"> <?php echo($items->CourseCode);?> - <?php echo($items->CourseName);?></label><br>
+                      <?php }?>
+                    </div>
                   </div>
-                </div>
-                <button class="btn btn-primary btn-block"><i class="fa fa-fw fa-plus"></i> Add</button>
-              </form>
+                  <button class="btn btn-primary btn-block" name="btnSubmit" type="submit"><i class="fa fa-fw fa-plus"></i> Add</button>
+              <?php echo form_close()?>
             </div>
           </div>
           <div class="modal-footer">

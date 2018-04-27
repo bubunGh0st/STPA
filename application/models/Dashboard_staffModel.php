@@ -1,16 +1,32 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class CoursesModel extends CI_Model {
+class Dashboard_staffModel extends CI_Model {
 
-        //To return all courses
-        public function getCourses($Email){
+        //To return all courses assigned to staff
+        public function getStaffCourses($Email){
                
-            $this->db->select("b.*,c.SiteName");
-            $this->db->from("ms_user_site a");
-            $this->db->join("ms_course b","b.SiteID = a.SiteID");
-            $this->db->join("ms_site c","c.SiteID = b.SiteID");
-            $this->db->where('a.Email',$Email);
+            $this->db->select("c.*,b.TrimesterName,b.TrimesterID");
+            $this->db->from("tr_course_trimester_staff a");
+            $this->db->join("tr_course_trimester b","b.TrimesterID = a.TrimesterID");
+            $this->db->join("ms_course c","c.CourseID = b.CourseID");
+            $this->db->where('a.StaffEmail',$Email);
+            $this->db->where('b.Status','ACTIVE');
+            $query = $this->db->get();
+            $result = $query->result();
+                    
+            return $result;
+        }
+
+         //To return all courses NOT assigned to staff
+        public function getStaffNotCourses($Email){
+               
+            $this->db->select("c.*,b.TrimesterName,b.TrimesterID");
+            $this->db->From("tr_course_trimester b");
+            $this->db->join("ms_course c","c.CourseID = b.CourseID");
+            $this->db->where("(c.SiteID In (Select SiteID From ms_user_site Where Email = '".$Email."'))");
+            $this->db->where("(b.TrimesterID Not In (Select TrimesterID From tr_course_trimester_staff Where StaffEmail = '".$Email."'))");
+            $this->db->where('b.Status','ACTIVE');
             $query = $this->db->get();
             $result = $query->result();
                     
@@ -55,7 +71,7 @@ class CoursesModel extends CI_Model {
             $query = $this->db->get();
             $row = $query->row();
             if($row!=NULL){
-                    $result="C".sprintf('%07d', ((int)$row->LastNumber+1));
+                    $result="M".sprintf('%07d', ((int)$row->LastNumber+1));
             }else{
                     $result="C0000001";
             } 
@@ -63,23 +79,25 @@ class CoursesModel extends CI_Model {
         }
 
         //To insert in course database
-        public function insertCourse($post){
+        public function assignCourse($post){
 
             $this->db->trans_start();
 
-            //insert into ms_course
-            $this->db->set('CourseID', $post["CourseID"]);
-            $this->db->set('CourseCode', $post["CourseCode"]);
-            $this->db->set('CourseName', $post["CourseName"]);
-            $this->db->set('SiteID', $post["SiteID"]);
-            $this->db->insert('ms_course');
+            if(isset($post["TrimesterID"])){
+                for($i=0;$i<=count($post["TrimesterID"])-1;$i++){
+                    //insert into tr_course_trimester_staff
+                    $this->db->set('TrimesterID', $post["TrimesterID"][$i]);
+                    $this->db->set('StaffEmail', $post["Email"]);
+                    $this->db->insert('tr_course_trimester_staff');
 
-            //insert into log_activity
-            $this->db->set('RefID', $post["CourseID"]);
-            $this->db->set('Action', "INSERTED COURSE");
-            $this->db->set('EntryTime', date("Y-m-d H:i:s"));
-            $this->db->set('EntryEmail', $this->session->userdata['Email']);
-            $this->db->insert('log_activity'); 
+                    //insert into log_activity
+                    $this->db->set('RefID', $post["TrimesterID"][$i]);
+                    $this->db->set('Action', "ASSIGN COURSE");
+                    $this->db->set('EntryTime', date("Y-m-d H:i:s"));
+                    $this->db->set('EntryEmail', $this->session->userdata['Email']);
+                    $this->db->insert('log_activity'); 
+                }
+            }
 
             $this->db->trans_complete();
         }
