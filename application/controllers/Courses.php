@@ -15,8 +15,6 @@ class Courses extends CI_Controller {
 
 	public function index()
 	{
-        if (!$this->ModulesModel->isGranted(array("M0006"))) redirect('Blank');
-
 		if(isset($_POST["btnSubmitAdd"])){
 			$transaction = true;
 
