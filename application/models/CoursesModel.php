@@ -32,6 +32,18 @@ class CoursesModel extends CI_Model {
             }
         }
 
+         public function getTrimester($CourseID){
+               
+            $this->db->order_by('StartDate','DESC');
+            $this->db->where('CourseID',$CourseID);
+            $this->db->select("*");
+            $this->db->from("tr_course_trimester");
+            $query = $this->db->get();
+            $result = $query->result();
+                    
+            return $result;
+        }
+
          //To return all sites associate with the site id
         public function getUserSite($Email){
                
@@ -84,6 +96,34 @@ class CoursesModel extends CI_Model {
             $this->db->trans_complete();
         }
 
+        //To insert in trimester database
+        public function insertTrimester($post){
+
+            $this->db->trans_start();
+
+            //insert into tr_course_trimester
+            $this->db->set('CourseID', $post["CourseID"]);
+            $this->db->set('TrimesterName', $post["TrimesterName"]);
+            $this->db->set('StartDate', date("Y-m-d",strtotime($_POST["StartDate"])));
+            $this->db->set('FinishDate', date("Y-m-d",strtotime($_POST["FinishDate"])));
+            $this->db->set('CompletionHours', 0);
+            $this->db->set('CompletionWeeks', 0);
+            $this->db->set('ReadingHours', 0);
+            $this->db->set('ExamHours', 0);
+            $this->db->set('ContactHours', 0);
+            $this->db->set('Status', 'INACTIVE');
+            $this->db->insert('tr_course_trimester');
+
+            //insert into log_activity
+            $this->db->set('RefID', $post["CourseID"]);
+            $this->db->set('Action', "INSERTED TRIMESTER");
+            $this->db->set('EntryTime', date("Y-m-d H:i:s"));
+            $this->db->set('EntryEmail', $this->session->userdata['Email']);
+            $this->db->insert('log_activity'); 
+
+            $this->db->trans_complete();
+        }
+
         //Edit Courses
         public function updateCourse($post){
 
@@ -105,7 +145,7 @@ class CoursesModel extends CI_Model {
             $this->db->trans_complete();
         }
 
-        //To check if module is in ms_role_module table
+        //To check if course is in tr_course_trimester table
         public function isDeleteCourse($CourseID){
 
             $this->db->select("CourseID");
@@ -139,5 +179,42 @@ class CoursesModel extends CI_Model {
 
             $this->db->trans_complete();
         }
+
+         //To check if trimester is not active
+        public function isDeleteTrim($TrimesterID){
+
+            $this->db->select("1");
+            $this->db->from("tr_course_trimester");
+            $this->db->where('Status', 'INACTIVE');
+            $this->db->where('TrimesterID', $TrimesterID);
+            $query = $this->db->get();
+            $result = $query->row();
+            if($result != NULL){
+                $result = True;
+            }
+            else{
+                $result = False;
+            }        
+            return $result;
+        }
+
+         //To delete trimester
+        public function deleteTrimester($TrimesterID){
+            
+            $this->db->trans_start();
+
+            $this->db->where('TrimesterID', $TrimesterID);
+            $this->db->delete('tr_course_trimester');
+
+            //insert into log_activity
+            $this->db->set('RefID', $TrimesterID);
+            $this->db->set('Action', "DELETED TRIMESTER");
+            $this->db->set('EntryTime', date("Y-m-d H:i:s"));
+            $this->db->set('EntryEmail', $this->session->userdata['Email']);
+            $this->db->insert('log_activity'); 
+
+            $this->db->trans_complete();
+        }
+
 
 }

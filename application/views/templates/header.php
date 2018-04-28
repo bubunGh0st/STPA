@@ -67,7 +67,7 @@ $CI->load->model('ModulesModel');
           </li>
         <?php }?>
 
-        <?php if($CI->ModulesModel->isGranted(array("M0002","M0003","M0004","M0005"))){?>
+        <?php if($CI->ModulesModel->isGranted(array("M0002","M0003","M0004","M0005","M0009"))){?>
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="System Administration">
           <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#system-administration" data-parent="#exampleAccordion">
             <i class="fa fa-fw fa-gears"></i>
@@ -120,6 +120,7 @@ $CI->load->model('ModulesModel');
                 </a>
               </li>
             <?php }?>
+            
           </ul>
         </li>
         <?php }?>
