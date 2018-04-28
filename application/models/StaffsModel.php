@@ -3,7 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class StaffsModel extends CI_Model {
 
-        //To return all courses
+        //To return all staffs
         public function getStaffs($Email){
                
             $this->db->select("a.*, (Select y.SiteName From ms_user_site x 
@@ -21,7 +21,7 @@ class StaffsModel extends CI_Model {
             return $result;
         }
 
-        //to return one row all columns from selected ms_course
+        //to return one row all columns from selected ms_user
         public function getStaff($Email){
                
             $this->db->where('a.RoleID','STAFF');

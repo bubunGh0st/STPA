@@ -3,7 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class SiteModel extends CI_Model {
 
-        //To return all modules
+        //To return all sites
         public function getSites(){
                
             $this->db->select("*");
@@ -14,7 +14,7 @@ class SiteModel extends CI_Model {
             return $result;
         }
 
-        //to return one row all columns from selected ms_module
+        //to return one row all columns from selected ms_site
          public function getSite($SiteID){
                
             $this->db->where('SiteID',$SiteID);
@@ -29,22 +29,10 @@ class SiteModel extends CI_Model {
             }
         }
 
-        public function autogenerateID(){
+    
 
-            $this->db->limit(1,0);
-            $this->db->order_by("ModuleID","DESC");
-            $this->db->select("right(ModuleID,4) as LastNumber");
-            $this->db->from("ms_module");
-            $query = $this->db->get();
-            $row = $query->row();
-            if($row!=NULL){
-                    $result="M".sprintf('%04d', ((int)$row->LastNumber+1));
-            }else{
-                    $result="M0001";
-            } 
-            return $result;
-        }
-        //To insert into module database.
+
+        //To insert into site database.
         public function insertSite($post){
 
             $this->db->trans_start();
@@ -65,7 +53,9 @@ class SiteModel extends CI_Model {
 
             $this->db->trans_complete();
         }
-        //Edit Module
+
+
+        //Edit Site
         public function updateSite($post){
 
             $this->db->trans_start();
@@ -86,6 +76,7 @@ class SiteModel extends CI_Model {
             $this->db->trans_complete();
         }
         
+        //Delete Site
         public function deleteSite($SiteID){
 
             $this->db->trans_start();
@@ -102,7 +93,8 @@ class SiteModel extends CI_Model {
 
             $this->db->trans_complete();
         }
-        //To check if module is in ms_role_module table
+
+        //To check if site is in ms_site table
         public function isDeleteSite($SiteID){
 
             $this->db->select("SiteID");
