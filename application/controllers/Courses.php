@@ -49,7 +49,7 @@ class Courses extends CI_Controller {
 		$data["getCourse"]=$this->CoursesModel->getCourse($id);
 		if($data["getCourse"]!=NULL){
 
-			//edit role header
+			//edit course header
 			if(isset($_POST["btnSubmit"])){
 				$transaction = true;
 
@@ -57,6 +57,23 @@ class Courses extends CI_Controller {
 					$_POST["CourseID"]=$data["getCourse"]->CourseID;
 					$this->CoursesModel->updateCourse($_POST);
 					redirect('Courses/detail/'.$data["getCourse"]->CourseID."?warning=1");
+				}
+			}
+
+			//add course trimester
+			if(isset($_POST["btnSubmitAddTrimester"])){
+				$transaction = true;
+
+				if(date("Ymd",strtotime($_POST["StartDate"]))>=date("Ymd",strtotime($_POST["FinishDate"]))){
+					$transaction = false;
+					redirect('Courses/detail/'.$data["getCourse"]->CourseID."?warning=2");
+
+				}
+
+				if($transaction){
+					$_POST["CourseID"]=$data["getCourse"]->CourseID;
+					$this->CoursesModel->insertTrimester($_POST);
+					redirect('Courses/detail/'.$data["getCourse"]->CourseID."?warning=3");
 				}
 			}
 
@@ -70,7 +87,23 @@ class Courses extends CI_Controller {
 		}
 	}
 
+	public function deleteTrimester($id = "")
+	{
+		$CourseID=$_GET["CourseID"];
+		//add course trimester
 
+		$transaction = true;
+		if(!$this->CoursesModel->isDeleteTrim($id)){
+			$transaction = false;
+		}
+
+		if($transaction){
+			$this->CoursesModel->deleteTrimester($id);
+			redirect('Courses/detail/'.$CourseID."?warning=4");
+		}else{
+			redirect('Courses/detail/'.$CourseID);
+		}
+	}
 
 	public function detail_staff($id = "")
 	{
