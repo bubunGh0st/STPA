@@ -29,7 +29,8 @@ $CI->load->model('ModulesModel');
   <!-- Custom fonts for this template-->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-
+  <!-- Angular JS -->
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
   <!-- Bootstrap core JavaScript-->
   <script src="<?php echo(base_url());?>vendor/jquery/jquery.min.js"></script>
   <script src="<?php echo(base_url());?>vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

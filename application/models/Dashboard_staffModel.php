@@ -33,12 +33,13 @@ class Dashboard_staffModel extends CI_Model {
             return $result;
         }
 
-        //to return one row all columns from selected ms_course
-         public function getCourse($CourseID){
+        //to return one row all columns from selected tr_course_trimester
+         public function getTrimester($TrimesterID){
                
-            $this->db->where('CourseID',$CourseID);
-            $this->db->select("*");
-            $this->db->from("ms_course");
+            $this->db->select("a.*, b.CourseName, b.CourseCode");
+            $this->db->from("tr_course_trimester a");
+            $this->db->join("ms_course b","a.CourseID = b.CourseID");
+            $this->db->where('a.TrimesterID',$TrimesterID);
             $query = $this->db->get();
             $row = $query->row();
             if($row!=NULL){
@@ -48,37 +49,32 @@ class Dashboard_staffModel extends CI_Model {
             }
         }
 
-         //To return all sites associate with the site id
-        public function getUserSite($Email){
+        //return all staff related to this course trimester
+        public function getTrimesterStaff($TrimesterID){
                
             $this->db->select("b.*");
-            $this->db->from("ms_user_site a");
-            $this->db->join("ms_site b","b.SiteID = a.SiteID");
-            $this->db->where('a.Email',$Email);
+            $this->db->from("tr_course_trimester_staff a");
+            $this->db->join("ms_user b","a.StaffEmail = b.Email");
+            $this->db->where('a.TrimesterID',$TrimesterID);
             $query = $this->db->get();
             $result = $query->result();
                     
             return $result;
         }
 
-        //Auto generate course id
-        public function autogenerateID(){
-
-            $this->db->limit(1,0);
-            $this->db->order_by("CourseID","DESC");
-            $this->db->select("right(CourseID,7) as LastNumber");
-            $this->db->from("ms_course");
+        //return all Assignment  related to this course trimester
+        public function getTrimesterAssignment($TrimesterID){
+               
+            $this->db->select("a.*");
+            $this->db->from("tr_course_trimester_assignment a");
+            $this->db->where('a.TrimesterID',$TrimesterID);
             $query = $this->db->get();
-            $row = $query->row();
-            if($row!=NULL){
-                    $result="M".sprintf('%07d', ((int)$row->LastNumber+1));
-            }else{
-                    $result="C0000001";
-            } 
+            $result = $query->result();
+                    
             return $result;
         }
 
-        //To insert in course database
+        //To insert in tr_course_trimester_staff
         public function assignCourse($post){
 
             $this->db->trans_start();
@@ -102,60 +98,22 @@ class Dashboard_staffModel extends CI_Model {
             $this->db->trans_complete();
         }
 
-        //Edit Courses
-        public function updateCourse($post){
-
-            $this->db->trans_start();
-
-            $this->db->set('CourseCode', $post["CourseCode"]);
-            $this->db->set('CourseName', $post["CourseName"]);
-            $this->db->set('SiteID', $post["SiteID"]);
-            $this->db->where('CourseID', $post['CourseID']);
-            $this->db->update('ms_course'); 
-
-            //insert into log_activity
-            $this->db->set('RefID', $post["CourseID"]);
-            $this->db->set('Action', "UPDATED COURSE");
-            $this->db->set('EntryTime', date("Y-m-d H:i:s"));
-            $this->db->set('EntryEmail', $this->session->userdata['Email']);
-            $this->db->insert('log_activity'); 
-
-            $this->db->trans_complete();
-        }
-
-        //To check if module is in ms_role_module table
-        public function isDeleteCourse($CourseID){
-
-            $this->db->select("CourseID");
+        //to return one row all columns from selected tr_course_trimester
+         public function getEditTrimester($TrimesterID){
+               
+            $this->db->where('TrimesterID',$TrimesterID);
+            $this->db->where("(Startdate> '".date("Y-m-d")."')");
+            $this->db->select("1");
             $this->db->from("tr_course_trimester");
-            $this->db->where('CourseID', $CourseID);
             $query = $this->db->get();
-            $result = $query->row();
-            if($result != NULL){
-                $result = False;
+            $row = $query->row();
+            if($row!=NULL){
+                $result = TRUE;
+            }else{
+                $result = FALSE;
             }
-            else{
-                $result = True;
-            }        
+
             return $result;
-        }
-
-        //To delete course
-        public function deleteCourse($CourseID){
-
-            $this->db->trans_start();
-
-            $this->db->where('CourseID', $CourseID);
-            $this->db->delete('ms_course');
-
-            //insert into log_activity
-            $this->db->set('RefID', $CourseID);
-            $this->db->set('Action', "DELETED COURSE");
-            $this->db->set('EntryTime', date("Y-m-d H:i:s"));
-            $this->db->set('EntryEmail', $this->session->userdata['Email']);
-            $this->db->insert('log_activity'); 
-
-            $this->db->trans_complete();
         }
 
 }

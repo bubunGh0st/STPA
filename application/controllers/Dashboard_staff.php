@@ -37,4 +37,31 @@ class Dashboard_staff extends CI_Controller {
 		$this->load->view('dashboard_staff',$data);
 		$this->load->view('templates/footer');
 	}
+
+	public function detail($id = "")
+	{
+		$data["getTrimester"]=$this->Dashboard_staffModel->getTrimester($id);
+		if($data["getTrimester"]!=NULL){
+
+			//edit course header
+			if(isset($_POST["btnSubmit"])){
+				$transaction = true;
+
+				if($transaction){
+					$_POST["CourseID"]=$data["getCourse"]->CourseID;
+					$this->CoursesModel->updateCourse($_POST);
+					redirect('Courses/detail/'.$data["getCourse"]->CourseID."?warning=1");
+				}
+			}
+
+			$data["getEditTrimester"]=$this->Dashboard_staffModel->getEditTrimester($id);
+			$data["getTrimesterStaff"]=$this->Dashboard_staffModel->getTrimesterStaff($id);
+			$data["getTrimesterAssignment"]=$this->Dashboard_staffModel->getTrimesterAssignment($id);
+			$this->load->view('templates/header');
+			$this->load->view('courses_detail_staff',$data);
+			$this->load->view('templates/footer');
+		}else{
+			redirect('Courses');
+		}
+	}
 }

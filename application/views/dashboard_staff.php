@@ -25,7 +25,8 @@ $(document).ready(function() {
       <div class="card mb-3">
         <div class="card-header">
           <i class="fa fa-flask"></i> Courses Trimester
-          <button data-toggle="modal" data-target="#modal-add-course-trimester" class="btn btn btn-primary float-right"><i class="fa fa-plus"></i></button>
+            <button data-toggle="modal" data-target="#modal-add-course-trimester" class="btn btn btn-primary float-right"><i class="fa fa-plus"></i></button>
+          <?php }?>
         </div>
         <div class="card-body">
           <div class="table-responsive">
@@ -53,7 +54,7 @@ $(document).ready(function() {
                     <td><?php echo($items->CourseName);?></td>
                     <td><?php echo($items->TrimesterName);?></td>
                     <td>
-                      <a class="btn btn-primary" href="<?php echo(site_url());?>/courses/detail_staff/<?php echo($items->TrimesterID);?>"><i class="fa fa-fw fa-wrench"></i></a>
+                      <a class="btn btn-primary" href="<?php echo(site_url());?>/Dashboard_staff/detail/<?php echo($items->TrimesterID);?>"><i class="fa fa-fw fa-wrench"></i></a>
                     </td>
                   </tr>
                 <?php }?>
@@ -79,14 +80,14 @@ $(document).ready(function() {
           <div class="modal-content">
             <div class="card-body">
               <?php echo form_open_multipart();?>
-                  <div class="form-group">
-                    <div class="form-check checklist" >
-                      <?php foreach($getStaffNotCourses as $items){?>
-                          <label class="form-check-label"><input class="form-check-input" type="checkbox" name="TrimesterID[]" value="<?php echo($items->TrimesterID);?>"> <?php echo($items->CourseCode);?> - <?php echo($items->CourseName);?></label><br>
-                      <?php }?>
-                    </div>
+                <div class="form-group">
+                  <div class="form-check checklist" >
+                    <?php foreach($getStaffNotCourses as $items){?>
+                        <label class="form-check-label"><input class="form-check-input" type="checkbox" name="TrimesterID[]" value="<?php echo($items->TrimesterID);?>"> <?php echo($items->CourseCode);?> - <?php echo($items->CourseName);?></label><br>
+                    <?php }?>
                   </div>
-                  <button class="btn btn-primary btn-block" name="btnSubmit" type="submit"><i class="fa fa-fw fa-plus"></i> Add</button>
+                </div>
+                <button class="btn btn-primary btn-block" name="btnSubmit" type="submit"><i class="fa fa-fw fa-plus"></i> Add</button>
               <?php echo form_close()?>
             </div>
           </div>
