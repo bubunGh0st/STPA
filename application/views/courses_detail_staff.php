@@ -23,6 +23,10 @@ $(document).ready(function() {
         ?>alert("Successfully added assignment.");<?php
       }else if($_GET["warning"]==4){
         ?>alert("Successfully deleted assignment.");<?php
+      }else if($_GET["warning"]==5){
+        ?>alert("Revision Time can not be less than zero.");<?php
+      }else if($_GET["warning"]==6){
+        ?>alert("Successfully updated Time Distribution.");<?php
       }
     }
   ?>
@@ -60,6 +64,7 @@ $(document).ready(function() {
     $("#ReadingHours").html(TotalReadingHours);
     $("#ContactHours").html(TotalContactHours);
     $("#RevisionHours").html(TotalRevisionHours);
+    $("input[name='RevisionHours']").val(WeekRevisionHours);
     $("#WeekRevisionHours").html(WeekRevisionHours);
   }
    
@@ -93,11 +98,18 @@ $(document).ready(function() {
 
       <div class="card mb-3">
         <div class="card-header">
-          <i class="fa fa-flask"></i> <?php echo($getTrimester->CourseCode);?> - <?php echo($getTrimester->CourseName);?>
 
-          <?php if($getEditTrimester){?>
-            <button name="btnSubmitEdit" type="submit" class="btn btn btn-primary float-right"><i class="fa fa-save"></i></button>
-          <?php }?>
+          <?php echo form_open_multipart();?>
+            <i class="fa fa-flask"></i> <?php echo($getTrimester->CourseCode);?> - <?php echo($getTrimester->CourseName);?>
+
+            <?php if($getDeactivateTrimester){?>
+              <button name="btnSubmitDeactivate" type="submit" class="btn btn btn-secondary float-right" title="Deactivate"><i class="fa fa-square"></i> Deactivate</button>
+            <?php }?>
+
+            <?php if($getActivateTrimester){?>
+              <button name="btnSubmitActivate" type="submit" class="btn btn btn-primary float-right" title="Activate"><i class="fa fa-check"></i> Activate</button>
+            <?php }?>
+          <?php echo form_close()?>
         </div>
         <div class="card-body">
           <div class="row">
@@ -183,123 +195,125 @@ $(document).ready(function() {
         </div>
 
         <div class="col-sm-6">
-          <div class="card mb-3">
-            <div class="card-header">
-              <i class="fa fa-clock-o"></i> Time Distribution
-            </div>
+          <?php echo form_open_multipart();?>
+            <div class="card mb-3">
+              <div class="card-header">
+                <i class="fa fa-clock-o"></i> Time Distribution
+                <?php if($getEditTrimester){?>
+                  <button name="btnSubmitTimeDist" type="submit" class="btn btn btn-primary float-right" title="Save">
+                    <i class="fa fa-save"></i>
+                  </button>
+                <?php }?>
+              </div>
 
-            <div class="card-body">
-             <form>
-                  <div class="form-group">
-                    <div class="form-row">
-                      <!-- will edit later in change request-->
-                      <!--
-                      <div class="col-md-6">
-                        <label>Percentage of Full Time</label>
-                        <input class="form-control" type="number" placeholder="Percentage of Full Time" min=1 max=100>
-                      </div>
-                      -->
-                      <div class="col-md-6">
-                        <label>Number of Weeks</label>
-                        <?php
-                          $WeeksTrimester=$getTotalWeeksTrimester->WeeksTrimester;
-                          if($getTrimester->CompletionWeeks>0){
-                            $WeeksTrimester=$getTrimester->CompletionWeeks;
-                          }
-                        ?>
-                        <input class="form-control" type="number" placeholder="Number of Weeks" min=1 max=52 name="CompletionWeeks"
-                        value="<?php echo($WeeksTrimester); ?>">
-                      </div>
-                      <div class="col-md-6">
-                        <label>Total Hours/Week</label>
-                        <input class="form-control" type="number" value="<?php echo(intval($getTrimester->CompletionHours)); ?>" name="CompletionHours" placeholder="Total Hours/Week" >
-                      </div>
+              <div class="card-body">
+                <div class="form-group">
+                  <div class="form-row">
+                    <!-- will edit later in change request-->
+                    <!--
+                    <div class="col-md-6">
+                      <label>Percentage of Full Time</label>
+                      <input class="form-control" type="number" placeholder="Percentage of Full Time" min=1 max=100>
                     </div>
-                    <div class="form-row">
-                     
-                      <div class="col-md-6">
-                        <label>Total Hours</label>
-                        <input class="form-control" type="number" aria-describedby="nameHelp" value="<?php echo(intval($getTrimester->CompletionHours*$WeeksTrimester)); ?>" readonly="" name="TotalHours">
-                      </div>
+                    -->
+                    <div class="col-md-6">
+                      <label>Number of Weeks</label>
+                      <?php
+                        $WeeksTrimester=$getTotalWeeksTrimester->WeeksTrimester;
+                        if($getTrimester->CompletionWeeks>0){
+                          $WeeksTrimester=$getTrimester->CompletionWeeks;
+                        }
+                      ?>
+                      <input class="form-control" type="number" placeholder="Number of Weeks" min=1 max=52 name="CompletionWeeks"
+                      value="<?php echo($WeeksTrimester); ?>">
                     </div>
-                    <br><br>
-
-                    <div class="form-row">
-                      <div class="table-responsive">
-                        <table class="table table-bordered" width="100%" cellspacing="0">
-                          <thead>
-                            <tr>
-                              <th>Item</th>
-                              <th>Hours/Week</th>
-                              <th>Hours Total</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr>
-                              <td>Assessment</td>
-                              <td></td>
-                              <td align="right">
-                                <div id="AssignmentHours">
-                                  <?php echo(intval($getTotalAssignmentHours->AssignmentHours));?>
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>Readings</td>
-                              <td>
-                                <input class="form-control" name="ReadingHours" style="width: 50px;" type="number" value="<?php echo($getTrimester->ReadingHours);?>">
-                              </td>
-                              <td align="right">
-                                <div id="ReadingHours">
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>Classes</td>
-                              <td>
-                                <input class="form-control"  name="ContactHours" style="width: 50px;" type="number" value="<?php echo($getTrimester->ContactHours);?>">
-                              </td>
-                              <td align="right">
-                                <div id="ContactHours">
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>Revision Time</td>
-                              <td>
-                                <div id="WeekRevisionHours">
-                                </div>
-                              </td>
-                              <td align="right">
-                                <div id="RevisionHours">
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                          <tfoot>
-                            <tr>
-                              <th colspan="2">Total Hours</th>
-                              <td align="right">
-                                <div id="TotalHours">
-                                  <?php echo(intval($getTrimester->CompletionHours*$WeeksTrimester));?>
-                                </div>
-                              </td>
-                            </tr>
-                           
-                          </tfoot>
-                        </table>
-                      </div>
-                     
+                    <div class="col-md-6">
+                      <label>Total Hours/Week</label>
+                      <input class="form-control" type="number" value="<?php echo(intval($getTrimester->CompletionHours)); ?>" name="CompletionHours" min=1 placeholder="Total Hours/Week" >
                     </div>
                   </div>
-                  
-                </form>
-              </div>
+                  <div class="form-row">
+                   
+                    <div class="col-md-6">
+                      <label>Total Hours</label>
+                      <input class="form-control" type="number" aria-describedby="nameHelp" value="<?php echo(intval($getTrimester->CompletionHours*$WeeksTrimester)); ?>" readonly="" name="TotalHours">
+                    </div>
+                  </div>
+                  <br><br>
+
+                  <div class="form-row">
+                    <div class="table-responsive">
+                      <table class="table table-bordered" width="100%" cellspacing="0">
+                        <thead>
+                          <tr>
+                            <th>Item</th>
+                            <th>Hours/Week</th>
+                            <th>Hours Total</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>Assessment</td>
+                            <td></td>
+                            <td align="right">
+                              <div id="AssignmentHours">
+                                <?php echo(intval($getTotalAssignmentHours->AssignmentHours));?>
+                              </div>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>Readings</td>
+                            <td>
+                              <input class="form-control" name="ReadingHours" style="width: 50px;" type="number" min=0 value="<?php echo($getTrimester->ReadingHours);?>">
+                            </td>
+                            <td align="right">
+                              <div id="ReadingHours">
+                              </div>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>Classes</td>
+                            <td>
+                              <input class="form-control" name="ContactHours" style="width: 50px;" type="number" min=0 value="<?php echo($getTrimester->ContactHours);?>">
+                            </td>
+                            <td align="right">
+                              <div id="ContactHours">
+                              </div>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>Revision Time</td>
+                            <td>
+                              <input class="form-control" name="RevisionHours" style="width: 50px;" type="hidden" value="">
+                              <div id="WeekRevisionHours">
+                              </div>
+                            </td>
+                            <td align="right">
+                              <div id="RevisionHours">
+                              </div>
+                            </td>
+                          </tr>
+                        </tbody>
+                        <tfoot>
+                          <tr>
+                            <th colspan="2">Total Hours</th>
+                            <td align="right">
+                              <div id="TotalHours">
+                                <?php echo(intval($getTrimester->CompletionHours*$WeeksTrimester));?>
+                              </div>
+                            </td>
+                          </tr>
+                         
+                        </tfoot>
+                      </table>
+                    </div>
+                  </div>
+               </div>
+            </div>
           </div>
         </div>
-
-    
       </div>
+    <?php echo form_close()?>
       <!-- Example DataTables Card-->
 
     </div>

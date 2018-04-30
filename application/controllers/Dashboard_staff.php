@@ -65,7 +65,54 @@ class Dashboard_staff extends CI_Controller {
 				}
 			}
 
+			if(isset($_POST["btnSubmitTimeDist"])){
+				$transaction = true;
+
+				if($_POST["CompletionHours"]<0){
+					$transaction=false;
+				}if($_POST["CompletionWeeks"]<0){
+					$transaction=false;
+				}if($_POST["ReadingHours"]<0){
+					$transaction=false;
+				}if($_POST["ContactHours"]<0){
+					$transaction=false;
+				}if($_POST["RevisionHours"]<0){
+					$transaction=false;
+					redirect('Dashboard_staff/detail/'.$data["getTrimester"]->TrimesterID."?warning=5");
+				}
+				
+				if($transaction){
+					$_POST["TrimesterID"]=$data["getTrimester"]->TrimesterID;
+					$this->Dashboard_staffModel->updateTrimesterHours($_POST);
+					redirect('Dashboard_staff/detail/'.$data["getTrimester"]->TrimesterID."?warning=6");
+				}
+			}
+
+			if(isset($_POST["btnSubmitActivate"])){
+				$transaction = true;
+				
+				if($transaction){
+					$_POST["TrimesterID"]=$data["getTrimester"]->TrimesterID;
+					$this->Dashboard_staffModel->activateTrimester($_POST["TrimesterID"]);
+					redirect('Dashboard_staff/detail/'.$data["getTrimester"]->TrimesterID."?warning=7");
+				}
+			}
+
+			if(isset($_POST["btnSubmitDeactivate"])){
+				$transaction = true;
+				
+				if($transaction){
+					$_POST["TrimesterID"]=$data["getTrimester"]->TrimesterID;
+					$this->Dashboard_staffModel->deactivateTrimester($_POST["TrimesterID"]);
+					redirect('Dashboard_staff/detail/'.$data["getTrimester"]->TrimesterID."?warning=8");
+				}
+			}
+
+			
+
 			$data["getEditTrimester"]=$this->Dashboard_staffModel->getEditTrimester($id);
+			$data["getActivateTrimester"]=$this->Dashboard_staffModel->getActivateTrimester($id);
+			$data["getDeactivateTrimester"]=$this->Dashboard_staffModel->getDeactivateTrimester($id);
 			$data["getTrimesterStaff"]=$this->Dashboard_staffModel->getTrimesterStaff($id);
 			$data["getTrimesterAssignment"]=$this->Dashboard_staffModel->getTrimesterAssignment($id);
 			$data["getTotalAssignmentHours"]=$this->Dashboard_staffModel->getTotalAssignmentHours($id);

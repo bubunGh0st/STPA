@@ -145,10 +145,51 @@ class Dashboard_staffModel extends CI_Model {
             $this->db->trans_complete();
         }
 
-        //to return one row all columns from selected tr_course_trimester
+        //to check if trimester can be edited
          public function getEditTrimester($TrimesterID){
                
             $this->db->where('TrimesterID',$TrimesterID);
+            $this->db->where('Status','INACTIVE');
+            $this->db->where("(Startdate> '".date("Y-m-d")."')");
+            $this->db->select("1");
+            $this->db->from("tr_course_trimester");
+            $query = $this->db->get();
+            $row = $query->row();
+            if($row!=NULL){
+                $result = TRUE;
+            }else{
+                $result = FALSE;
+            }
+
+            return $result;
+        }
+
+        //to check if trimester can be activated
+         public function getActivateTrimester($TrimesterID){
+               
+            $this->db->where('TrimesterID',$TrimesterID);
+            $this->db->where('CompletionWeeks >',0);
+            $this->db->where('CompletionHours >',0);
+            $this->db->where('Status','INACTIVE');
+            $this->db->where("(Startdate> '".date("Y-m-d")."')");
+            $this->db->select("1");
+            $this->db->from("tr_course_trimester");
+            $query = $this->db->get();
+            $row = $query->row();
+            if($row!=NULL){
+                $result = TRUE;
+            }else{
+                $result = FALSE;
+            }
+
+            return $result;
+        }
+
+        //to check if trimester can be deactivated
+         public function getDeactivateTrimester($TrimesterID){
+               
+            $this->db->where('TrimesterID',$TrimesterID);
+            $this->db->where('Status','ACTIVE');
             $this->db->where("(Startdate> '".date("Y-m-d")."')");
             $this->db->select("1");
             $this->db->from("tr_course_trimester");
@@ -179,6 +220,71 @@ class Dashboard_staffModel extends CI_Model {
             //insert into log_activity
             $this->db->set('RefID', $post["TrimesterID"][$i]);
             $this->db->set('Action', "INSERTED ASSIGNMENT");
+            $this->db->set('EntryTime', date("Y-m-d H:i:s"));
+            $this->db->set('EntryEmail', $this->session->userdata['Email']);
+            $this->db->insert('log_activity'); 
+
+            $this->db->trans_complete();
+        }
+
+         //To update hours in tr_course_trimester_assignment
+        public function updateTrimesterHours($post){
+
+            $this->db->trans_start();
+
+            //insert into tr_course_trimester_assignment
+            $this->db->where('TrimesterID', $post["TrimesterID"]);
+            $this->db->set('CompletionHours', intval($post["CompletionHours"]));
+            $this->db->set('CompletionWeeks', intval($post["CompletionWeeks"]));
+            $this->db->set('ReadingHours', intval($post["ReadingHours"]));
+            $this->db->set('ContactHours', intval($post["ContactHours"]));
+            $this->db->update('tr_course_trimester');
+
+            //still need an update to distribute to custom table
+
+            //insert into log_activity
+            $this->db->set('RefID', $post["TrimesterID"]);
+            $this->db->set('Action', "UPDATED TRIMESTER HOURS");
+            $this->db->set('EntryTime', date("Y-m-d H:i:s"));
+            $this->db->set('EntryEmail', $this->session->userdata['Email']);
+            $this->db->insert('log_activity'); 
+
+            $this->db->trans_complete();
+        }
+
+         //To activate trimester
+        public function activateTrimester($TrimesterID){
+
+            $this->db->trans_start();
+
+            //update tr_course_trimester_assignment
+            $this->db->where('TrimesterID', $TrimesterID);
+            $this->db->set('Status', 'ACTIVE');
+            $this->db->update('tr_course_trimester');
+
+            //insert into log_activity
+            $this->db->set('RefID', $TrimesterID);
+            $this->db->set('Action', "ACTIVATE TRIMESTER");
+            $this->db->set('EntryTime', date("Y-m-d H:i:s"));
+            $this->db->set('EntryEmail', $this->session->userdata['Email']);
+            $this->db->insert('log_activity'); 
+
+            $this->db->trans_complete();
+        }
+
+         //To deactivate trimester
+        public function deactivateTrimester($TrimesterID){
+
+            $this->db->trans_start();
+
+            //insert into tr_course_trimester_assignment
+            $this->db->where('TrimesterID', $TrimesterID);
+            $this->db->set('Status', 'INACTIVE');
+            $this->db->update('tr_course_trimester');
+
+            //insert into log_activity
+            $this->db->set('RefID', $TrimesterID);
+            $this->db->set('Action', "DEACTIVATE TRIMESTER");
             $this->db->set('EntryTime', date("Y-m-d H:i:s"));
             $this->db->set('EntryEmail', $this->session->userdata['Email']);
             $this->db->insert('log_activity'); 
