@@ -11,7 +11,6 @@ class Dashboard_staffModel extends CI_Model {
             $this->db->join("tr_course_trimester b","b.TrimesterID = a.TrimesterID");
             $this->db->join("ms_course c","c.CourseID = b.CourseID");
             $this->db->where('a.StaffEmail',$Email);
-            $this->db->where('b.Status','ACTIVE');
             $query = $this->db->get();
             $result = $query->result();
                     
@@ -26,7 +25,6 @@ class Dashboard_staffModel extends CI_Model {
             $this->db->join("ms_course c","c.CourseID = b.CourseID");
             $this->db->where("(c.SiteID In (Select SiteID From ms_user_site Where Email = '".$Email."'))");
             $this->db->where("(b.TrimesterID Not In (Select TrimesterID From tr_course_trimester_staff Where StaffEmail = '".$Email."'))");
-            $this->db->where('b.Status','ACTIVE');
             $query = $this->db->get();
             $result = $query->result();
                     
@@ -49,12 +47,13 @@ class Dashboard_staffModel extends CI_Model {
             }
         }
 
-         //to return one row all columns from selected tr_course_trimester by AssignmentID
-         public function getTrimesterByAssignment($AssignmentID){
+        //to return one row all columns from selected tr_course_trimester by AssignmentID
+        public function getTrimesterByAssignment($AssignmentID){
                
             $this->db->select("a.TrimesterID");
             $this->db->from("tr_course_trimester_assignment a");
             $this->db->where('a.AssignmentID',$AssignmentID);
+            $this->db->order_by("a.FinishTime","ASC");
             $query = $this->db->get();
             $row = $query->row();
             if($row!=NULL){
@@ -64,11 +63,28 @@ class Dashboard_staffModel extends CI_Model {
             }
         }
 
-        //to return one row all columns from selected tr_course_trimester
+        //to return total assessment hours of Trimester
          public function getTotalAssignmentHours($TrimesterID){
                
             $this->db->select("sum(a.CompletionHours) as AssignmentHours");
             $this->db->from("tr_course_trimester_assignment a");
+            $this->db->where('a.TrimesterID',$TrimesterID);
+            $this->db->group_by('a.TrimesterID');
+            $query = $this->db->get();
+            $row = $query->row();
+            if($row!=NULL){
+                return $row;
+            }else{
+                return NULL;
+            }
+        }
+
+
+        //to return total weeks of Trimester
+         public function getTotalWeeksTrimester($TrimesterID){
+               
+            $this->db->select("Floor(Datediff(a.FinishDate, a.StartDate)/7) as WeeksTrimester");
+            $this->db->from("tr_course_trimester a");
             $this->db->where('a.TrimesterID',$TrimesterID);
             $this->db->group_by('a.TrimesterID');
             $query = $this->db->get();

@@ -51,11 +51,17 @@ class Dashboard_staff extends CI_Controller {
 					redirect('Dashboard_staff/detail/'.$data["getTrimester"]->TrimesterID."?warning=1");
 					$transaction=false;
 				}
+				if(date("Ymd",strtotime($_POST["FinishTime"]))<date("Ymd",strtotime($data["getTrimester"]->StartDate))){
+					
+					redirect('Dashboard_staff/detail/'.$data["getTrimester"]->TrimesterID."?warning=2");
+					$transaction=false;
+				}
+
 
 				if($transaction){
 					$_POST["TrimesterID"]=$data["getTrimester"]->TrimesterID;
 					$this->Dashboard_staffModel->insertAssignment($_POST);
-					redirect('Dashboard_staff/detail/'.$data["getTrimester"]->TrimesterID."?warning=2");
+					redirect('Dashboard_staff/detail/'.$data["getTrimester"]->TrimesterID."?warning=3");
 				}
 			}
 
@@ -63,6 +69,7 @@ class Dashboard_staff extends CI_Controller {
 			$data["getTrimesterStaff"]=$this->Dashboard_staffModel->getTrimesterStaff($id);
 			$data["getTrimesterAssignment"]=$this->Dashboard_staffModel->getTrimesterAssignment($id);
 			$data["getTotalAssignmentHours"]=$this->Dashboard_staffModel->getTotalAssignmentHours($id);
+			$data["getTotalWeeksTrimester"]=$this->Dashboard_staffModel->getTotalWeeksTrimester($id);
 			$this->load->view('templates/header');
 			$this->load->view('courses_detail_staff',$data);
 			$this->load->view('templates/footer');
@@ -75,6 +82,6 @@ class Dashboard_staff extends CI_Controller {
 	{
 		$TrimesterID=$this->Dashboard_staffModel->getTrimesterByAssignment($id)->TrimesterID;
 		$this->Dashboard_staffModel->deleteAssignment($id);
-		redirect('Dashboard_staff/detail/'.$TrimesterID."?warning=3");
+		redirect('Dashboard_staff/detail/'.$TrimesterID."?warning=4");
 	}
 }

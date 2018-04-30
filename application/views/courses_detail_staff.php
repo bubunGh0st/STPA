@@ -18,27 +18,54 @@ $(document).ready(function() {
       if($_GET["warning"]==1){
         ?>alert("Assignment Finish Date must be earlier than the Trimester Finish Date");<?php
       }else if($_GET["warning"]==2){
-        ?>alert("Successfully added assignment.");<?php
+        ?>alert("Assignment Finish Date must be later than the Trimester Start Date.");<?php
       }else if($_GET["warning"]==3){
+        ?>alert("Successfully added assignment.");<?php
+      }else if($_GET["warning"]==4){
         ?>alert("Successfully deleted assignment.");<?php
       }
     }
   ?>
+
+  calculation();
+  $("input[name='CompletionWeeks']").change(function(e){
+    calculation();
+  });
+
+  $("input[name='CompletionHours']").change(function(e){
+    calculation();
+  });
+
+  $("input[name='ReadingHours']").change(function(e){
+    calculation();
+  });
+
+  $("input[name='ContactHours']").change(function(e){
+    calculation();
+  });
+
+  function calculation(){
+    CompletionWeeks=$("input[name='CompletionWeeks']").val();
+    CompletionHours=$("input[name='CompletionHours']").val();
+    ReadingHours=$("input[name='ReadingHours']").val();
+    ContactHours=$("input[name='ContactHours']").val();
+
+    TotalHours=CompletionHours*CompletionWeeks;
+    TotalReadingHours=ReadingHours*CompletionWeeks;
+    TotalContactHours=ContactHours*CompletionWeeks;
+    TotalRevisionHours=TotalHours-TotalReadingHours-TotalContactHours;
+    WeekRevisionHours=TotalRevisionHours/CompletionWeeks;
+    $("input[name='TotalHours']").val(TotalHours);
+    $("#TotalHours").html(TotalHours);
+    $("#ReadingHours").html(TotalReadingHours);
+    $("#ContactHours").html(TotalContactHours);
+    $("#RevisionHours").html(TotalRevisionHours);
+    $("#WeekRevisionHours").html(WeekRevisionHours);
+  }
    
-} );
-</script>
-
-<script>
-var ngAssignment = angular.module('ngAssignment', []);
-ngAssignment.controller('myCtrl', function($scope) {
-    $scope.AssignmentHours= "<?php echo(intval($getTotalAssignmentHours->AssignmentHours));?>";
-    $AssignmentHours=$scope.AssignmentHours;
 });
 
-var ngTotal = angular.module('ngTotal', []);
-ngTotal.controller('myCtrl2', function($scope) {
-    $scope.TotalHours= $AssignmentHours;
-});
+
 </script>
 
 <style>
@@ -86,6 +113,7 @@ ngTotal.controller('myCtrl2', function($scope) {
             <div class="col-sm">
               <?php echo($getTrimester->TrimesterName);?>
               [<?php echo(date("d M Y",strtotime($getTrimester->StartDate)));?> - <?php echo(date("d M Y",strtotime($getTrimester->FinishDate)));?>]
+              [<?php echo($getTotalWeeksTrimester->WeeksTrimester);?> Week(s)]
             </div>
           </div>
           <div class="row">
@@ -164,23 +192,34 @@ ngTotal.controller('myCtrl2', function($scope) {
              <form>
                   <div class="form-group">
                     <div class="form-row">
+                      <!-- will edit later in change request-->
+                      <!--
                       <div class="col-md-6">
                         <label>Percentage of Full Time</label>
-                        <input class="form-control" type="number" aria-describedby="nameHelp" placeholder="Percentage of Full Time" min=1 max=100>
+                        <input class="form-control" type="number" placeholder="Percentage of Full Time" min=1 max=100>
                       </div>
+                      -->
                       <div class="col-md-6">
                         <label>Number of Weeks</label>
-                        <input class="form-control" type="number" aria-describedby="nameHelp" placeholder="Number of Weeks" min=1 max=13 value="12">
+                        <?php
+                          $WeeksTrimester=$getTotalWeeksTrimester->WeeksTrimester;
+                          if($getTrimester->CompletionWeeks>0){
+                            $WeeksTrimester=$getTrimester->CompletionWeeks;
+                          }
+                        ?>
+                        <input class="form-control" type="number" placeholder="Number of Weeks" min=1 max=52 name="CompletionWeeks"
+                        value="<?php echo($WeeksTrimester); ?>">
+                      </div>
+                      <div class="col-md-6">
+                        <label>Total Hours/Week</label>
+                        <input class="form-control" type="number" value="<?php echo(intval($getTrimester->CompletionHours)); ?>" name="CompletionHours" placeholder="Total Hours/Week" >
                       </div>
                     </div>
                     <div class="form-row">
-                      <div class="col-md-6">
-                        <label>Total Hours/Week</label>
-                        <input class="form-control" type="number" aria-describedby="nameHelp" placeholder="Total Hours/Week" >
-                      </div>
+                     
                       <div class="col-md-6">
                         <label>Total Hours</label>
-                        <input class="form-control" type="number" aria-describedby="nameHelp" value="0" readonly="">
+                        <input class="form-control" type="number" aria-describedby="nameHelp" value="<?php echo(intval($getTrimester->CompletionHours*$WeeksTrimester)); ?>" readonly="" name="TotalHours">
                       </div>
                     </div>
                     <br><br>
@@ -200,45 +239,49 @@ ngTotal.controller('myCtrl2', function($scope) {
                               <td>Assessment</td>
                               <td></td>
                               <td align="right">
-                                <div ng-app="ngAssignment" ng-controller="myCtrl">
-                                  {{AssignmentHours}}
+                                <div id="AssignmentHours">
+                                  <?php echo(intval($getTotalAssignmentHours->AssignmentHours));?>
                                 </div>
-                                
                               </td>
                             </tr>
                             <tr>
                               <td>Readings</td>
-                              <td><input class="form-control" style="width: 50px;" type="number" value="1"></td>
+                              <td>
+                                <input class="form-control" name="ReadingHours" style="width: 50px;" type="number" value="<?php echo($getTrimester->ReadingHours);?>">
+                              </td>
                               <td align="right">
-                                12
+                                <div id="ReadingHours">
+                                </div>
                               </td>
                             </tr>
                             <tr>
-                              <td>Contacts</td>
-                              <td><input class="form-control" style="width: 50px;" type="number" value="2"></td>
-                              <td align="right">
-                                24
+                              <td>Classes</td>
+                              <td>
+                                <input class="form-control"  name="ContactHours" style="width: 50px;" type="number" value="<?php echo($getTrimester->ContactHours);?>">
                               </td>
-                            </tr>
-                            <tr>
-                              <td>Exam</td>
-                              <td></td>
                               <td align="right">
-                                3
+                                <div id="ContactHours">
+                                </div>
                               </td>
                             </tr>
                             <tr>
                               <td>Revision Time</td>
-                              <td align="right">0.5</td>
-                              <td align="right">6</td>
+                              <td>
+                                <div id="WeekRevisionHours">
+                                </div>
+                              </td>
+                              <td align="right">
+                                <div id="RevisionHours">
+                                </div>
+                              </td>
                             </tr>
                           </tbody>
                           <tfoot>
                             <tr>
                               <th colspan="2">Total Hours</th>
                               <td align="right">
-                                <div ng-app="ngTotal" ng-controller="myCtrl2">
-                                  {{TotalHours}}
+                                <div id="TotalHours">
+                                  <?php echo(intval($getTrimester->CompletionHours*$WeeksTrimester));?>
                                 </div>
                               </td>
                             </tr>
