@@ -53,13 +53,18 @@ $(document).ready(function() {
     CompletionHours=$("input[name='CompletionHours']").val();
     ReadingHours=$("input[name='ReadingHours']").val();
     ContactHours=$("input[name='ContactHours']").val();
+    AssignmentHours=parseInt($("#AssignmentHours").html());
 
     TotalHours=CompletionHours*CompletionWeeks;
+    $("input[name='TotalHours']").val(TotalHours);
+    
     TotalReadingHours=ReadingHours*CompletionWeeks;
     TotalContactHours=ContactHours*CompletionWeeks;
-    TotalRevisionHours=TotalHours-TotalReadingHours-TotalContactHours;
-    WeekRevisionHours=TotalRevisionHours/CompletionWeeks;
-    $("input[name='TotalHours']").val(TotalHours);
+    TotalRevisionHours=TotalHours-TotalReadingHours-TotalContactHours-AssignmentHours;
+    WeekRevisionHours=Math.round(TotalRevisionHours/CompletionWeeks);
+    TotalRevisionHours=WeekRevisionHours*CompletionWeeks;
+    TotalHours=TotalRevisionHours+TotalContactHours+TotalReadingHours+AssignmentHours;
+
     $("#TotalHours").html(TotalHours);
     $("#ReadingHours").html(TotalReadingHours);
     $("#ContactHours").html(TotalContactHours);
@@ -225,7 +230,7 @@ $(document).ready(function() {
                         }
                       ?>
                       <input class="form-control" type="number" placeholder="Number of Weeks" min=1 max=52 name="CompletionWeeks"
-                      value="<?php echo($WeeksTrimester); ?>">
+                      value="<?php echo(intval($WeeksTrimester)); ?>">
                     </div>
                     <div class="col-md-6">
                       <label>Total Hours/Week</label>
@@ -235,7 +240,7 @@ $(document).ready(function() {
                   <div class="form-row">
                    
                     <div class="col-md-6">
-                      <label>Total Hours</label>
+                      <label>Estimated Total Hours</label>
                       <input class="form-control" type="number" aria-describedby="nameHelp" value="<?php echo(intval($getTrimester->CompletionHours*$WeeksTrimester)); ?>" readonly="" name="TotalHours">
                     </div>
                   </div>
@@ -347,7 +352,7 @@ $(document).ready(function() {
                 </div>
                 <div class="form-group">
                   <label>Hours to Complete</label>
-                  <input type="number" class="form-control" name="CompletionHours" placeholder="Hours to Complete">
+                  <input type="number" class="form-control" name="CompletionHours" placeholder="Hours to Complete" min=1>
                 </div>
                 <button class="btn btn-primary btn-block" name="btnSubmitAddAssignment"><i class="fa fa-plus"></i> Add Assessment</button>
               <?php echo form_close()?>
