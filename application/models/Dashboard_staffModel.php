@@ -49,6 +49,37 @@ class Dashboard_staffModel extends CI_Model {
             }
         }
 
+         //to return one row all columns from selected tr_course_trimester by AssignmentID
+         public function getTrimesterByAssignment($AssignmentID){
+               
+            $this->db->select("a.TrimesterID");
+            $this->db->from("tr_course_trimester_assignment a");
+            $this->db->where('a.AssignmentID',$AssignmentID);
+            $query = $this->db->get();
+            $row = $query->row();
+            if($row!=NULL){
+                return $row;
+            }else{
+                return NULL;
+            }
+        }
+
+        //to return one row all columns from selected tr_course_trimester
+         public function getTotalAssignmentHours($TrimesterID){
+               
+            $this->db->select("sum(a.CompletionHours) as AssignmentHours");
+            $this->db->from("tr_course_trimester_assignment a");
+            $this->db->where('a.TrimesterID',$TrimesterID);
+            $this->db->group_by('a.TrimesterID');
+            $query = $this->db->get();
+            $row = $query->row();
+            if($row!=NULL){
+                return $row;
+            }else{
+                return NULL;
+            }
+        }
+
         //return all staff related to this course trimester
         public function getTrimesterStaff($TrimesterID){
                
@@ -65,7 +96,7 @@ class Dashboard_staffModel extends CI_Model {
         //return all Assignment  related to this course trimester
         public function getTrimesterAssignment($TrimesterID){
                
-            $this->db->select("a.*");
+            $this->db->select("a.*"); 
             $this->db->from("tr_course_trimester_assignment a");
             $this->db->where('a.TrimesterID',$TrimesterID);
             $query = $this->db->get();
@@ -116,4 +147,45 @@ class Dashboard_staffModel extends CI_Model {
             return $result;
         }
 
+        //To insert in tr_course_trimester_assignment
+        public function insertAssignment($post){
+
+            $this->db->trans_start();
+
+            //insert into tr_course_trimester_assignment
+            $this->db->set('TrimesterID', $post["TrimesterID"]);
+            $this->db->set('Title', $post["Title"]);
+            $this->db->set('Description', $post["Description"]);
+            $this->db->set('FinishTime', date("Y-m-d H:i:s",strtotime($post["FinishTime"])));
+            $this->db->set('CompletionHours', intval($post["CompletionHours"]));
+            $this->db->insert('tr_course_trimester_assignment');
+
+            //insert into log_activity
+            $this->db->set('RefID', $post["TrimesterID"][$i]);
+            $this->db->set('Action', "INSERTED ASSIGNMENT");
+            $this->db->set('EntryTime', date("Y-m-d H:i:s"));
+            $this->db->set('EntryEmail', $this->session->userdata['Email']);
+            $this->db->insert('log_activity'); 
+
+            $this->db->trans_complete();
+        }
+
+        //To delete from in tr_course_trimester_assignment
+        public function deleteAssignment($AssignmentID){
+
+            $this->db->trans_start();
+
+            //delete from tr_course_trimester_assignment
+            $this->db->where('AssignmentID', $AssignmentID);
+            $this->db->delete('tr_course_trimester_assignment');
+
+            //insert into log_activity
+            $this->db->set('RefID', $AssignmentID);
+            $this->db->set('Action', "DELETED ASSIGNMENT");
+            $this->db->set('EntryTime', date("Y-m-d H:i:s"));
+            $this->db->set('EntryEmail', $this->session->userdata['Email']);
+            $this->db->insert('log_activity'); 
+
+            $this->db->trans_complete();
+        }
 }

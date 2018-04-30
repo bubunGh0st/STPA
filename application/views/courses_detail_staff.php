@@ -10,11 +10,35 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $(document).ready(function() {
 
   $(function() {
-   $('#FinishTime').datepicker();
+   $('input[name="FinishTime"]').datepicker();
   });
 
+  <?php 
+    if(isset($_GET["warning"])){
+      if($_GET["warning"]==1){
+        ?>alert("Assignment Finish Date must be earlier than the Trimester Finish Date");<?php
+      }else if($_GET["warning"]==2){
+        ?>alert("Successfully added assignment.");<?php
+      }else if($_GET["warning"]==3){
+        ?>alert("Successfully deleted assignment.");<?php
+      }
+    }
+  ?>
    
 } );
+</script>
+
+<script>
+var ngAssignment = angular.module('ngAssignment', []);
+ngAssignment.controller('myCtrl', function($scope) {
+    $scope.AssignmentHours= "<?php echo(intval($getTotalAssignmentHours->AssignmentHours));?>";
+    $AssignmentHours=$scope.AssignmentHours;
+});
+
+var ngTotal = angular.module('ngTotal', []);
+ngTotal.controller('myCtrl2', function($scope) {
+    $scope.TotalHours= $AssignmentHours;
+});
 </script>
 
 <style>
@@ -109,18 +133,15 @@ $(document).ready(function() {
                       <tr>
                         <td><?php echo($items->Title);?></td>
                         <td>
-                          <?php echo(date("d M Y H:i",strtotime($items->FinishTime)));?>
+                          <?php echo(date("d M Y",strtotime($items->FinishTime)));?>
                           <br>
-                          [<?php echo($items->CompletionHours);?> Hour(s)]
-                          <input type="hidden" name="AssignmentID[]" value="<?php echo($items->AssignmentID);?>">
-                          <input type="hidden" name="Title[]" value="<?php echo($items->Title);?>">
-                          <input type="hidden" name="Description[]" value="<?php echo($items->Description);?>">
-                          <input type="hidden" name="FinishTime[]" value="<?php echo($items->FinishTime);?>">
-                          <input type="hidden" name="CompletionHours[]" value="<?php echo($items->CompletionHours);?>">
+                          [<?php echo(intval($items->CompletionHours));?> Hour(s)]
                         </td>
                         <td>
                           <?php if($getEditTrimester){?>
-                            <button onclick="return confirm('Delete this Assignment?');" class="btnDeleteAssignment btn btn-danger"><i class="fa fa-trash"></i></button>
+                            <a href="<?php echo(site_url());?>/Dashboard_staff/deleteAssignment/<?php echo($items->AssignmentID);?>" onclick="return confirm('Delete this Assignment?');" class="btnDeleteAssignment btn btn-danger">
+                              <i class="fa fa-trash"></i>
+                            </a>
                           <?php }?>
                         </td>
                       </tr>
@@ -179,7 +200,10 @@ $(document).ready(function() {
                               <td>Assessment</td>
                               <td></td>
                               <td align="right">
-                                15
+                                <div ng-app="ngAssignment" ng-controller="myCtrl">
+                                  {{AssignmentHours}}
+                                </div>
+                                
                               </td>
                             </tr>
                             <tr>
@@ -212,7 +236,11 @@ $(document).ready(function() {
                           <tfoot>
                             <tr>
                               <th colspan="2">Total Hours</th>
-                              <td align="right">60</td>
+                              <td align="right">
+                                <div ng-app="ngTotal" ng-controller="myCtrl2">
+                                  {{TotalHours}}
+                                </div>
+                              </td>
                             </tr>
                            
                           </tfoot>

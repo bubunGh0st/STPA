@@ -43,25 +43,38 @@ class Dashboard_staff extends CI_Controller {
 		$data["getTrimester"]=$this->Dashboard_staffModel->getTrimester($id);
 		if($data["getTrimester"]!=NULL){
 
-			//edit course header
-			if(isset($_POST["btnSubmit"])){
+			if(isset($_POST["btnSubmitAddAssignment"])){
 				$transaction = true;
 
+				if(date("Ymd",strtotime($_POST["FinishTime"]))>=date("Ymd",strtotime($data["getTrimester"]->FinishDate))){
+					
+					redirect('Dashboard_staff/detail/'.$data["getTrimester"]->TrimesterID."?warning=1");
+					$transaction=false;
+				}
+
 				if($transaction){
-					$_POST["CourseID"]=$data["getCourse"]->CourseID;
-					$this->CoursesModel->updateCourse($_POST);
-					redirect('Courses/detail/'.$data["getCourse"]->CourseID."?warning=1");
+					$_POST["TrimesterID"]=$data["getTrimester"]->TrimesterID;
+					$this->Dashboard_staffModel->insertAssignment($_POST);
+					redirect('Dashboard_staff/detail/'.$data["getTrimester"]->TrimesterID."?warning=2");
 				}
 			}
 
 			$data["getEditTrimester"]=$this->Dashboard_staffModel->getEditTrimester($id);
 			$data["getTrimesterStaff"]=$this->Dashboard_staffModel->getTrimesterStaff($id);
 			$data["getTrimesterAssignment"]=$this->Dashboard_staffModel->getTrimesterAssignment($id);
+			$data["getTotalAssignmentHours"]=$this->Dashboard_staffModel->getTotalAssignmentHours($id);
 			$this->load->view('templates/header');
 			$this->load->view('courses_detail_staff',$data);
 			$this->load->view('templates/footer');
 		}else{
-			redirect('Courses');
+			redirect('Dashboard_staff');
 		}
+	}
+
+	public function deleteAssignment($id = "")
+	{
+		$TrimesterID=$this->Dashboard_staffModel->getTrimesterByAssignment($id)->TrimesterID;
+		$this->Dashboard_staffModel->deleteAssignment($id);
+		redirect('Dashboard_staff/detail/'.$TrimesterID."?warning=3");
 	}
 }

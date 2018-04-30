@@ -26,7 +26,6 @@ $(document).ready(function() {
         <div class="card-header">
           <i class="fa fa-flask"></i> Courses Trimester
             <button data-toggle="modal" data-target="#modal-add-course-trimester" class="btn btn btn-primary float-right"><i class="fa fa-plus"></i></button>
-          <?php }?>
         </div>
         <div class="card-body">
           <div class="table-responsive">
