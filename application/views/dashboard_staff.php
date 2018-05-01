@@ -82,7 +82,7 @@ $(document).ready(function() {
                 <div class="form-group">
                   <div class="form-check checklist" >
                     <?php foreach($getStaffNotCourses as $items){?>
-                        <label class="form-check-label"><input class="form-check-input" type="checkbox" name="TrimesterID[]" value="<?php echo($items->TrimesterID);?>"> <?php echo($items->CourseCode);?> - <?php echo($items->CourseName);?></label><br>
+                        <label class="form-check-label"><input class="form-check-input" type="checkbox" name="TrimesterID[]" value="<?php echo($items->TrimesterID);?>"> <?php echo($items->CourseCode);?> - <?php echo($items->CourseName);?> - <?php echo($items->TrimesterName);?></label><br>
                     <?php }?>
                   </div>
                 </div>

@@ -80,10 +80,11 @@ class CI_Controller {
 		log_message('info', 'Controller Class Initialized');
 		
         $this->load->helper('url');
+        $this->load->helper('form');
         $this->load->library('session');
+        
         $this->load->model('SignInModel');
         $this->load->model('ModulesModel');
-        $this->load->helper('form');
         
 		if (isset($this->session->userdata['Email'])){
         	$getProfile = $this->SignInModel->getProfile($this->session->userdata['Email']);

@@ -57,7 +57,7 @@ $(document).ready(function() {
 
     TotalHours=CompletionHours*CompletionWeeks;
     $("input[name='TotalHours']").val(TotalHours);
-    
+
     TotalReadingHours=ReadingHours*CompletionWeeks;
     TotalContactHours=ContactHours*CompletionWeeks;
     TotalRevisionHours=TotalHours-TotalReadingHours-TotalContactHours-AssignmentHours;
@@ -229,7 +229,7 @@ $(document).ready(function() {
                           $WeeksTrimester=$getTrimester->CompletionWeeks;
                         }
                       ?>
-                      <input class="form-control" type="number" placeholder="Number of Weeks" min=1 max=52 name="CompletionWeeks"
+                      <input class="form-control" type="number" placeholder="Number of Weeks" min=1 max=<?php echo md5($getTotalWeeksTrimester->WeeksTrimester);?> name="CompletionWeeks"
                       value="<?php echo(intval($WeeksTrimester)); ?>">
                     </div>
                     <div class="col-md-6">
