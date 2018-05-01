@@ -26,6 +26,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $config['base_url'] = 'http://stpa.000webhostapp.com/';
 $config['base_url'] = '';
 
+//Ryan - configure timezone
+date_default_timezone_set('Pacific/Auckland');
+
 /*
 |--------------------------------------------------------------------------
 | Index File
