@@ -261,8 +261,12 @@ $(document).ready(function() {
                             <td>Assessment</td>
                             <td></td>
                             <td align="right">
+                              <?php 
+                              $AssignmentHours=0;
+                              if(isset($getTotalAssignmentHours->AssignmentHours))$AssignmentHours=intval($getTotalAssignmentHours->AssignmentHours);
+                              ?>
                               <div id="AssignmentHours">
-                                <?php echo(intval($getTotalAssignmentHours->AssignmentHours));?>
+                                <?php echo($AssignmentHours);?>
                               </div>
                             </td>
                           </tr>

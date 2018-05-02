@@ -238,6 +238,7 @@ class Dashboard_staffModel extends CI_Model {
             $this->db->set('CompletionWeeks', intval($post["CompletionWeeks"]));
             $this->db->set('ReadingHours', intval($post["ReadingHours"]));
             $this->db->set('ContactHours', intval($post["ContactHours"]));
+            $this->db->set('RevisionHours', intval($post["RevisionHours"]));
             $this->db->update('tr_course_trimester');
 
             //still need an update to distribute to custom table

@@ -109,7 +109,7 @@ class CoursesModel extends CI_Model {
             $this->db->set('CompletionHours', 0);
             $this->db->set('CompletionWeeks', 0);
             $this->db->set('ReadingHours', 0);
-            $this->db->set('ExamHours', 0);
+            $this->db->set('RevisionHours', 0);
             $this->db->set('ContactHours', 0);
             $this->db->set('Status', 'INACTIVE');
             $this->db->insert('tr_course_trimester');

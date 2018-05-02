@@ -1,16 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites>
-  <testsuite name="Dashboard_staffModelTest" file="C:\xampp\htdocs\STPA\application\tests\Dashboard_staffModelTest.php" fullPackage="Dashboard" tests="11" assertions="21" failures="0" errors="0" time="0.057752">
-    <testcase name="testgetStaffCourses" class="Dashboard_staffModelTest" file="C:\xampp\htdocs\STPA\application\tests\Dashboard_staffModelTest.php" line="21" assertions="1" time="0.014466"/>
-    <testcase name="testgetStaffNotCourses" class="Dashboard_staffModelTest" file="C:\xampp\htdocs\STPA\application\tests\Dashboard_staffModelTest.php" line="31" assertions="2" time="0.004465"/>
-    <testcase name="testgetTrimester" class="Dashboard_staffModelTest" file="C:\xampp\htdocs\STPA\application\tests\Dashboard_staffModelTest.php" line="45" assertions="2" time="0.004485"/>
-    <testcase name="testgetTrimesterByAssignment" class="Dashboard_staffModelTest" file="C:\xampp\htdocs\STPA\application\tests\Dashboard_staffModelTest.php" line="59" assertions="2" time="0.004467"/>
-    <testcase name="testgetTotalAssignmentHours" class="Dashboard_staffModelTest" file="C:\xampp\htdocs\STPA\application\tests\Dashboard_staffModelTest.php" line="71" assertions="2" time="0.004213"/>
-    <testcase name="testgetTotalWeeksTrimester" class="Dashboard_staffModelTest" file="C:\xampp\htdocs\STPA\application\tests\Dashboard_staffModelTest.php" line="87" assertions="2" time="0.005417"/>
-    <testcase name="testgetTrimesterStaff" class="Dashboard_staffModelTest" file="C:\xampp\htdocs\STPA\application\tests\Dashboard_staffModelTest.php" line="100" assertions="2" time="0.003994"/>
-    <testcase name="testgetTrimesterAssignment" class="Dashboard_staffModelTest" file="C:\xampp\htdocs\STPA\application\tests\Dashboard_staffModelTest.php" line="115" assertions="2" time="0.004345"/>
-    <testcase name="testgetEditTrimester" class="Dashboard_staffModelTest" file="C:\xampp\htdocs\STPA\application\tests\Dashboard_staffModelTest.php" line="132" assertions="2" time="0.005218"/>
-    <testcase name="testgetActivateTrimester" class="Dashboard_staffModelTest" file="C:\xampp\htdocs\STPA\application\tests\Dashboard_staffModelTest.php" line="147" assertions="2" time="0.003526"/>
-    <testcase name="testgetDeactivateTrimester" class="Dashboard_staffModelTest" file="C:\xampp\htdocs\STPA\application\tests\Dashboard_staffModelTest.php" line="163" assertions="2" time="0.003156"/>
+  <testsuite name="MyTestCase" file="C:\xampp\htdocs\STPA\application\tests\MyTestCase.php" tests="1" assertions="1" failures="0" errors="0" time="0.018640">
+    <testcase name="testReadDatabase" class="MyTestCase" file="C:\xampp\htdocs\STPA\application\tests\MyTestCase.php" line="11" assertions="1" time="0.018640"/>
   </testsuite>
 </testsuites>
