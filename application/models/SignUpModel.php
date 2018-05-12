@@ -49,6 +49,7 @@ class SignUpModel extends CI_Model {
                 $this->db->set('Title', $post["Title"]);
                 $this->db->set('RoleID', "SITE-ADMIN");
                 $this->db->set('Status', "WAIT-APPROVAL");
+                $this->db->set('SiteSuggestion',$post["SiteSuggestion"]);
                 $this->db->insert('ms_user');
 
                 //insert into ms_user_site

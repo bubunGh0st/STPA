@@ -84,6 +84,7 @@ class CoursesModel extends CI_Model {
             $this->db->set('CourseCode', $post["CourseCode"]);
             $this->db->set('CourseName', $post["CourseName"]);
             $this->db->set('SiteID', $post["SiteID"]);
+            $this->db->set('CourseCredit',$post["CourseCredit"]);
             $this->db->insert('ms_course');
 
             //insert into log_activity
@@ -132,6 +133,7 @@ class CoursesModel extends CI_Model {
             $this->db->set('CourseCode', $post["CourseCode"]);
             $this->db->set('CourseName', $post["CourseName"]);
             $this->db->set('SiteID', $post["SiteID"]);
+            $this->db->set('CourseCredit',$post["CourseCredit"]);
             $this->db->where('CourseID', $post['CourseID']);
             $this->db->update('ms_course'); 
 

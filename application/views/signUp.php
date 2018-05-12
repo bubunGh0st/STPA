@@ -18,6 +18,7 @@ if($_GET["warning"]!=NULL){
       <div class="card-header">Register as Site Admin</div>
       <div class="card-body">
         <?php echo form_open_multipart();?>
+
           <div class="form-group">
             As a site admin, you are responsible to maintain the course and staff data on your institution
           </div>
@@ -43,14 +44,29 @@ if($_GET["warning"]!=NULL){
               </div>
             </div>
           </div>
+
           <div class="form-group">
-            <label>Site <i data-toggle="modal" data-target="#modal-site-info" class="fa fa-question-circle text-danger" title="Please contact administrator if you do not find your site. Phone: 0123456789"></i></label>
-            <div class="form-check checklist" >
-              <?php foreach($getSites as $items){?>
-                <label class="form-check-label"><input class="form-check-input" name="SiteID[]" value="<?php echo($items->SiteID);?>"  type="checkbox"><?php echo($items->SiteName);?></label><br>
-              <?php }?>
-            </div>
+
+            <div class="form-row">
+              <div class="col-md-6">
+                  <label>Site <i data-toggle="modal" data-target="#modal-site-info" class="fa fa-question-circle text-danger" title="Please contact administrator if you do not find your site."></i></label>
+                  <div class="form-check checklist" >
+                  <?php foreach($getSites as $items){?>
+                    <label class="form-check-label"><input class="form-check-input" name="SiteID[]" value="<?php echo($items->SiteID);?>"  type="checkbox"><?php echo($items->SiteName);?></label><br>
+                  <?php }?>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <label>Site Suggestion</label>
+                  <textarea class="form-control" name="SiteSuggestion" placeholder="Enter your site suggestions" ></textarea>
+
+                </div>
+              </div>
+
           </div>
+
+
           <button class="btn btn-primary btn-block" name="btnSubmit" href="<?php echo(site_url());?>/signIn"><i class="fa fa-fw fa-user-plus"></i> Register</button>
         <?php echo form_close()?>
         <div class="text-center">
@@ -59,6 +75,7 @@ if($_GET["warning"]!=NULL){
       </div>
     </div>
   </div>
+
   <!-- Bootstrap core JavaScript-->
   <script src="<?php echo(base_url());?>vendor/jquery/jquery.min.js"></script>
   <script src="<?php echo(base_url());?>vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

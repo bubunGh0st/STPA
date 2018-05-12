@@ -120,6 +120,11 @@ $(document).ready(function() {
                   <?php }?>
                 </select>
               </div>
+
+               <div class="form-group">
+                <label>Course Credit Suggestion</label>
+                <textarea class="form-control" name="CourseCredit" placeholder="Course Credit suggestion"></textarea>
+              </div>
               <button type="submit" class="btn btn-primary btn-block" name="btnSubmitAdd"><i class="fa fa-save"></i> Save</button>
             <?php echo form_close()?>
           </div>
