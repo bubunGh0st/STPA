@@ -37,6 +37,19 @@ class Approval extends CI_Controller {
 				redirect('Approval/index/?warning=2');
 			}
 		}
+
+		if(isset($_POST["btnSubmitAddSite"])){
+			$transaction = true;
+
+			if($transaction){
+				$_POST["Contact"]="";
+				$_POST["Address"]="";
+				$this->ApprovalModel->addSite($_POST);
+
+				redirect('Approval/index/?warning=3');
+			}
+		}
+
 		$data["getApprovalList"]=$this->ApprovalModel->getApprovalList();
 		$this->load->view('templates/header');
 		$this->load->view('approval',$data);

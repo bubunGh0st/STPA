@@ -33,6 +33,12 @@ $(document).ready(function() {
         var Email = $(e.relatedTarget).data('id');
         $(e.currentTarget).find('input[name="Email"]').val(Email);
     });
+
+     $('#modal-add-user-site').on('show.bs.modal', function (e) {
+        var Email = $(e.relatedTarget).data('id');
+        $(e.currentTarget).find('input[name="Email"]').val(Email);
+         
+    });
 } );
 </script>
 
@@ -100,6 +106,13 @@ $(document).ready(function() {
                       foreach ($getuserSite as $itemsSite) {
                         echo($itemsSite->SiteName."<br>");
                       }
+
+                      if(!empty($items->SiteSuggestion)){
+                        echo("<br>");
+                        echo("[".$items->SiteSuggestion."]");
+                        echo("<br>");
+                        echo("<a data-id='".$items->Email."' class='text-primary' data-toggle='modal' data-target='#modal-add-user-site'>Add New Sites <i class='fa fa-plus'></i></a>");
+                      }
                       ?>
                     </td>
                     <td><?php echo($items->Status);?></td>
@@ -115,7 +128,6 @@ $(document).ready(function() {
             </table>
           </div>
         </div>
-        <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
       </div>
       <!-- Example DataTables Card-->
 
@@ -160,6 +172,34 @@ $(document).ready(function() {
             <button class="btn btn-danger" type="submit" name="btnSubmitReject"><i class="fa fa-ban"></i> Reject</button>
             <input type="hidden" name="Email" value="">
             <?php echo form_close()?>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="modal-add-user-site" User="dialog">
+      <div class="modal-dialog">
+      
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header text-center">
+            <h4>Add New Site for user</h4>
+          </div>
+          <div class="modal-body">
+            <?php echo form_open_multipart();?>
+              <input type="hidden" class="form-control" name="Email" placeholder="E-mail" required="">
+              <div class="form-group">
+                <label>Site Name</label>
+                <input type="text" class="form-control" name="SiteName" placeholder="Site Name" required="">
+              </div>
+              <button type="submit" name="btnSubmitAddSite" class="btn btn-primary btn-block"><i class="fa fa-save"></i> Save</button>
+            <?php echo form_close()?>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-danger btn-default pull-left" data-dismiss="modal">
+              <i class="fa fa-remove"></i> Cancel
+            </button>
+            
           </div>
         </div>
       </div>

@@ -9,8 +9,7 @@ class ApprovalModel extends CI_Model {
             $this->db->order_by('a.Status','DESC');
             $this->db->where('a.RoleID', "SITE-ADMIN");
             $this->db->where_in('a.Status', array("WAIT-APPROVAL","REJECTED","ACTIVE-RESET"));
-            $this->db->select("a.*, (Select y.SiteName From ms_user_site x 
-                                     Inner Join ms_site y On y.SiteID = x.SiteID Where x.Email=Email Limit 0,1) as SiteName");
+            $this->db->select("a.*");
             $this->db->from("ms_user a");
             $query = $this->db->get();
             //var_dump($this->db->last_query());
@@ -71,4 +70,39 @@ class ApprovalModel extends CI_Model {
             $this->db->trans_complete();
         }
 
+        //add new site from suggestion
+        public function addSite($post){
+
+            $this->db->trans_start();
+
+            $this->db->set('Contact', $post["Contact"]);
+            $this->db->set('Address', $post["Address"]);
+            $this->db->set('SiteName', $post["SiteName"]);
+            $this->db->insert('ms_site'); 
+
+            $this->db->limit(1,0);
+            $this->db->order_by("SiteID","DESC");
+            $this->db->select("SiteID");
+            $this->db->from("ms_site");
+            $query = $this->db->get();
+            $row = $query->row();
+            if($row!=NULL){
+                    $result=$row->SiteID;
+            }else{
+                    $result=1;
+            }
+
+            $this->db->set('Email', $post["Email"]);
+            $this->db->set('SiteID', $result);
+            $this->db->insert('ms_user_site'); 
+
+            //insert into log_activity
+            $this->db->set('RefID', $post["SiteName"]);
+            $this->db->set('Action', "INSERTED SITE FOR USER");
+            $this->db->set('EntryTime', date("Y-m-d H:i:s"));
+            $this->db->set('EntryEmail', $this->session->userdata['Email']);
+            $this->db->insert('log_activity'); 
+
+            $this->db->trans_complete();
+        }
 }

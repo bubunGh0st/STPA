@@ -125,7 +125,7 @@ $(document).ready(function() {
     <!-- /.container-fluid-->
     <!-- /.content-wrapper-->
 
-     <!-- Modal -->
+    <!-- Modal -->
     <div class="modal fade" id="modal-add-User" User="dialog">
       <div class="modal-dialog">
       
