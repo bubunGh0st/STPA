@@ -118,7 +118,9 @@ $(document).ready(function() {
                     <td><?php echo($items->Status);?></td>
                     <td>
                       <?php if($items->Status=="WAIT-APPROVAL"){?>
-                        <button data-id="<?php echo($items->Email);?>" data-toggle="modal" data-target="#modal-approve-user" class="btn btn btn-primary"><i class="fa fa-check"></i></button>
+                        <?php if(!empty($getuserSite)){?>
+                          <button data-id="<?php echo($items->Email);?>" data-toggle="modal" data-target="#modal-approve-user" class="btn btn btn-primary"><i class="fa fa-check"></i></button>
+                        <?php }?>
                         <button data-id="<?php echo($items->Email);?>" data-toggle="modal" data-target="#modal-reject-user" class="btn btn-danger"><i class="fa fa-ban"></i></button>
                       <?php }?>
                     </td>
