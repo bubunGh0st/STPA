@@ -213,7 +213,7 @@ class Dashboard_staffModel extends CI_Model {
             $this->db->set('TrimesterID', $post["TrimesterID"]);
             $this->db->set('Title', $post["Title"]);
             $this->db->set('Description', $post["Description"]);
-            $this->db->set('FinishTime', date("Y-m-d H:i:s",strtotime($post["FinishTime"])));
+            $this->db->set('FinishTime', date("Y-m-d 23:59:59",strtotime($post["FinishTime"])));
             $this->db->set('CompletionHours', intval($post["CompletionHours"]));
             $this->db->insert('tr_course_trimester_assignment');
 
