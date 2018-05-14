@@ -91,13 +91,18 @@ $(document).ready(function() {
                 <?php }?>
               </select>
             </div>
+
+            <div class="form-group">
+              <label>Course Credit Suggestion</label>
+              <textarea class="form-control" name="CourseCredit" placeholder="Course credit suggestion"><?php echo($getCourse->CourseCredit);?></textarea>
+            </div>
           </div>
         </div>
       <?php echo form_close()?>
 
       <div class="card mb-3">
         <div class="card-header">
-          <i class="fa fa-flask"></i> Trimester
+          <i class="fa fa-flask"></i> Term
           <button data-toggle="modal" data-target="#modal-add-trimester" class="btn btn btn-primary float-right"><i class="fa fa-plus"></i></button>
         </div>
         <div class="card-body">
@@ -156,12 +161,12 @@ $(document).ready(function() {
         <!-- Modal content-->
         <div class="modal-content">
           <div class="modal-header text-center">
-            <h4>Add New Trimester</h4>
+            <h4>Add New Academic Term</h4>
           </div>
           <div class="modal-body">
             <?php echo form_open_multipart();?>
              <div class="form-group">
-                <label>Trimester Name</label>
+                <label>Term</label>
                 <input type="text" class="form-control" name="TrimesterName" placeholder="Trimester Name">
               </div>
               <div class="form-group">
@@ -190,7 +195,7 @@ $(document).ready(function() {
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Are you sure to delete this Trimester?</h5>
+            <h5 class="modal-title" id="exampleModalLabel">Are you sure to delete this Term?</h5>
             <button class="close" type="button" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">×</span>
             </button>

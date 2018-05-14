@@ -34,7 +34,7 @@ class Dashboard_staffModel extends CI_Model {
         //to return one row all columns from selected tr_course_trimester
          public function getTrimester($TrimesterID){
                
-            $this->db->select("a.*, b.CourseName, b.CourseCode");
+            $this->db->select("a.*, b.CourseName, b.CourseCode, b.CourseCredit");
             $this->db->from("tr_course_trimester a");
             $this->db->join("ms_course b","a.CourseID = b.CourseID");
             $this->db->where('a.TrimesterID',$TrimesterID);

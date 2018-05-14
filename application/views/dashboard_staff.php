@@ -24,7 +24,7 @@ $(document).ready(function() {
 
       <div class="card mb-3">
         <div class="card-header">
-          <i class="fa fa-flask"></i> Courses Trimester
+          <i class="fa fa-flask"></i> Academic Term
             <button data-toggle="modal" data-target="#modal-add-course-trimester" class="btn btn btn-primary float-right"><i class="fa fa-plus"></i></button>
         </div>
         <div class="card-body">
@@ -34,7 +34,7 @@ $(document).ready(function() {
                 <tr>
                   <th>Course Code</th>
                   <th>Name</th>
-                  <th>Trimester</th>
+                  <th>Term</th>
                   <th>Actions</th>
                 </tr>
               </thead>
@@ -42,7 +42,7 @@ $(document).ready(function() {
                 <tr>
                   <th>Course Code</th>
                   <th>Name</th>
-                  <th>Trimester</th>
+                  <th>Term</th>
                   <th>Actions</th>
                 </tr>
               </tfoot>
@@ -71,7 +71,7 @@ $(document).ready(function() {
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Available Course Trimester</h5>
+            <h5 class="modal-title" id="exampleModalLabel">Available Academic Term</h5>
             <button class="close" type="button" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">×</span>
             </button>

@@ -2,12 +2,6 @@
 
 class MyTestCase extends TestCase {
 
-private $conn = null;
-
-public function getConnection() {
-    return $this->conn;
-}
-
     function testReadDatabase() {
     $conn = new mysqli("localhost", "root", "","db_stp");
 

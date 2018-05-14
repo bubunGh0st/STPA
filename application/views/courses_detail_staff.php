@@ -146,7 +146,17 @@ $(document).ready(function() {
           </div>
           <div class="row">
             <div class="col-sm"><strong>Status</strong></div>
-            <div class="col-sm"><?php echo($getTrimester->Status);?></div>
+            <div class="col-sm">
+              <b>
+              <?php 
+              if($getTrimester->Status=="ACTIVE"){
+                echo("<font color='blue'>".$getTrimester->Status."</font>");
+              }else if($getTrimester->Status=="DEACTIVE"){
+                echo("<font color='red'>".$getTrimester->Status."</font>");
+              }
+              ?>
+              </b>
+            </div>
           </div>
         </div>
       </div>
@@ -211,8 +221,21 @@ $(document).ready(function() {
                 <?php }?>
               </div>
 
+
               <div class="card-body">
                 <div class="form-group">
+
+                  <div class="form-row">
+                    <label>Course Information</label> 
+                  </div>
+                  <div class="form-row">
+                    <b>
+                    <?php echo($getTrimester->CourseCredit);?>
+                    </b>
+                  </div>
+
+                  <br>
+
                   <div class="form-row">
                     <!-- will edit later in change request-->
                     <!--
@@ -222,7 +245,7 @@ $(document).ready(function() {
                     </div>
                     -->
                     <div class="col-md-6">
-                      <label>Number of Weeks</label>
+                      <label>Number of Contact Weeks</label>
                       <?php
                         $WeeksTrimester=$getTotalWeeksTrimester->WeeksTrimester;
                         if($getTrimester->CompletionWeeks>0){
@@ -233,7 +256,7 @@ $(document).ready(function() {
                       value="<?php echo(intval($WeeksTrimester)); ?>">
                     </div>
                     <div class="col-md-6">
-                      <label>Total Hours/Week</label>
+                      <label>Expected Hours/Week</label>
                       <input class="form-control" type="number" value="<?php echo(intval($getTrimester->CompletionHours)); ?>" name="CompletionHours" min=1 placeholder="Total Hours/Week" >
                     </div>
                   </div>
@@ -355,7 +378,7 @@ $(document).ready(function() {
                   <div class="clear"></div>
                 </div>
                 <div class="form-group">
-                  <label>Hours to Complete</label>
+                  <label>Hours Expected to prepare</label>
                   <input type="number" class="form-control" name="CompletionHours" placeholder="Hours to Complete" min=1>
                 </div>
                 <button class="btn btn-primary btn-block" name="btnSubmitAddAssignment"><i class="fa fa-plus"></i> Add Assessment</button>
