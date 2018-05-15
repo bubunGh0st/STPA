@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites>
-  <testsuite name="MyTestCase" file="C:\xampp\htdocs\STPA\application\tests\MyTestCase.php" tests="1" assertions="1" failures="0" errors="0" time="0.009429">
-    <testcase name="testReadDatabase" class="MyTestCase" file="C:\xampp\htdocs\STPA\application\tests\MyTestCase.php" line="5" assertions="1" time="0.009429"/>
+  <testsuite name="SignInModelDBTest" file="C:\xampp\htdocs\STPA\application\tests\SignInModelDBTest.php" tests="4" assertions="4" failures="0" errors="0" time="0.937829">
+    <testcase name="testIsSession" class="SignInModelDBTest" file="C:\xampp\htdocs\STPA\application\tests\SignInModelDBTest.php" line="16" assertions="1" time="0.129355"/>
+    <testcase name="testIsSignIn_successful" class="SignInModelDBTest" file="C:\xampp\htdocs\STPA\application\tests\SignInModelDBTest.php" line="21" assertions="1" time="0.800785"/>
+    <testcase name="testIsSignIn_InvalidEmail" class="SignInModelDBTest" file="C:\xampp\htdocs\STPA\application\tests\SignInModelDBTest.php" line="28" assertions="1" time="0.003023"/>
+    <testcase name="testIsSignIn_InvalidPass" class="SignInModelDBTest" file="C:\xampp\htdocs\STPA\application\tests\SignInModelDBTest.php" line="35" assertions="1" time="0.004666"/>
   </testsuite>
 </testsuites>
