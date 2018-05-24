@@ -75,9 +75,13 @@ class CoursesModel extends CI_Model {
         }
 
         //To insert in course database
-        public function insertCourse($post){
+        public function insertCourse($post,$Email=""){
 
             $this->db->trans_start();
+
+            if(empty($Email)){
+            $Email= $this->session->userdata['Email'];
+            }
 
             //insert into ms_course
             $this->db->set('CourseID', $post["CourseID"]);
@@ -91,16 +95,22 @@ class CoursesModel extends CI_Model {
             $this->db->set('RefID', $post["CourseID"]);
             $this->db->set('Action', "INSERTED COURSE");
             $this->db->set('EntryTime', date("Y-m-d H:i:s"));
-            $this->db->set('EntryEmail', $this->session->userdata['Email']);
+            $this->db->set('EntryEmail', $Email);
             $this->db->insert('log_activity'); 
 
             $this->db->trans_complete();
         }
 
         //To insert in trimester database
-        public function insertTrimester($post){
+        public function insertTrimester($post,$Email=""){
 
             $this->db->trans_start();
+
+            if(empty($Email)){
+            $Email=$this->session->userdata['Email'];
+            }
+
+
 
             //insert into tr_course_trimester
             $this->db->set('CourseID', $post["CourseID"]);
@@ -119,16 +129,22 @@ class CoursesModel extends CI_Model {
             $this->db->set('RefID', $post["CourseID"]);
             $this->db->set('Action', "INSERTED TRIMESTER");
             $this->db->set('EntryTime', date("Y-m-d H:i:s"));
-            $this->db->set('EntryEmail', $this->session->userdata['Email']);
+            $this->db->set('EntryEmail', $Email);
             $this->db->insert('log_activity'); 
 
             $this->db->trans_complete();
+            
         }
 
         //Edit Courses
-        public function updateCourse($post){
+        public function updateCourse($post,$Email=""){
 
             $this->db->trans_start();
+
+            if(empty($Email)){
+            $Email=$this->session->userdata['Email'];
+            }
+
 
             $this->db->set('CourseCode', $post["CourseCode"]);
             $this->db->set('CourseName', $post["CourseName"]);
@@ -141,7 +157,7 @@ class CoursesModel extends CI_Model {
             $this->db->set('RefID', $post["CourseID"]);
             $this->db->set('Action', "UPDATED COURSE");
             $this->db->set('EntryTime', date("Y-m-d H:i:s"));
-            $this->db->set('EntryEmail', $this->session->userdata['Email']);
+            $this->db->set('EntryEmail', $Email);
             $this->db->insert('log_activity'); 
 
             $this->db->trans_complete();
@@ -165,9 +181,13 @@ class CoursesModel extends CI_Model {
         }
 
         //To delete course
-        public function deleteCourse($CourseID){
+        public function deleteCourse($CourseID,$Email=""){
 
             $this->db->trans_start();
+            if(empty($Email)){
+            $Email=$this->session->userdata['Email'];
+            }
+
 
             $this->db->where('CourseID', $CourseID);
             $this->db->delete('ms_course');
@@ -176,7 +196,7 @@ class CoursesModel extends CI_Model {
             $this->db->set('RefID', $CourseID);
             $this->db->set('Action', "DELETED COURSE");
             $this->db->set('EntryTime', date("Y-m-d H:i:s"));
-            $this->db->set('EntryEmail', $this->session->userdata['Email']);
+            $this->db->set('EntryEmail', $Email);
             $this->db->insert('log_activity'); 
 
             $this->db->trans_complete();
@@ -201,9 +221,13 @@ class CoursesModel extends CI_Model {
         }
 
          //To delete trimester
-        public function deleteTrimester($TrimesterID){
+        public function deleteTrimester($TrimesterID,$Email=""){
             
             $this->db->trans_start();
+            if(empty($Email)){
+            $Email=$this->session->userdata['Email'];
+            }
+
 
             $this->db->where('TrimesterID', $TrimesterID);
             $this->db->delete('tr_course_trimester');
@@ -212,7 +236,7 @@ class CoursesModel extends CI_Model {
             $this->db->set('RefID', $TrimesterID);
             $this->db->set('Action', "DELETED TRIMESTER");
             $this->db->set('EntryTime', date("Y-m-d H:i:s"));
-            $this->db->set('EntryEmail', $this->session->userdata['Email']);
+            $this->db->set('EntryEmail', $Email);
             $this->db->insert('log_activity'); 
 
             $this->db->trans_complete();

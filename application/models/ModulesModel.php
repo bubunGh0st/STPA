@@ -45,9 +45,13 @@ class ModulesModel extends CI_Model {
             return $result;
         }
         //To insert into module database.
-        public function insertModule($post){
+        public function insertModule($post,$Email=""){
 
             $this->db->trans_start();
+
+            if(empty($Email)){
+            $Email=$this->session->userdata['Email'];
+            }
 
             //insert into ms_module
             $this->db->set('ModuleID', $post["ModuleID"]);
@@ -58,15 +62,20 @@ class ModulesModel extends CI_Model {
             $this->db->set('RefID', $post["ModuleID"]);
             $this->db->set('Action', "INSERTED MODULE");
             $this->db->set('EntryTime', date("Y-m-d H:i:s"));
-            $this->db->set('EntryEmail', $this->session->userdata['Email']);
+            $this->db->set('EntryEmail', $Email);
             $this->db->insert('log_activity'); 
 
             $this->db->trans_complete();
         }
+
         //Edit Module
-        public function updateModule($post){
+        public function updateModule($post,$Email=""){
 
             $this->db->trans_start();
+
+            if(empty($Email)){
+            $Email=$this->session->userdata['Email'];
+            }
 
             $this->db->set('ModuleName', $post["ModuleName"]);
             $this->db->where('ModuleID', $post['ModuleID']);
@@ -76,15 +85,20 @@ class ModulesModel extends CI_Model {
             $this->db->set('RefID', $post["ModuleID"]);
             $this->db->set('Action', "UPDATED MODULE");
             $this->db->set('EntryTime', date("Y-m-d H:i:s"));
-            $this->db->set('EntryEmail', $this->session->userdata['Email']);
+            $this->db->set('EntryEmail', $Email);
             $this->db->insert('log_activity'); 
 
             $this->db->trans_complete();
         }
+
         //delete module
-        public function deleteModule($ModuleID){
+        public function deleteModule($ModuleID,$Email=""){
 
             $this->db->trans_start();
+
+            if(empty($Email)){
+            $Email=$this->session->userdata['Email'];
+            }
 
             $this->db->where('ModuleID', $ModuleID);
             $this->db->delete('ms_module');
@@ -93,11 +107,12 @@ class ModulesModel extends CI_Model {
             $this->db->set('RefID', $ModuleID);
             $this->db->set('Action', "DELETED MODULE");
             $this->db->set('EntryTime', date("Y-m-d H:i:s"));
-            $this->db->set('EntryEmail', $this->session->userdata['Email']);
+            $this->db->set('EntryEmail', $Email);
             $this->db->insert('log_activity'); 
 
             $this->db->trans_complete();
         }
+        
         //To check if module is in ms_role_module table
         public function isDeleteModule($ModuleID){
 
