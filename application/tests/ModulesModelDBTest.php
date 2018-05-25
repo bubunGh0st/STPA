@@ -1,5 +1,5 @@
 <?php
-class CoursesModelDBTest extends TestCase
+class ModulesModelDBTest extends TestCase
 {
 	protected function setUp()
 	{
