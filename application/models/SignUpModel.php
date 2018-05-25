@@ -38,11 +38,15 @@ class SignUpModel extends CI_Model {
         }
 
         //To sign up new user
-        public function insertUser($post,$newPassword){
+        public function insertUser($post,$newPassword,$Email=""){
                 $this->db->trans_start();
 
+                if(empty($Email)){
+                        $Email = $this->session->userdata['Email'];
+                }
+
                 //insert into ms_user
-                $this->db->set('Email', $post["Email"]);
+                $this->db->set('Email', $Email);
                 $this->db->set('Password', md5($newPassword));
                 $this->db->set('FName', $post["FName"]);
                 $this->db->set('LName', $post["LName"]);
@@ -55,17 +59,17 @@ class SignUpModel extends CI_Model {
                 //insert into ms_user_site
                 if(isset($post["SiteID"])){
                         for($i=0;$i<=count($post["SiteID"])-1;$i++){
-                                $this->db->set('Email', $post["Email"]);
+                                $this->db->set('Email', $Email);
                                 $this->db->set('SiteID', $post["SiteID"][$i]);
                                 $this->db->insert('ms_user_site'); 
                         }
                 }
 
                 //insert into log_activity
-                $this->db->set('RefID', $post["Email"]);
+                $this->db->set('RefID', $Email);
                 $this->db->set('Action', "SIGN UP");
                 $this->db->set('EntryTime', date("Y-m-d H:i:s"));
-                $this->db->set('EntryEmail', $post["Email"]);
+                $this->db->set('EntryEmail', $Email);
                 $this->db->insert('log_activity'); 
 
                 $this->db->trans_complete();

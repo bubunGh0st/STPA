@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites>
-  <testsuite name="Dashboard_staffModelDBTest" file="C:\xampp\htdocs\STPA\application\tests\Dashboard_staffModelDBTest.php" fullPackage="Dashboard" tests="1" assertions="0" failures="0" errors="0" time="0.029060">
-    <testcase name="testdeactivateTrimester" class="Dashboard_staffModelDBTest" file="C:\xampp\htdocs\STPA\application\tests\Dashboard_staffModelDBTest.php" line="64" assertions="0" time="0.029060"/>
+  <testsuite name="SignUpModelDBTest" file="C:\xampp\htdocs\STPA\application\tests\SignUpModelDBTest.php" tests="1" assertions="0" failures="0" errors="0" time="0.059857">
+    <testcase name="testinsertUser" class="SignUpModelDBTest" file="C:\xampp\htdocs\STPA\application\tests\SignUpModelDBTest.php" line="16" assertions="0" time="0.059857"/>
   </testsuite>
 </testsuites>

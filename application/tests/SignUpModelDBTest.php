@@ -13,20 +13,19 @@ class SignUpModelDBTest extends TestCase{
         $this->SignUpModel = NULL;
     }
 
-	public function testisInsertUser(){
-		$post["Email"]="scaventum@gmail.com";
+	public function testinsertUser(){
+		$Email="scaventumm@gmail.com";
 		$newPassword="12345";
-		$post["FName"]="Ryan";
-		$post["LName"]="Djoenaidi";
+		$post["FName"]="yan";
+		$post["LName"]="joenaidi";
 		$post["Title"]="Mr";
-		$post["SiteSuggestion"]="";
+		$post["SiteSuggestion"]="Petone";
 
-		$post["SiteID"]=array();
+		$post["SiteID"]="1";
 
-		$post["SiteID"][0]="";
 
-		$output = $this->SignUpModel->insertUser($post,$newPassword);
-		$this->assertFalse($output);
+		$output = $this->SignUpModel->insertUser($post,$newPassword,$Email);
+		
 
 	}
 }
