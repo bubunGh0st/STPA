@@ -32,48 +32,57 @@ class ApprovalModel extends CI_Model {
         }
 
         //User approval
-        public function approveUser($post){
+        public function approveUser($post,$Email=""){
 
             $this->db->trans_start();
+            if(empty($Email)){
+                $Email = $this->session->userdata['Email'];
+            }
 
             $this->db->set('Status', "ACTIVE-RESET");
             $this->db->set('Password', md5($post['Password']));
-            $this->db->where('Email', $post['Email']);
+            $this->db->where('Email', $Email);
             $this->db->update('ms_user'); 
 
             //insert into log_activity
-            $this->db->set('RefID', $post["Email"]);
+            $this->db->set('RefID', $Email);
             $this->db->set('Action', "USER APPROVED");
             $this->db->set('EntryTime', date("Y-m-d H:i:s"));
-            $this->db->set('EntryEmail', $this->session->userdata['Email']);
+            $this->db->set('EntryEmail', $Email);
             $this->db->insert('log_activity'); 
 
             $this->db->trans_complete();
         }
 
         //User Rejection
-        public function rejectUser($post){
+        public function rejectUser($Email){
 
             $this->db->trans_start();
+            if(empty($Email)){
+                $Email = $this->session->userdata['Email'];
+            }
 
             $this->db->set('Status', "REJECTED");
-            $this->db->where('Email', $post['Email']);
+            $this->db->where('Email', $Email);
             $this->db->update('ms_user'); 
 
             //insert into log_activity
-            $this->db->set('RefID', $post["Email"]);
+            $this->db->set('RefID', $Email);
             $this->db->set('Action', "USER REJECTED");
             $this->db->set('EntryTime', date("Y-m-d H:i:s"));
-            $this->db->set('EntryEmail', $this->session->userdata['Email']);
+            $this->db->set('EntryEmail', $Email);
             $this->db->insert('log_activity'); 
 
             $this->db->trans_complete();
         }
 
         //add new site from suggestion
-        public function addSite($post){
+        public function addSite($post,$Email=""){
 
             $this->db->trans_start();
+            if(empty($Email)){
+                $Email = $this->session->userdata['Email'];
+            }
 
             $this->db->set('Contact', $post["Contact"]);
             $this->db->set('Address', $post["Address"]);
@@ -92,7 +101,7 @@ class ApprovalModel extends CI_Model {
                     $result=1;
             }
 
-            $this->db->set('Email', $post["Email"]);
+            $this->db->set('Email', $Email);
             $this->db->set('SiteID', $result);
             $this->db->insert('ms_user_site'); 
 
@@ -100,7 +109,7 @@ class ApprovalModel extends CI_Model {
             $this->db->set('RefID', $post["SiteName"]);
             $this->db->set('Action', "INSERTED SITE FOR USER");
             $this->db->set('EntryTime', date("Y-m-d H:i:s"));
-            $this->db->set('EntryEmail', $this->session->userdata['Email']);
+            $this->db->set('EntryEmail', $Email);
             $this->db->insert('log_activity'); 
 
             $this->db->trans_complete();

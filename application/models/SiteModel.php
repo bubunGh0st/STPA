@@ -29,11 +29,12 @@ class SiteModel extends CI_Model {
             }
         }
 
-    
-
-
         //To insert into site database.
-        public function insertSite($post){
+        public function insertSite($post,$email=""){
+
+            if(empty($email)){
+                $email=$this->session->userdata['Email'];
+            }
 
             $this->db->trans_start();
 
@@ -48,7 +49,7 @@ class SiteModel extends CI_Model {
             $this->db->set('RefID', $post["SiteName"]);
             $this->db->set('Action', "INSERTED SITE");
             $this->db->set('EntryTime', date("Y-m-d H:i:s"));
-            $this->db->set('EntryEmail', $this->session->userdata['Email']);
+            $this->db->set('EntryEmail', $email);
             $this->db->insert('log_activity'); 
 
             $this->db->trans_complete();
@@ -56,7 +57,10 @@ class SiteModel extends CI_Model {
 
 
         //Edit Site
-        public function updateSite($post){
+        public function updateSite($post,$email=""){
+            if(empty($email)){
+                $email=$this->session->userdata['Email'];
+            }
 
             $this->db->trans_start();
 
@@ -70,14 +74,18 @@ class SiteModel extends CI_Model {
             $this->db->set('RefID', $post["SiteID"]);
             $this->db->set('Action', "UPDATED SITE");
             $this->db->set('EntryTime', date("Y-m-d H:i:s"));
-            $this->db->set('EntryEmail', $this->session->userdata['Email']);
+            $this->db->set('EntryEmail', $email);
             $this->db->insert('log_activity'); 
 
             $this->db->trans_complete();
         }
         
         //Delete Site
-        public function deleteSite($SiteID){
+        public function deleteSite($SiteID,$email=""){
+
+             if(empty($email)){
+                $email=$this->session->userdata['Email'];
+            }
 
             $this->db->trans_start();
 
@@ -88,14 +96,18 @@ class SiteModel extends CI_Model {
             $this->db->set('RefID', $SiteID);
             $this->db->set('Action', "DELETED SITE");
             $this->db->set('EntryTime', date("Y-m-d H:i:s"));
-            $this->db->set('EntryEmail', $this->session->userdata['Email']);
+            $this->db->set('EntryEmail', $email);
             $this->db->insert('log_activity'); 
 
             $this->db->trans_complete();
         }
 
         //To check if site is in ms_site table
-        public function isDeleteSite($SiteID){
+        public function isDeleteSite($SiteID,$email=""){
+
+            if(empty($email)){
+                $email=$this->session->userdata['Email'];
+            }
 
             $this->db->select("SiteID");
             $this->db->from("ms_course");

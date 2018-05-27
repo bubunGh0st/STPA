@@ -55,9 +55,12 @@ class RolesModel extends CI_Model {
         }
 
          //To insert into role database.
-        public function insertRole($post){
+        public function insertRole($post,$Email=""){
 
             $this->db->trans_start();
+            if(empty($Email)){
+                $Email=$this->session->userdata['Email'];
+            }
 
             //insert into ms_module
             $this->db->set('RoleID', $post["RoleID"]);
@@ -68,16 +71,20 @@ class RolesModel extends CI_Model {
             $this->db->set('RefID', $post["RoleID"]);
             $this->db->set('Action', "INSERTED ROLE");
             $this->db->set('EntryTime', date("Y-m-d H:i:s"));
-            $this->db->set('EntryEmail', $this->session->userdata['Email']);
+            $this->db->set('EntryEmail', $Email);
             $this->db->insert('log_activity'); 
 
             $this->db->trans_complete();
         }
 
         //Edit Module
-        public function updateRole($post){
+        public function updateRole($post,$Email=""){
 
             $this->db->trans_start();
+            
+            if(empty($Email)){
+                $Email=$this->session->userdata['Email'];
+            }
 
             $this->db->set('RoleName', $post["RoleName"]);
             $this->db->where('RoleID', $post['RoleID']);
@@ -87,7 +94,7 @@ class RolesModel extends CI_Model {
             $this->db->set('RefID', $post["RoleID"]);
             $this->db->set('Action', "UPDATED ROLE");
             $this->db->set('EntryTime', date("Y-m-d H:i:s"));
-            $this->db->set('EntryEmail', $this->session->userdata['Email']);
+            $this->db->set('EntryEmail', $Email);
             $this->db->insert('log_activity'); 
 
             $this->db->trans_complete();
@@ -111,9 +118,12 @@ class RolesModel extends CI_Model {
         }
 
          //grant module to role
-        public function grantModule($post){
+        public function grantModule($post,$Email=""){
 
             $this->db->trans_start();
+            if(empty($Email)){
+                $Email=$this->session->userdata['Email'];
+            }
 
             //insert into ms_module
             $this->db->set('RoleID', $post["RoleID"]);
@@ -124,16 +134,20 @@ class RolesModel extends CI_Model {
             $this->db->set('RefID', $post["RoleID"]);
             $this->db->set('Action', "GRANT MODULE ".$post["ModuleID"]);
             $this->db->set('EntryTime', date("Y-m-d H:i:s"));
-            $this->db->set('EntryEmail', $this->session->userdata['Email']);
+            $this->db->set('EntryEmail', $Email);
             $this->db->insert('log_activity'); 
 
             $this->db->trans_complete();
         }
 
         //revoke module from role
-        public function revokeModule($post){
+        public function revokeModule($post,$Email=""){
 
             $this->db->trans_start();
+            if(empty($Email)){
+                $Email=$this->session->userdata['Email'];
+            }
+
 
             $this->db->where('RoleID', $post["RoleID"]);
             $this->db->where('ModuleID', $post["ModuleID"]);
@@ -143,7 +157,7 @@ class RolesModel extends CI_Model {
             $this->db->set('RefID', $post["RoleID"]);
             $this->db->set('Action', "INVOKE MODULE ".$post["ModuleID"]);
             $this->db->set('EntryTime', date("Y-m-d H:i:s"));
-            $this->db->set('EntryEmail', $this->session->userdata['Email']);
+            $this->db->set('EntryEmail', $Email);
             $this->db->insert('log_activity'); 
 
             $this->db->trans_complete();
@@ -167,9 +181,12 @@ class RolesModel extends CI_Model {
         }
 
          //delete role
-        public function deleteRole($RoleID){
+        public function deleteRole($RoleID,$Email=""){
 
             $this->db->trans_start();
+            if(empty($Email)){
+                $Email=$this->session->userdata['Email'];
+            }
 
             $this->db->where('RoleID', $RoleID);
             $this->db->delete('ms_role_module');
@@ -180,7 +197,7 @@ class RolesModel extends CI_Model {
             $this->db->set('RefID', $RoleID);
             $this->db->set('Action', "DELETED ROLE");
             $this->db->set('EntryTime', date("Y-m-d H:i:s"));
-            $this->db->set('EntryEmail', $this->session->userdata['Email']);
+            $this->db->set('EntryEmail', $Email);
             $this->db->insert('log_activity'); 
 
             $this->db->trans_complete();

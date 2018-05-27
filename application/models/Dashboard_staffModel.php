@@ -122,22 +122,25 @@ class Dashboard_staffModel extends CI_Model {
         }
 
         //To insert in tr_course_trimester_staff
-        public function assignCourse($post){
+        public function assignCourse($post,$Email=""){
 
             $this->db->trans_start();
+            if(empty($Email)){
+                $Email = $this->session->userdata['Email'];
+            }
 
             if(isset($post["TrimesterID"])){
                 for($i=0;$i<=count($post["TrimesterID"])-1;$i++){
                     //insert into tr_course_trimester_staff
                     $this->db->set('TrimesterID', $post["TrimesterID"][$i]);
-                    $this->db->set('StaffEmail', $post["Email"]);
+                    $this->db->set('StaffEmail', $Email);
                     $this->db->insert('tr_course_trimester_staff');
 
                     //insert into log_activity
                     $this->db->set('RefID', $post["TrimesterID"][$i]);
                     $this->db->set('Action', "ASSIGN COURSE");
                     $this->db->set('EntryTime', date("Y-m-d H:i:s"));
-                    $this->db->set('EntryEmail', $this->session->userdata['Email']);
+                    $this->db->set('EntryEmail', $Email);
                     $this->db->insert('log_activity'); 
                 }
             }
@@ -205,9 +208,12 @@ class Dashboard_staffModel extends CI_Model {
         }
 
         //To insert in tr_course_trimester_assignment
-        public function insertAssignment($post){
+        public function insertAssignment($post,$Email=""){
 
             $this->db->trans_start();
+            if(empty($Email)){
+                $Email = $this->session->userdata['Email'];
+            }
 
             //insert into tr_course_trimester_assignment
             $this->db->set('TrimesterID', $post["TrimesterID"]);
@@ -218,19 +224,22 @@ class Dashboard_staffModel extends CI_Model {
             $this->db->insert('tr_course_trimester_assignment');
 
             //insert into log_activity
-            $this->db->set('RefID', $post["TrimesterID"][$i]);
+            $this->db->set('RefID', $post["TrimesterID"]);
             $this->db->set('Action', "INSERTED ASSIGNMENT");
             $this->db->set('EntryTime', date("Y-m-d H:i:s"));
-            $this->db->set('EntryEmail', $this->session->userdata['Email']);
+            $this->db->set('EntryEmail', $Email);
             $this->db->insert('log_activity'); 
 
             $this->db->trans_complete();
         }
 
          //To update hours in tr_course_trimester_assignment
-        public function updateTrimesterHours($post){
+        public function updateTrimesterHours($post,$Email=""){
 
             $this->db->trans_start();
+            if(empty($Email)){
+                $Email = $this->session->userdata['Email'];
+            }
 
             //insert into tr_course_trimester_assignment
             $this->db->where('TrimesterID', $post["TrimesterID"]);
@@ -247,16 +256,20 @@ class Dashboard_staffModel extends CI_Model {
             $this->db->set('RefID', $post["TrimesterID"]);
             $this->db->set('Action', "UPDATED TRIMESTER HOURS");
             $this->db->set('EntryTime', date("Y-m-d H:i:s"));
-            $this->db->set('EntryEmail', $this->session->userdata['Email']);
+            $this->db->set('EntryEmail', $Email);
             $this->db->insert('log_activity'); 
 
             $this->db->trans_complete();
         }
 
          //To activate trimester
-        public function activateTrimester($TrimesterID){
+        public function activateTrimester($TrimesterID,$Email=""){
 
             $this->db->trans_start();
+            if(empty($Email)){
+                $Email = $this->session->userdata['Email'];
+            }
+
 
             //update tr_course_trimester_assignment
             $this->db->where('TrimesterID', $TrimesterID);
@@ -267,16 +280,20 @@ class Dashboard_staffModel extends CI_Model {
             $this->db->set('RefID', $TrimesterID);
             $this->db->set('Action', "ACTIVATE TRIMESTER");
             $this->db->set('EntryTime', date("Y-m-d H:i:s"));
-            $this->db->set('EntryEmail', $this->session->userdata['Email']);
+            $this->db->set('EntryEmail', $Email);
             $this->db->insert('log_activity'); 
 
             $this->db->trans_complete();
         }
 
          //To deactivate trimester
-        public function deactivateTrimester($TrimesterID){
+        public function deactivateTrimester($TrimesterID,$Email=""){
 
             $this->db->trans_start();
+            $this->db->trans_start();
+            if(empty($Email)){
+                $Email = $this->session->userdata['Email'];
+            }
 
             //update tr_course_trimester_assignment
             $this->db->where('TrimesterID', $TrimesterID);
@@ -307,7 +324,7 @@ class Dashboard_staffModel extends CI_Model {
             $this->db->set('RefID', $TrimesterID);
             $this->db->set('Action', "DEACTIVATE TRIMESTER");
             $this->db->set('EntryTime', date("Y-m-d H:i:s"));
-            $this->db->set('EntryEmail', $this->session->userdata['Email']);
+            $this->db->set('EntryEmail', $Email);
             $this->db->insert('log_activity'); 
 
             $this->db->trans_complete();
