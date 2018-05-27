@@ -278,10 +278,30 @@ class Dashboard_staffModel extends CI_Model {
 
             $this->db->trans_start();
 
-            //insert into tr_course_trimester_assignment
+            //update tr_course_trimester_assignment
             $this->db->where('TrimesterID', $TrimesterID);
             $this->db->set('Status', 'INACTIVE');
             $this->db->update('tr_course_trimester');
+
+            //delete from tr_revision
+            $this->db->where('TrimesterID', $TrimesterID);
+            $this->db->delete('ms_student_course');
+
+            //delete from student reading
+            $this->db->where('TrimesterID', $TrimesterID);
+            $this->db->delete('tr_reading');
+
+            //delete from student revision
+            $this->db->where('TrimesterID', $TrimesterID);
+            $this->db->delete('tr_revision');
+
+            //delete from tr_assignment_student
+            $this->db->select("AssignmentID");
+            $this->db->from("tr_course_trimester_assignment");
+            $this->db->where("TrimesterID", $TrimesterID);
+            $where_clause = $this->db->get_compiled_select();
+            $this->db->where_in("AssignmentID",$where_clause,FALSE);
+            $this->db->delete("tr_assignment_student"); 
 
             //insert into log_activity
             $this->db->set('RefID', $TrimesterID);
