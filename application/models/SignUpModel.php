@@ -62,7 +62,7 @@ class SignUpModel extends CI_Model {
                 }
 
                 //insert into log_activity
-                $this->db->set('RefID', $post["Email"];
+                $this->db->set('RefID', $post["Email"]);
                 $this->db->set('Action', "SIGN UP");
                 $this->db->set('EntryTime', date("Y-m-d H:i:s"));
                 $this->db->set('EntryEmail', $post["Email"]);
