@@ -152,7 +152,7 @@ $(document).ready(function() {
               if($getTrimester->Status=="ACTIVE"){
                 //echo("<font color='blue'>".$getTrimester->Status."</font>");
                 ?> <font color='blue'><?= $getTrimester->Status; ?></font> <?php
-              }else if($getTrimester->Status=="DEACTIVE"){
+              }else if($getTrimester->Status=="INACTIVE"){
                 echo("<font color='red'>".$getTrimester->Status."</font>");
               }
               ?>

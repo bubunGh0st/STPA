@@ -15,6 +15,7 @@ class Dashboard_staff extends CI_Controller {
 
 	public function index()
 	{
+		//assigning course to staff
 		if(isset($_POST["btnSubmit"])){
 			$transaction = true;
 
@@ -28,6 +29,17 @@ class Dashboard_staff extends CI_Controller {
 
 				}
 				
+			}
+		}
+
+		//removing course from staff
+		if(isset($_POST["btnSubmitDel"])){
+			$transaction = true;
+
+			if($transaction){
+				$_POST["Email"]=$this->session->userdata['Email'];
+				$this->Dashboard_staffModel->removeCourse($_POST);
+				redirect('Dashboard_staff');
 			}
 		}
 

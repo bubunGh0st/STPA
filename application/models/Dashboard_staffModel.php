@@ -148,6 +148,24 @@ class Dashboard_staffModel extends CI_Model {
             $this->db->trans_complete();
         }
 
+        //To delete from tr_course_trimester_staff
+        public function removeCourse($post){
+
+            //insert into tr_course_trimester_staff
+            $this->db->where('TrimesterID', $post["TrimesterID"]);
+            $this->db->where('StaffEmail', $post["Email"]);
+            $this->db->delete('tr_course_trimester_staff');
+
+            //insert into log_activity
+            $this->db->set('RefID', $post["TrimesterID"]);
+            $this->db->set('Action', "REMOVE COURSE");
+            $this->db->set('EntryTime', date("Y-m-d H:i:s"));
+            $this->db->set('EntryEmail', $post["Email"]);
+            $this->db->insert('log_activity'); 
+                
+            $this->db->trans_complete();
+        }
+
         //to check if trimester can be edited
          public function getEditTrimester($TrimesterID){
                

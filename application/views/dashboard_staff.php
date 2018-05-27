@@ -15,6 +15,11 @@ $(document).ready(function() {
       }
     }
     ?>
+
+    $('#modal-remove-trimester').on('show.bs.modal', function (e) {
+        var TrimesterID = $(e.relatedTarget).data('id');
+        $(e.currentTarget).find('input[name="TrimesterID"]').val(TrimesterID);
+    });
 } );
 </script>
 
@@ -54,6 +59,8 @@ $(document).ready(function() {
                     <td><?php echo($items->TrimesterName);?></td>
                     <td>
                       <a class="btn btn-primary" href="<?php echo(site_url());?>/Dashboard_staff/detail/<?php echo($items->TrimesterID);?>"><i class="fa fa-fw fa-wrench"></i></a>
+
+                      <button data-id="<?php echo($items->TrimesterID);?>" data-toggle="modal" data-target="#modal-remove-trimester" class="btn btn-danger"><i class="fa fa-trash"></i></button>
                     </td>
                   </tr>
                 <?php }?>
@@ -92,7 +99,27 @@ $(document).ready(function() {
           </div>
           <div class="modal-footer">
             <button class="btn btn-secondary" type="button" data-dismiss="modal"><i class="fa fa-remove"></i> Cancel</button>
-            <button class="btn btn-danger" type="button" data-dismiss="modal"><i class="fa fa-trash"></i> Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+      <!-- Modal -->
+    <div class="modal fade" id="modal-remove-trimester" User="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Are you sure to remove this Academic Term?</h5>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-footer">
+            <?php echo form_open_multipart();?>
+              <button class="btn btn-secondary" type="button" data-dismiss="modal"><i class="fa fa-remove"></i> Cancel</button>
+              <button class="btn btn-danger" type="submit" name="btnSubmitDel"><i class="fa fa-trash"></i> Remove</button>
+              <input type="hidden" name="TrimesterID" value="">
+            <?php echo form_close()?>
           </div>
         </div>
       </div>
