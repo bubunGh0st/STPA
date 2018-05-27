@@ -290,7 +290,6 @@ class Dashboard_staffModel extends CI_Model {
         public function deactivateTrimester($TrimesterID,$Email=""){
 
             $this->db->trans_start();
-            $this->db->trans_start();
             if(empty($Email)){
                 $Email = $this->session->userdata['Email'];
             }
