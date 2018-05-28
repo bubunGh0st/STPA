@@ -93,8 +93,9 @@ $(document).ready(function() {
             </div>
 
             <div class="form-group">
-              <label>Course Credit Suggestion</label>
-              <textarea class="form-control" name="CourseCredit" placeholder="Course credit suggestion"><?php echo($getCourse->CourseCredit);?></textarea>
+              <label>Site Admin Suggestion for Academic Term Expected Hours</label>
+              
+              <textarea class="form-control" name="CourseCredit" placeholder="Site Admin Suggestion for Academic Term Expected Hours. This will be readable by Staff when they configure the hours of course in certain academic term."><?php echo($getCourse->CourseCredit);?></textarea>
             </div>
           </div>
         </div>

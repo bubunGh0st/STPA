@@ -58,8 +58,8 @@ if($_GET["warning"]!=NULL){
                 </div>
 
                 <div class="col-md-6">
-                  <label>Site Suggestion</label>
-                  <textarea class="form-control" name="SiteSuggestion" placeholder="Enter your site suggestions" ></textarea>
+                  <label>Site Name Suggestion</label>
+                  <textarea class="form-control" name="SiteSuggestion" placeholder="Enter your site name suggestions" ></textarea>
 
                 </div>
               </div>

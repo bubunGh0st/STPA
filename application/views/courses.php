@@ -122,8 +122,8 @@ $(document).ready(function() {
               </div>
 
                <div class="form-group">
-                <label>Course Credit Suggestion</label>
-                <textarea class="form-control" name="CourseCredit" placeholder="Course Credit suggestion"></textarea>
+                <label>Site Admin Suggestion for Academic Term Expected Hours</label>
+                <textarea class="form-control" name="CourseCredit" placeholder="Site Admin Suggestion for Academic Term Expected Hours. This will be readable by Staff when they configure the hours of course in certain academic term."></textarea>
               </div>
               <button type="submit" class="btn btn-primary btn-block" name="btnSubmitAdd"><i class="fa fa-save"></i> Save</button>
             <?php echo form_close()?>
