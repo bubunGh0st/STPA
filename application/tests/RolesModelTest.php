@@ -13,6 +13,7 @@ class RolesModelTest extends TestCase{
         $this->RolesModel = NULL;
     }
 
+    //To return all roles
 	public function testgetRole(){
 			$RoleID = "STAFF";
 			$output = $this->RolesModel->getRole($RoleID);
@@ -20,6 +21,7 @@ class RolesModelTest extends TestCase{
 
     }
 
+    //to return one row all columns from selected ms_role
     public function testgetRoleModules(){
 			$RoleID = "SITE-ADMIN";
 			$ModuleID= "M0001";

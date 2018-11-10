@@ -20,7 +20,8 @@ class Approval extends CI_Controller {
 			if($transaction){
 				$_POST["Password"] = $this->ForgetPasswordModel->generateRandomString();
 				$this->ApprovalModel->approveUser($_POST);
-
+				// var_dump($_POST);
+				// die();
 				$subject = "STPA Invitation";
 				$messagex = "Your registration as Site Admin is approved. Your new password is ".$_POST["Password"].". Once you signed in, you will be redirected to change your password.";
 				$this->ForgetPasswordModel->sendEmail($_POST["Email"],$messagex,$subject);

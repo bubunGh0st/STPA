@@ -114,7 +114,7 @@ class UsersModel extends CI_Model {
             $this->db->trans_complete();
         }
 
-        //delete module
+        //delete user
         public function deleteUser($Email=""){
             if(empty($Email))
             {

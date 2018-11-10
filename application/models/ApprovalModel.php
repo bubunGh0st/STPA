@@ -36,7 +36,7 @@ class ApprovalModel extends CI_Model {
 
             $this->db->trans_start();
             if(empty($Email)){
-                $Email = $this->session->userdata['Email'];
+                $Email = $post['Email'];
             }
 
             $this->db->set('Status', "ACTIVE-RESET");
@@ -44,6 +44,9 @@ class ApprovalModel extends CI_Model {
             $this->db->where('Email', $Email);
             $this->db->update('ms_user'); 
 
+
+            // echo($this->db->last_query());
+            // die();
             //insert into log_activity
             $this->db->set('RefID', $Email);
             $this->db->set('Action', "USER APPROVED");
@@ -51,7 +54,9 @@ class ApprovalModel extends CI_Model {
             $this->db->set('EntryEmail', $Email);
             $this->db->insert('log_activity'); 
 
+
             $this->db->trans_complete();
+
         }
 
         //User Rejection
