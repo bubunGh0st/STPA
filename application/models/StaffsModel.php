@@ -79,22 +79,22 @@ class StaffsModel extends CI_Model {
                 }
 
             //update ms_user
-                $this->db->Where('Email', $Email);
+                $this->db->Where('Email', $post["Email"]);
                 $this->db->set('FName', $post["FName"]);
                 $this->db->set('LName', $post["LName"]);
                 $this->db->set('Title', $post["Title"]);
                 $this->db->update('ms_user');
 
                 //update ms_user_site
-                $this->db->Where('Email', $Email);
+                $this->db->Where('Email', $post["Email"]);
                 $this->db->delete('ms_user_site'); 
 
-                $this->db->set('Email', $Email);
+                $this->db->set('Email', $post["Email"]);
                 $this->db->set('SiteID', $post["SiteID"]);
                 $this->db->insert('ms_user_site'); 
 
                 //insert into log_activity
-                $this->db->set('RefID', $Email);
+                $this->db->set('RefID', $post["Email"]);
                 $this->db->set('Action', "UPDATED STAFF");
                 $this->db->set('EntryTime', date("Y-m-d H:i:s"));
                 $this->db->set('EntryEmail', $Email);

@@ -41,14 +41,14 @@ class ApprovalModel extends CI_Model {
 
             $this->db->set('Status', "ACTIVE-RESET");
             $this->db->set('Password', md5($post['Password']));
-            $this->db->where('Email', $Email);
+            $this->db->where('Email', $post["Email"]);
             $this->db->update('ms_user'); 
 
 
             // echo($this->db->last_query());
             // die();
             //insert into log_activity
-            $this->db->set('RefID', $Email);
+            $this->db->set('RefID', $post["Email"]);
             $this->db->set('Action', "USER APPROVED");
             $this->db->set('EntryTime', date("Y-m-d H:i:s"));
             $this->db->set('EntryEmail', $Email);
